@@ -11,6 +11,7 @@ contains the price of the listed vehicle and various features such as year, manu
 ## Research Question
 We will develop a model to answer the predictive question:   
 **What features are most important in predicting the market price of a used car?**  
+  
 Our subquestion will be:  
 **What is the predicted market price given a set of features of a car?**
 
