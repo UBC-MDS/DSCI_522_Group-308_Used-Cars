@@ -43,6 +43,6 @@ This document outlines rules and guidelines to be followed by all team members f
 
 #### Signatures
 
-- Andres Pitta    - (date)
-- Braden Tam      - (date)
-- Serg Pokrovskyy - (date)
+- Andres Pitta 
+- Braden Tam
+- Serg Pokrovskyy
