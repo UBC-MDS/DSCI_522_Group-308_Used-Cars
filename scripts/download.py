@@ -4,11 +4,11 @@
 '''This scripts uploads the data directly from an url and downloads it in 
 your local machine.
 
-Usage: download.py --DATA_FILE_PATH=<DATA_FILE_PATH> --DATA_FILE_URL=<DATA_FILE_URL>
+Usage: download.py [--DATA_FILE_PATH=<DATA_FILE_PATH>] [--DATA_FILE_URL=<DATA_FILE_URL>]
 
 Options:
---DATA_FILE_PATH=<DATA_FILE_PATH>  Path (including filename) to print the csv file.
---DATA_FILE_URL=<DATA_FILE_URL>  URL from where to extract the dataset.
+--DATA_FILE_PATH=<DATA_FILE_PATH>  Path (including filename) to print the csv file. [default: ../data/vehicles.csv]
+--DATA_FILE_URL=<DATA_FILE_URL>  URL from where to extract the dataset. [default: http://mds.dev.synnergia.com/uploads/vehicles.csv]
 '''
 
 import hashlib
@@ -64,7 +64,7 @@ def download_data(DATA_FILE_PATH, DATA_FILE_URL):
     else:
         # Hash invalid - download file and exit
         print("FAIL")
-        # os.remove(DATA_FILE_PATH)
+        os.remove(DATA_FILE_PATH)
         print("Cached data file hash is invalid")
 
 if __name__ == "__main__":
