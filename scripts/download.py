@@ -1,44 +1,46 @@
 # authors: Andres Pitta, Braden Tam, Serhiy Pokrovskyy
 # date: 2020-01-19
 
-'''This scripts uploads the data directly from an url and downloads it in 
-your local machine.
+'''The script downloads the data file from a URL specified in the DATA_FILE_URL parameter,
+verifies its content MD5 checksum with provided DATA_FILE_HASH parameter
+and stores it on the local machine at path provided by DATA_FILE_PATH.
 
-Usage: download.py [--DATA_FILE_PATH=<DATA_FILE_PATH>] [--DATA_FILE_URL=<DATA_FILE_URL>]
+Note: Calling the script without the parameters will download the data file to a default location.
+
+Usage: download.py [--DATA_FILE_PATH=<DATA_FILE_PATH>] [--DATA_FILE_URL=<DATA_FILE_URL>] [--DATA_FILE_HASH=<DATA_FILE_HASH>]
 
 Options:
---DATA_FILE_PATH=<DATA_FILE_PATH>  Path (including filename) to print the csv file. [default: ../data/vehicles.csv]
---DATA_FILE_URL=<DATA_FILE_URL>  URL from where to extract the dataset. [default: http://mds.dev.synnergia.com/uploads/vehicles.csv]
+--DATA_FILE_PATH=<DATA_FILE_PATH>  File path (including filename) to save the data file. [default: ../data/vehicles.csv]
+--DATA_FILE_URL=<DATA_FILE_URL>    URL from where to download the dataset. [default: http://mds.dev.synnergia.com/uploads/vehicles.csv]
+--DATA_FILE_HASH=<DATA_FILE_HASH>  MD5 checksum hash of the file (for validation). [default: 06e7bd341eebef8e77b088d2d3c54585]
 '''
 
 import hashlib
 import os
+import sys
 import urllib.request
 from docopt import docopt
 
 opt = docopt(__doc__)
 
-# Define constants with key values
-#DATA_FILE_PATH = '../data/vehicles.csv'
-DATA_FILE_HASH = '06e7bd341eebef8e77b088d2d3c54585'
-#DATA_FILE_URL = 'http://mds.dev.synnergia.com/uploads/vehicles.csv'
 
-def main(file_path, file_URL):
-    download_data(file_path, file_URL)
+def main(file_path, file_URL, file_hash):
+    download_data(file_path, file_URL, file_hash)
 
-def download_data(DATA_FILE_PATH, DATA_FILE_URL):
+
+def download_data(DATA_FILE_PATH, DATA_FILE_URL, DATA_FILE_HASH=''):
     '''
     Downloads a dataset to a given path from a URL
 
     Parameters
     --------------
     DATA_FILE_PATH: Local path
-
     DATA_FILE_URL: Data URL
+    DATA_FILE_HASH: Data file checksum hash (default: '')
 
     Examples
     --------------
-    >>> download_data('../data/vehicles.csv', 'http://mds.dev.synnergia.com/uploads/vehicles.csv')
+    >>> download_data('../data/vehicles.csv', 'http://mds.dev.synnergia.com/uploads/vehicles.csv', '06e7bd341eebef8e77b088d2d3c54585')
     '''
     # Check / download data file
     print("Checking cached data file... ", end='')
@@ -46,8 +48,10 @@ def download_data(DATA_FILE_PATH, DATA_FILE_URL):
         print("OK")
     else:
         print("NONE")
-        print("Downloading new data file... ", end='')
-        urllib.request.urlretrieve(DATA_FILE_URL, DATA_FILE_PATH)
+        urllib.request.urlretrieve(DATA_FILE_URL, DATA_FILE_PATH,
+                                   lambda block, block_size, total_size: sys.stdout.write(
+                                       "\rDownloading new data file... %.2f%%" %
+                                       (round(100.0 * block * block_size / total_size, 2))))
         print("DONE")
 
     # Validate downloaded data file hash
@@ -62,10 +66,11 @@ def download_data(DATA_FILE_PATH, DATA_FILE_URL):
         print("OK")
         print("SUCCESS - valid data file available at", DATA_FILE_PATH)
     else:
-        # Hash invalid - download file and exit
+        # Hash invalid - delete file and exit
         print("FAIL")
         os.remove(DATA_FILE_PATH)
-        print("Cached data file hash is invalid")
+        print("Cached data file hash is invalid. Please check the URL / hash retry")
+
 
 if __name__ == "__main__":
-    main(opt["--DATA_FILE_PATH"], opt["--DATA_FILE_URL"])
+    main(opt["--DATA_FILE_PATH"], opt["--DATA_FILE_URL"], opt["--DATA_FILE_HASH"])
