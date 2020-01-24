@@ -1,13 +1,14 @@
 # authors: Andres Pitta, Braden Tam, Serhiy Pokrovskyy
-# date: 2020-01-19
+# date: 2020-01-24
 
-'''This script will generate an exploratory data analysis including data visualizations. 
+'''This script will generate exploratory data analysis visualizations. It takes as arguments the file were the root 
+file is, the path where the visualizations will be saved.
 
 Usage: eda.py [--DATA_FILE_PATH=<DATA_FILE_PATH>] [--EDA_FILE_PATH=<EDA_FILE_PATH>]
 
 Options:
 --DATA_FILE_PATH=<DATA_FILE_PATH>  Path (including filename) to gather the csv file. [default: ../data/vehicles_train.csv]
---EDA_FILE_PATH=<EDA_FILE_PATH>  Path (including filename) to output EDA file. [default: ../eda/figures/  ]
+--EDA_FILE_PATH=<EDA_FILE_PATH>  Path to output EDA files. [default: ../results/figures/  ]
 '''
 
 from docopt import docopt
@@ -27,7 +28,14 @@ def main(data_file_path, eda_file_path):
     make_bars(data, eda_file_path)
 
 def make_correlation(data, eda_file_path):
-    data_corr = (data.drop(columns = ["id", "longitude", "latitude"]) # not recognizing columns
+    """
+    Creates a pearson's correlation plot of the continuous variables.
+
+    Parameters:
+    data -- (dataframe) The training data
+    eda_file_path -- (str) The path to specify where the plot is saved
+    """
+    data_corr = (data.drop(columns = ["id", "long", "lat"]) 
                  .corr()
                  .reset_index()
                  .rename(columns = {'index':'Variable 1'})
@@ -65,7 +73,13 @@ def make_correlation(data, eda_file_path):
     print(f"corrplot.png saved to {eda_file_path}")
 
 def make_map_count(data, eda_file_path):
+    """
+    Creates a chloropleth map of the number of vehicles in each state.
 
+    Parameters:
+    data -- (dataframe) The training data
+    eda_file_path -- (str) The path to specify where the plot is saved
+    """
     
     df = data[['price', 'state']].groupby(by = 'state').count().reset_index()
 
@@ -86,6 +100,14 @@ def make_map_count(data, eda_file_path):
     print(f"map_count.png saved to {eda_file_path}")
 
 def make_map_price(data, eda_file_path):
+    """
+    Creates a chloropleth map of the average price of vehicles in each state.
+
+    Parameters:
+    data -- (dataframe) The training data
+    eda_file_path -- (str) The path to specify where the plot is saved
+    """
+
     df = data[['price', 'state']].groupby(by = 'state').mean().reset_index()
 
     fig = go.Figure(data=go.Choropleth(
@@ -105,6 +127,14 @@ def make_map_price(data, eda_file_path):
     print(f"map_price.png saved to {eda_file_path}")
 
 def make_bars(data, eda_file_path):
+    """
+    Creates bar plots of average price of cars vs. all the categorical features.
+
+    Parameters:
+    data -- (dataframe) The training data
+    eda_file_path -- (str) The path to specify where the plot is saved
+    """
+
     categorical_features = ['manufacturer', 'condition', 'cylinders', 'fuel',
                         'title_status', 'transmission', 'size', 'type', 'paint_color', 'state']
 
