@@ -67,6 +67,15 @@ wrangling <- function(data, target, remove_outliers) {
 
   if (remove_outliers == "YES") {
     data_filtered <- data[data[[target]] <= quantile(data[[target]], c(0.99)),]
+    data_filtered <- data_filtered[data_filtered[[target]] > 0,]
+    data_filtered <- data_filtered %>% filter(odometer > 0)
+    data_filtered <- data_filtered %>% 
+                      group_by(manufacturer) %>% 
+                      mutate(freq = n()) %>% 
+                      ungroup() %>% 
+                      filter(freq > 100) %>%
+                      select(-freq)
+
   } else {
     data_filtered <- data
   }
