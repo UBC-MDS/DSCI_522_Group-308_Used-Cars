@@ -26,10 +26,9 @@ opt <- docopt(doc)
 
 main <- function(data_path, train_path, test_path, target, remove_outliers, train_size) {
   data <- load(data_path)
-  wrangled_data <- wrangling(data, target, remove_outliers)
-  list_traintest <- split_data(wrangled_data, train_size)
-
-  print_dataset(train_path, list_traintest[[1]])
+  list_traintest <- split_data(data, train_size)
+  wrangled_train <- wrangling(list_traintest[[1]], target, remove_outliers)
+  print_dataset(train_path, wrangled_train)
   print_dataset(test_path, list_traintest[[2]])
 }
 
@@ -67,6 +66,15 @@ wrangling <- function(data, target, remove_outliers) {
 
   if (remove_outliers == "YES") {
     data_filtered <- data[data[[target]] <= quantile(data[[target]], c(0.99)),]
+    data_filtered <- data_filtered[data_filtered[[target]] > 10,]
+    data_filtered <- data_filtered %>% filter(odometer > 0)
+    data_filtered <- data_filtered %>% 
+                      group_by(manufacturer) %>% 
+                      mutate(freq = n()) %>% 
+                      ungroup() %>% 
+                      filter(freq > 100) %>%
+                      select(-freq)
+
   } else {
     data_filtered <- data
   }
@@ -82,6 +90,7 @@ wrangling <- function(data, target, remove_outliers) {
 #' split_data(vehicles, 0.9)
 split_data <- function(data, train_size) {
   train_size <- as.double(train_size)
+  data$state <- toupper(data$state)
   if (train_size >= 0 && train_size <= 1) {
     sample_size <- floor(as.double(train_size) * nrow(data))
     train_id <- sample(seq_len(nrow(data)), size = sample_size)
