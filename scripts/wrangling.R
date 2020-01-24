@@ -90,6 +90,7 @@ wrangling <- function(data, target, remove_outliers) {
 #' split_data(vehicles, 0.9)
 split_data <- function(data, train_size) {
   train_size <- as.double(train_size)
+  data$state <- toupper(data$state)
   if (train_size >= 0 && train_size <= 1) {
     sample_size <- floor(as.double(train_size) * nrow(data))
     train_id <- sample(seq_len(nrow(data)), size = sample_size)
