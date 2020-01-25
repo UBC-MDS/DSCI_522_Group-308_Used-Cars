@@ -1,9 +1,11 @@
 # authors: Andres Pitta, Braden Tam, Serhiy Pokrovskyy
-# date: 2020-01-21
+# date: 2020-01-24
 
-"This script wrangles the data for ML purposes. It takes as arguments the file were the root file is,
-the path were the test and train dataset is going to be printed, a TRUE/FALSE were TRUE means remove the
-outliers and false do not remove and the proportion of the train size in decimal numbers.
+"This script wrangles the data for ML purposes. It takes the following arguments: 
+    the file were the root file is,
+    the path where the test and train dataset is going to be saved, 
+    the train/test set split in decimal numbers,
+    and a boolean where TRUE = remove outliers and false do not remove.
 
 Usage: wrangling.R [--DATA_FILE_PATH=<DATA_FILE_PATH>] [--TRAIN_FILE_PATH=<TRAIN_FILE_PATH>] [--TEST_FILE_PATH=<TEST_FILE_PATH>] [--TARGET=<TARGET>][--REMOVE_OUTLIERS=<REMOVE_OUTLIERS>] [--TRAIN_SIZE=<TRAIN_SIZE>]
 
