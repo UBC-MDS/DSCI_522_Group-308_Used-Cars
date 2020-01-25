@@ -5,7 +5,7 @@
     the file were the root file is,
     the path where the test and train dataset is going to be saved, 
     the train/test set split in decimal numbers,
-    and a boolean where TRUE = remove outliers and false do not remove.
+    and a variable where 'YES' = remove outliers and 'NO' do not remove.
 
 Usage: wrangling.R [--DATA_FILE_PATH=<DATA_FILE_PATH>] [--TRAIN_FILE_PATH=<TRAIN_FILE_PATH>] [--TEST_FILE_PATH=<TEST_FILE_PATH>] [--TARGET=<TARGET>][--REMOVE_OUTLIERS=<REMOVE_OUTLIERS>] [--TRAIN_SIZE=<TRAIN_SIZE>]
 
@@ -28,9 +28,9 @@ opt <- docopt(doc)
 
 main <- function(data_path, train_path, test_path, target, remove_outliers, train_size) {
   data <- load(data_path)
-  list_traintest <- split_data(data, train_size)
-  wrangled_train <- wrangling(list_traintest[[1]], target, remove_outliers)
-  print_dataset(train_path, wrangled_train)
+  wrangled_train <- wrangling(data, target, remove_outliers)
+  list_traintest <- split_data(wrangled_train, train_size)
+  print_dataset(train_path, list_traintest[[1]])
   print_dataset(test_path, list_traintest[[2]])
 }
 
@@ -70,12 +70,6 @@ wrangling <- function(data, target, remove_outliers) {
     data_filtered <- data[data[[target]] <= quantile(data[[target]], c(0.99)),]
     data_filtered <- data_filtered[data_filtered[[target]] > 10,]
     data_filtered <- data_filtered %>% filter(odometer > 0)
-    data_filtered <- data_filtered %>% 
-                      group_by(manufacturer) %>% 
-                      mutate(freq = n()) %>% 
-                      ungroup() %>% 
-                      filter(freq > 100) %>%
-                      select(-freq)
 
   } else {
     data_filtered <- data
