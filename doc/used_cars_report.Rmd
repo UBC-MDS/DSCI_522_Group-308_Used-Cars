@@ -52,7 +52,6 @@ Since we could not efficiently use automated feature selection like RFE or FFE (
     - year
     - odometer
 
-#![](../results/figures/corrplot.png)
  
 
 For each model we performed 5-fold-cross-validated grid search involving a range of most important model-specific hyper-parameters.
