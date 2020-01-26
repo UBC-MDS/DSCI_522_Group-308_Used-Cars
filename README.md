@@ -26,7 +26,7 @@ state it’s being sold in.
 
 ## Report
 
-The final report can be found [here]().
+The final report can be found [here](https://github.com/UBC-MDS/DSCI_522_Group-308_Used-Cars/blob/master/doc/used_cars_report.md).
 
 ## Usage
 
