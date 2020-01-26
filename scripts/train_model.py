@@ -44,7 +44,7 @@ import pickle
 from xgboost import XGBRegressor
 from lightgbm import LGBMRegressor
 
-MODEL_DUMP_PATH = 'model222.pic'
+MODEL_DUMP_PATH = '../results/model.pic'
 TRAIN_DATA_PATH = '../data/vehicles_train.csv'
 
 # Read master train data
