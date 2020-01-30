@@ -7,14 +7,16 @@ file is, the path where the visualizations will be saved.
 Usage: eda.py [--DATA_FILE_PATH=<DATA_FILE_PATH>] [--EDA_FILE_PATH=<EDA_FILE_PATH>]
 
 Options:
---DATA_FILE_PATH=<DATA_FILE_PATH>  Path (including filename) to gather the csv file. [default: ../data/vehicles_train.csv]
---EDA_FILE_PATH=<EDA_FILE_PATH>  Path to output EDA files. [default: ../results/figures/  ]
+--DATA_FILE_PATH=<DATA_FILE_PATH>  Path (including filename) to gather the csv file. [default: data/vehicles_train.csv]
+--EDA_FILE_PATH=<EDA_FILE_PATH>  Path to output EDA files. [default: results/figures/  ]
 '''
 
 from docopt import docopt
 import pandas as pd
 import altair as alt
 import plotly.graph_objects as go
+from selenium import webdriver
+browser = webdriver.Chrome('C:\webdrivers\chromedriver.exe')
 
 
 opt = docopt(__doc__)
