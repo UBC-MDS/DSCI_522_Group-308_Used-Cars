@@ -35,13 +35,13 @@ dependencies listed below, and run the following commands at the command
 line/terminal from the root directory of this project:
 
     # download data
-    python scripts/download.py --DATA_FILE_PATH=../data/vehicles.csv --DATA_FILE_URL=http://mds.dev.synnergia.com/uploads/vehicles.csv --DATA_FILE_HASH=06e7bd341eebef8e77b088d2d3c54585
+    python scripts/download.py 
     
     # data wrangling
-    Rscript scripts/wrangling.R --DATA_FILE_PATH=../data/vehicles.csv --TRAIN_FILE_PATH=../data/vehicles_train.csv --TEST_FILE_PATH=../data/vehicles_test.csv --TARGET=price --REMOVE_OUTLIERS=YES --TRAIN_SIZE= 0.9
+    Rscript scripts/wrangling.R
     
     # EDA
-    python scripts/eda.py --DATA_FILE_PATH=../data/vehicles_train.csv --EDA_FILE_PATH=../results/figures/
+    python scripts/eda.py 
     
     # Model fitting and testing
     python scripts/train_model.py
