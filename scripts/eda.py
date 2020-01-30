@@ -35,6 +35,9 @@ def make_correlation(data, eda_file_path):
     data -- (dataframe) The training data
     eda_file_path -- (str) The path to specify where the plot is saved
     """
+
+    assesrt len(data) > 0, "The dataframe is empty" 
+
     data_corr = (data.drop(columns = ["id", "long", "lat"]) 
                  .corr()
                  .reset_index()
@@ -80,6 +83,8 @@ def make_map_count(data, eda_file_path):
     data -- (dataframe) The training data
     eda_file_path -- (str) The path to specify where the plot is saved
     """
+
+    assesrt len(data) > 0, "The dataframe is empty" 
     
     df = data[['price', 'state']].groupby(by = 'state').count().reset_index()
 
@@ -108,6 +113,8 @@ def make_map_price(data, eda_file_path):
     eda_file_path -- (str) The path to specify where the plot is saved
     """
 
+    assesrt len(data) > 0, "The dataframe is empty" 
+
     df = data[['price', 'state']].groupby(by = 'state').mean().reset_index()
 
     fig = go.Figure(data=go.Choropleth(
@@ -134,6 +141,8 @@ def make_bars(data, eda_file_path):
     data -- (dataframe) The training data
     eda_file_path -- (str) The path to specify where the plot is saved
     """
+
+    assesrt len(data) > 0, "The dataframe is empty" 
 
     categorical_features = ['manufacturer', 'condition', 'cylinders', 'fuel',
                         'title_status', 'transmission', 'size', 'type', 'paint_color', 'state']
