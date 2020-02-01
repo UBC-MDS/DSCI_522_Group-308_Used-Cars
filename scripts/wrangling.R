@@ -16,7 +16,7 @@ Options:
 --TEST_FILE_PATH=<TEST_FILE_PATH>  Path (including filename) to print the test portion as a csv file. [default: data/vehicles_test.csv]
 --TARGET=<TARGET> Name of the response variable to use. [default: price]
 --REMOVE_OUTLIERS=<REMOVE_OUTLIERS> Logical value that takes YES as value if the outliers should be remove, NO otherwise. [default: YES]
---TRAIN_SIZE=<TRAIN_SIZE> Decimal value for the train/test split. [default: 0.9] 
+--TRAIN_SIZE=<TRAIN_SIZE> Decimal value for the train/test split. [default: 0.8] 
 " -> doc
 
 library(tidyverse, quietly = TRUE)
@@ -24,17 +24,28 @@ library(docopt, quietly = TRUE)
 library(readr, quietly = TRUE)
 library(stats, quietly = TRUE)
 set.seed(1234)
+options(readr.num_columns = 0)
 
 opt <- docopt(doc)
 
 main <- function(data_path, train_path, test_path, target, remove_outliers, train_size) {
+  print("Loading data...")
   data <- load(data_path)
+  print("Splitting data...")
   list_traintest <- split_data(data, train_size)
+
+  print("Wrangling train data...")
   wrangled_train <- wrangling(list_traintest[[1]], target, remove_outliers)
-  wrangled_test <- list_traintest[[2]] %>%
-                      filter(target < max(list_traintest[[1]][[target]]))
+  print("Wrangling test data...")
+  wrangled_test <- wrangling(list_traintest[[2]], target, remove_outliers)
+                      # Might need to rethink this line:
+                      # filter(target < max(list_traintest[[1]][[target]]))
+
+  print("Saving train data...")
   print_dataset(train_path, wrangled_train)
-  print_dataset(test_path, list_traintest[[2]])
+  print("Saving test data...")
+  print_dataset(test_path, wrangled_test)
+  print("DONE")
 }
 
 #' Loads the data from a provided path
@@ -45,7 +56,19 @@ main <- function(data_path, train_path, test_path, target, remove_outliers, trai
 #' load('../data/vehicles.csv')
 load <- function(data_path) {
   if (file.exists(data_path)) {
-    return(readr::read_csv(data_path) %>% select(-c(description, county, url, region_url)))
+    readr::read_csv(data_path) %>% select('year',
+                                          'price',
+                                          'odometer',
+                                          'manufacturer',
+                                          'transmission',
+                                          'fuel',
+                                          'paint_color',
+                                          'cylinders',
+                                          'drive',
+                                          'size',
+                                          'state',
+                                          'condition',
+                                          'title_status')
   }
   else {
     print("The path does not exist")
