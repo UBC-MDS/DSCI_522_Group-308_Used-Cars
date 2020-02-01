@@ -169,5 +169,4 @@ def make_bars(data, eda_file_path):
         print(f"{categorical_features[i]}.png saved to {eda_file_path}")
 
 if __name__ == "__main__":
-    main(opt["--DATA_FILE_PATH"], opt["--EDA_FILE_PATH"])
-
+     main(opt["--DATA_FILE_PATH"], opt["--EDA_FILE_PATH"])
