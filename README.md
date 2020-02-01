@@ -13,12 +13,12 @@ descent regression, linear regression, K-nearest neighbour regression,
 and random forest regression. data set is not linearly separable, more
 clustered. We found that support vector regression had the best results,
 having an ![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score
-of 0.878 on the training set,
-![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.784
+of 0.843 on the training set,
+![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.772
 on the validation set and
-![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.797.
-Given that the dataset was imbalanced, this led to poor prediction of
-the classes that were quite sparse.
+![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.739
+on the test set. Given that the dataset was imbalanced, this led to poor
+prediction of the classes that were quite sparse.
 
 The data set used in this project is Used Cars Dataset created by Austin
 Reese. It was collected from Kaggle.com (Reese 2020) and can be found
@@ -36,30 +36,23 @@ The final report can be found
 ## Usage
 
 To replicate the analysis, clone this GitHub repository, install the
-dependencies listed below and run the following commands at the command
-line/Terminal from the root directory of this project:
+dependencies listed below and follow these instructions:
 
-    # Download data
-    # NOTE: 1.4GB original data file is downloaded by default
-    python scripts/download.py --DATA_FILE_PATH=data/vehicles.csv --DATA_FILE_URL=http://mds.dev.synnergia.com/uploads/vehicles.csv --DATA_FILE_HASH=06e7bd341eebef8e77b088d2d3c54585
-    
-    # Perform data wrangling
-    Rscript scripts/wrangling.R --DATA_FILE_PATH=data/vehicles.csv --TRAIN_FILE_PATH=data/vehicles_train.csv --TEST_FILE_PATH=data/vehicles_test.csv --TARGET=price --REMOVE_OUTLIERS=YES --TRAIN_SIZE=0.9
-    
-    # Run EDA
-    python scripts/eda.py --DATA_FILE_PATH=data/vehicles_train.csv --EDA_FILE_PATH=results/figures/
-    
-    # Train the model
-    # NOTE: this may take several hours for full dataset -
-    # consider running on a lower training data subset,
-    # eg. using --TRAIN_SIZE=0.1 for 10% of training data
-    python scripts/train_model.py --TRAIN_FILE_PATH=data/vehicles_train.csv --MODEL_DUMP_PATH=results/model.pic --TRAIN_SIZE=1
-    
-    # Test the model
-    python scripts/test_model.py --TEST_FILE_PATH=data/vehicles_test.csv --MODEL_DUMP_PATH=results/model.pic --TEST_SIZE=1
-    
-    # Generate the report
-    Rscript -e "library(knitr); knit('doc/used_cars_report.Rmd')"
+Before starting, if you want to reset all the outputs, run the following
+command at the command line/terminal:
+
+    make clean
+
+**Warning** The dataset’s size is 1.35GB. In order to replicate a quick
+version of the model with 1% of the data (see makefile documentation to
+change train size), run the following command at the command
+line/terminal:
+
+    make quick
+
+If you want to run the model with all the data run:
+
+    make all
 
 ## Dependencies
 
