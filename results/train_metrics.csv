@@ -1,0 +1,7 @@
+Model,Train R^2,Test R^2
+Linear Regression,0.555803,0.526354
+Stochastic Gradient Descent,0.550439,0.528612
+kNN,0.638008,0.626848
+Random Forests,0.964447,0.734342
+Gradient Boosted Trees,0.803595,0.736818
+Support Vector Machines,0.840271,0.813724
