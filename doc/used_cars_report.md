@@ -1,7 +1,7 @@
 Predicting Used Car Prices
 ================
 Andrés Pitta, Braden Tam, Serhiy Pokrovskyy </br>
-2020/01/25 (updated: 2020-01-30)
+2020/01/25 (updated: 2020-01-31)
 
 # Summary
 
@@ -9,13 +9,13 @@ In this project we attempt to build a regression model which can predict
 the price of used cars based on numerous features of the car. We tested
 the following models: support vector regression, stochastic gradient
 descent regression, linear regression, K-nearest neighbour regression,
-and random forest regression. data set is not linearly separable, more
-clustered. We found that support vector regression had the best results,
-having a score of `INPUT TRAIN SCORE` on the training set and a score of
-`INPUT TEST SCORE` on the test set. Given that the dataset was
-imbalanced, this led to poor prediction of the classes that were quite
-sparse because the model was not able to learn enough about those
-classes in order to give good predictions on unseen data.
+and random forest regression. We found that support vector regression
+had the best results, having a score of `input score here` on the
+training set and a score of `input score here` on the test set. Given
+that the dataset was imbalanced, this led to poor prediction of the
+classes that were quite sparse because the model was not able to learn
+enough about those classes in order to give good predictions on unseen
+data.
 
 1.36059410^{4}
 
@@ -48,6 +48,18 @@ state it’s being sold in.
 
 ## Analysis
 
+The R and Python programming languages (R Core Team 2019; Van Rossum and
+Drake 2009) and the following R and Python packages were used to perform
+the analysis: docopt (de Jonge 2018), knitr (Xie 2014), tidyverse
+(Wickham et al. 2019), readr (Wickham, Hester, and Francois 2018) docopt
+(Keleshev 2014), altair (VanderPlas et al. 2018), plotly (Inc. 2015),
+selenium (SeleniumHQ 2020), pandas (McKinney 2010), numpy (Oliphant
+2006), statsmodel (Seabold and Perktold 2010). scikit-learn (Buitinck et
+al. 2013).
+
+The code used to perform the analysis and create this report can be
+found [here](https://github.com/UBC-MDS/DSCI_522_Group-308_Used-Cars)
+
 As it was mentioned, our original data holds half a million observations
 with a few dozen features, most categorical, so accurate feature
 selection and model selection were extremely important. Especially
@@ -71,39 +83,35 @@ list to just 12 most important on our opinion:
       - condition
       - title\_status
       - state
-  - 2 continuous
-features:
+  - 2 continuous features:
       - year
       - odometer
 
-<img src="../results/figures/manufacturer.png" title="Figure 2. adfansdflansdfk" alt="Figure 2. adfansdflansdfk" width="80%" />
+The following plots are just a few examples of us visual representations
+of what variables seem to be important in predicting used car prices.
+The code used to generate these plots can be found
+[here](https://github.com/UBC-MDS/DSCI_522_Group-308_Used-Cars/blob/master/scripts/eda.py).
 
-<img src="../results/figures/map_price.png" title="Figure 2." alt="Figure 2." width="80%" />
+<img src="../results/figures/manufacturer.png" width="80%" />
 
-<img src="../results/figures/corrplot.png" title="Figure 2." alt="Figure 2." width="80%" />
+<img src="../results/figures/map_price.png" width="80%" />
 
-For each model we performed 5-fold-cross-validated grid search involving
-a range of most important model-specific hyper-parameters.
+<img src="../results/figures/corrplot.png" width="80%" />
 
-The R and Python programming languages (R Core Team 2019; Van Rossum and
-Drake 2009) and the following R and Python packages were used to perform
-the analysis: docopt (de Jonge 2018), knitr (Xie 2014), tidyverse
-(Wickham et al. 2019), readr (Wickham, Hester, and Francois 2018) docopt
-(Keleshev 2014), altair (VanderPlas et al. 2018), plotly (Inc. 2015),
-selenium (SeleniumHQ 2020), pandas (McKinney 2010), numpy (Oliphant
-2006), statsmodel (Seabold and Perktold 2010). scikit-learn (Buitinck et
-al. 2013).
-
-The code used to perform the analysis and create this report can be
-found [here](https://github.com/UBC-MDS/DSCI_522_Group-308_Used-Cars)
+For hyper-paramter tuning of each model we performed a
+5-fold-cross-validated grid search involving a range of the most
+important model-specific hyper-parameters. We chose to use 5-folds
+because we have a lot of data to work with so this amount would provide
+an optimal trade-off between computational time and finding the most
+unbiased estimates of our models.
 
 # Results & Discussion
 
 Based on our EDA and assumptions, we picked a number of models to fit
 our train data. Since training and validating took a lot of resources,
 we performed it on a gradually increasing subsets of training data in
-the hopes that we find an optimal trade-off between computational time
-and model performance. See the results below, sorted by validation score
+the hopes that we find an optimal amount of required data for maximal
+performance. See the results below, sorted by validation score
 (increasing):
 
 | Model                       | Training Score | Validation Score |
@@ -116,12 +124,13 @@ and model performance. See the results below, sorted by validation score
 | **Support Vector Machines** | **0.840271**   | **0.813724**     |
 
 Since SVM shown the best results from the very beginning, we performed a
-thorough adaptive grid search on a bigger subset of 200,000 observations
-(running for 4 hours) resulting in 81.3% accuracy on validation data.
-Eventually we ran the model on the **test data** containing more than
-40,000 observations, which confirmed the model with even better
-**accuracy of 81.5%**. The good sign was also that it did not overfit
-greatly on train set, which was a good sign to perform further testing.
+thorough adaptive grid search on more training data (200,000
+observations, running for 4 hours) resulting in 81.3% accuracy on
+validation data. Eventually we ran the model on the **test data**
+containing more than 40,000 observations, which confirmed the model with
+even better **accuracy of 81.5%**. The good sign was also that it did
+not overfit greatly on train set, which was a good sign to perform
+further testing.
 
 <table class="table" style="margin-left: auto; margin-right: auto;">
 
@@ -168,12 +177,6 @@ price
 <th style="text-align:right;">
 
 prediction
-
-</th>
-
-<th style="text-align:right;">
-
-abs\_error
 
 </th>
 
@@ -235,12 +238,6 @@ clean
 
 <td style="text-align:right;">
 
-389.06
-
-</td>
-
-<td style="text-align:right;">
-
 2.78
 
 </td>
@@ -288,12 +285,6 @@ clean
 <td style="text-align:right;">
 
 8246.61
-
-</td>
-
-<td style="text-align:right;">
-
-1658.61
 
 </td>
 
@@ -351,12 +342,6 @@ clean
 
 <td style="text-align:right;">
 
-2405.27
-
-</td>
-
-<td style="text-align:right;">
-
 8.59
 
 </td>
@@ -404,12 +389,6 @@ clean
 <td style="text-align:right;">
 
 2780.30
-
-</td>
-
-<td style="text-align:right;">
-
-280.30
 
 </td>
 
@@ -467,12 +446,6 @@ rebuilt
 
 <td style="text-align:right;">
 
-8041.55
-
-</td>
-
-<td style="text-align:right;">
-
 40.41
 
 </td>
@@ -520,12 +493,6 @@ clean
 <td style="text-align:right;">
 
 2957.85
-
-</td>
-
-<td style="text-align:right;">
-
-542.15
 
 </td>
 
@@ -583,12 +550,6 @@ clean
 
 <td style="text-align:right;">
 
-1138.64
-
-</td>
-
-<td style="text-align:right;">
-
 4.87
 
 </td>
@@ -636,12 +597,6 @@ clean
 <td style="text-align:right;">
 
 4859.28
-
-</td>
-
-<td style="text-align:right;">
-
-90.72
 
 </td>
 
@@ -699,12 +654,6 @@ No value
 
 <td style="text-align:right;">
 
-466.48
-
-</td>
-
-<td style="text-align:right;">
-
 2.04
 
 </td>
@@ -752,12 +701,6 @@ clean
 <td style="text-align:right;">
 
 9497.48
-
-</td>
-
-<td style="text-align:right;">
-
-490.52
 
 </td>
 

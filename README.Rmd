@@ -15,6 +15,10 @@ library(tidyverse)
 library(caret)
 ```
 
+```{r load data, echo=FALSE, message=FALSE, warning=FALSE}
+#scores <- read_csv("results/train_metrics.csv")
+
+```
 
 In this project we attempt to build a regression model which can predict the price of used cars based on numerous features of the car. We tested the following models: support vector regression, stochastic gradient descent regression, linear regression, K-nearest neighbour regression, and random forest regression. data set is not linearly separable, more clustered. We found that support vector regression had the best results, having a score of `INPUT TRAIN SCORE` on the training set and a score of `INPUT TEST SCORE` on the test set. Given that the dataset was imbalanced, this led to poor prediction of the classes that were quite sparse. 
 

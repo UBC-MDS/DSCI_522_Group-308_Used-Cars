@@ -16,16 +16,15 @@ library(tidyverse)
 ```
 
 ```{r load data, echo=FALSE, message=FALSE, warning=FALSE}
-df <- read_csv("../results/test_results_sample.csv") %>% dplyr::select(-X1)
+df <- read_csv("../results/test_results_sample.csv") %>% dplyr::select(-c(X1, abs_error))
 #scores <- read_csv("results/train_metrics.csv")
-
 ```
 
 
 
 # Summary
 
-In this project we attempt to build a regression model which can predict the price of used cars based on numerous features of the car. We tested the following models: support vector regression, stochastic gradient descent regression, linear regression, K-nearest neighbour regression, and random forest regression. data set is not linearly separable, more clustered. We found that support vector regression had the best results, having a score of `INPUT TRAIN SCORE` on the training set and a score of `INPUT TEST SCORE` on the test set. Given that the dataset was imbalanced, this led to poor prediction of the classes that were quite sparse because the model was not able to learn enough about those classes in order to give good predictions on unseen data. 
+In this project we attempt to build a regression model which can predict the price of used cars based on numerous features of the car. We tested the following models: support vector regression, stochastic gradient descent regression, linear regression, K-nearest neighbour regression, and random forest regression.  We found that support vector regression had the best results, having a score of `input score here` on the training set and a score of `input score here` on the test set. Given that the dataset was imbalanced, this led to poor prediction of the classes that were quite sparse because the model was not able to learn enough about those classes in order to give good predictions on unseen data. 
 
 `r df$prediction[1]`
 
@@ -40,6 +39,12 @@ Websites such as Craigslist, Kijiji, and eBay have tons of users that create a w
 The data set used in this project is Used Cars Dataset created by Austin Reese. It was collected from Kaggle.com [@reese_2020] and can be found [here](https://www.kaggle.com/austinreese/craigslist-carstrucks-data). This data consists of used car listings in the US scraped from Craigslist that contains information such as listed price, manufacturer, model, listed condition, fuel type, odometer, type of car, and which state it's being sold in. 
 
 ## Analysis
+
+The R and Python programming languages [@R; @Python] and the following R and Python packages were used to perform the analysis: docopt [@docopt], knitr [@knitr], tidyverse [@tidyverse], readr [@readr] docopt [@docoptpython], altair [@Altair2018], plotly [@plotly], selenium [@seleniumhq_2020], pandas [@mckinney-proc-scipy-2010], numpy [@oliphant2006guide], statsmodel [@seabold2010statsmodels]. scikit-learn [@sklearn_api]. 
+
+The code used to perform the analysis and create this report can be found [here](https://github.com/UBC-MDS/DSCI_522_Group-308_Used-Cars)
+
+  
 As it was mentioned, our original data holds half a million observations with a few dozen features, most categorical, so accurate feature selection and model selection were extremely important. Especially because model training took significant amount of computational resources.
 
 Since we could not efficiently use automated feature selection like RFE or FFE (because of time / resources constraint), we had to perform manual feature selection. As we had some intuition in the target area as well as some practical experience, we were able to prune our feature list to just 12 most important on our opinion:
@@ -60,32 +65,30 @@ Since we could not efficiently use automated feature selection like RFE or FFE (
     - year
     - odometer
     
-```{r, echo=FALSE, fig.cap="Figure 2. adfansdflansdfk", out.width = '80%'}
+The following plots are just a few examples of us visual representations of what variables seem to be important in predicting used car prices. The code used to generate these plots can be found [here](https://github.com/UBC-MDS/DSCI_522_Group-308_Used-Cars/blob/master/scripts/eda.py).
+
+```{r, echo=FALSE, out.width = '80%'}
 path <- "../results/figures/manufacturer.png"
 knitr::include_graphics(path)
 ```
 
-```{r, echo=FALSE, fig.cap="Figure 2.", out.width = '80%'}
+```{r, echo=FALSE, out.width = '80%'}
 path <- "../results/figures/map_price.png"
 knitr::include_graphics(path)
 ```
 
-```{r, echo=FALSE, fig.cap="Figure 2.", out.width = '80%'}
+```{r, echo=FALSE, out.width = '80%'}
 path <- "../results/figures/corrplot.png"
 knitr::include_graphics(path)
 ```
  
  
-For each model we performed 5-fold-cross-validated grid search involving a range of most important model-specific hyper-parameters.
-
-The R and Python programming languages [@R; @Python] and the following R and Python packages were used to perform the analysis: docopt [@docopt], knitr [@knitr], tidyverse [@tidyverse], readr [@readr] docopt [@docoptpython], altair [@Altair2018], plotly [@plotly], selenium [@seleniumhq_2020], pandas [@mckinney-proc-scipy-2010], numpy [@oliphant2006guide], statsmodel [@seabold2010statsmodels]. scikit-learn [@sklearn_api]. 
-
-The code used to perform the analysis and create this report can be found [here](https://github.com/UBC-MDS/DSCI_522_Group-308_Used-Cars)
+For hyper-paramter tuning of each model we performed a 5-fold-cross-validated grid search involving a range of the most important model-specific hyper-parameters. We chose to use 5-folds because we have a lot of data to work with so this amount would provide an optimal trade-off between computational time and finding the most unbiased estimates of our models.
 
 # Results & Discussion
 
 
-Based on our EDA and assumptions, we picked a number of models to fit our train data. Since training and validating took a lot of resources, we performed it on a gradually increasing subsets of training data in the hopes that we find an optimal trade-off between computational time and model performance. See the results below, sorted by validation score (increasing):
+Based on our EDA and assumptions, we picked a number of models to fit our train data. Since training and validating took a lot of resources, we performed it on a gradually increasing subsets of training data in the hopes that we find an optimal amount of required data for maximal performance. See the results below, sorted by validation score (increasing):
 
 Model | Training Score | Validation Score
 --- | --- | ---
