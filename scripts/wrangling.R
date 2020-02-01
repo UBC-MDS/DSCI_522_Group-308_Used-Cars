@@ -5,7 +5,8 @@
     the file were the root file is,
     the path where the test and train dataset is going to be saved, 
     the train/test set split in decimal numbers,
-    and a variable where 'YES' = remove outliers and 'NO' do not remove.
+    a variable where 'YES' = remove outliers and 'NO' do not remove.
+    and a target 
 
 Usage: wrangling.R [--DATA_FILE_PATH=<DATA_FILE_PATH>] [--TRAIN_FILE_PATH=<TRAIN_FILE_PATH>] [--TEST_FILE_PATH=<TEST_FILE_PATH>] [--TARGET=<TARGET>][--REMOVE_OUTLIERS=<REMOVE_OUTLIERS>] [--TRAIN_SIZE=<TRAIN_SIZE>]
 
@@ -28,9 +29,11 @@ opt <- docopt(doc)
 
 main <- function(data_path, train_path, test_path, target, remove_outliers, train_size) {
   data <- load(data_path)
-  wrangled_train <- wrangling(data, target, remove_outliers)
-  list_traintest <- split_data(wrangled_train, train_size)
-  print_dataset(train_path, list_traintest[[1]])
+  list_traintest <- split_data(data, train_size)
+  wrangled_train <- wrangling(list_traintest[[1]], target, remove_outliers)
+  wrangled_test <- list_traintest[[2]] %>%
+                      filter(target < max(list_traintest[[1]][[target]]))
+  print_dataset(train_path, wrangled_train)
   print_dataset(test_path, list_traintest[[2]])
 }
 
