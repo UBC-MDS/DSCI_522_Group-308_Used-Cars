@@ -1,4 +1,4 @@
-all: doc/count_report.md doc/count_report.html
+all: doc/used_cars_report.html doc/used_cars_report.md
 
 data/vehicles.csv: scripts/download.py
 	python scripts/download.py --DATA_FILE_PATH=data/vehicles.csv --DATA_FILE_URL=http://mds.dev.synnergia.com/uploads/vehicles.csv --DATA_FILE_HASH=06e7bd341eebef8e77b088d2d3c54585
