@@ -13,10 +13,10 @@ descent regression, linear regression, K-nearest neighbour regression,
 and random forest regression. data set is not linearly separable, more
 clustered. We found that support vector regression had the best results,
 having an ![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score
-of 0.843 on the training set,
-![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.772
+of 0.841 on the training set,
+![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.743
 on the validation set and
-![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.739
+![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.47
 on the test set. Given that the dataset was imbalanced, this led to poor
 prediction of the classes that were quite sparse.
 
@@ -45,10 +45,28 @@ command at the command line/terminal:
 
 **Warning** The dataset’s size is 1.35GB. In order to replicate a quick
 version of the model with 1% of the data (see makefile documentation to
-change train size), run the following command at the command
+change train size), run the following commands at the command
 line/terminal:
 
+    #To Download the data run:
+    
+    make data/vehicles.csv
+    
+    #To split the data run:
+    
+    make data/vehicles_train.csv data/vehicles_test.csv
+    
+    #To generate the figures run:
+    
+    make results/figures/condition.png results/figures/corrplot.png results/figures/cylinder.png results/figures/fuel.png results/figures/manufacturer.png results/figures/map_count.png results/figures/map_price.png results/figures/paint_color.png results/figures/size.png results/figures/state.png results/figures/title_status.png results/figures/transmission.png results/figures/type.png
+    
+    #To run the quick model run:
+    
     make quick
+    
+    #To create the report run:
+    
+    make doc/used_cars_report.html doc/used_cars_report.md
 
 If you want to run the model with all the data run:
 
