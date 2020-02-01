@@ -1,7 +1,7 @@
 Predicting Used Car Prices
 ================
 Andrés Pitta, Braden Tam, Serhiy Pokrovskyy </br>
-2020/01/25 (updated: 2020-01-25)
+2020/01/25 (updated: 2020-01-31)
 
 # Summary
 
@@ -9,27 +9,30 @@ In this project we attempt to build a regression model which can predict
 the price of used cars based on numerous features of the car. We tested
 the following models: support vector regression, stochastic gradient
 descent regression, linear regression, K-nearest neighbour regression,
-and random forest regression. data set is not linearly separable, more
-clustered. We found that support vector regression had the best results,
-having a score of `INPUT TRAIN SCORE` on the training set and a score of
-`INPUT TEST SCORE` on the test set. Given that the dataset was
-imbalanced, this led to poor prediction of the classes that were quite
-sparse.
+and random forest regression. We found that support vector regression
+had the best results, having an
+![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.84
+on the training set and an
+![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.814
+on the test set. Given that the dataset was imbalanced, this led to poor
+prediction of the classes that were quite sparse because the model was
+not able to learn enough about those classes in order to give good
+predictions on unseen data.
 
 # Introduction
 
 Websites such as Craigslist, Kijiji, and eBay have tons of users that
-creates vast markets of used goods. Typically people looking to save
-some money use these website to purchase second hand items. The problem
-with these websites is that the user determines the price of their used
-good. This can either be a good or bad thing, depending on whether or
-not the user is trying to scam the buyer or give the buyer a good deal.
-For the average individual who is not familiar with prices of the used
-market, it is especially difficult to guage what the price of a used
-good should be. Being able to predict used car prices based on data on a
-whole market will gives users the ability to evaluate whether a used car
-listing is consistent with the market so that they know they are not
-getting ripped off.
+create a wide array of used good markets. Typically people looking to
+save some money use these website to purchase second hand items. The
+problem with these websites is that the user determines the price of
+their used good. This can either be a good or bad thing, depending on
+whether or not the user is trying to scam the buyer or give the buyer a
+good deal. For the average individual who is not familiar with prices of
+the used market, it is especially difficult to gauge what the price of a
+used good should be. Being able to predict used car prices based on data
+on a whole market will gives users the ability to evaluate whether a
+used car listing is consistent with the market so that they know they
+are not getting ripped off.
 
 # Methods
 
@@ -44,6 +47,18 @@ model, listed condition, fuel type, odometer, type of car, and which
 state it’s being sold in.
 
 ## Analysis
+
+The R and Python programming languages (R Core Team 2019; Van Rossum and
+Drake 2009) and the following R and Python packages were used to perform
+the analysis: docopt (de Jonge 2018), knitr (Xie 2014), tidyverse
+(Wickham et al. 2019), readr (Wickham, Hester, and Francois 2018) docopt
+(Keleshev 2014), altair (VanderPlas et al. 2018), plotly (Inc. 2015),
+selenium (SeleniumHQ 2020), pandas (McKinney 2010), numpy (Oliphant
+2006), statsmodel (Seabold and Perktold 2010). scikit-learn (Buitinck et
+al. 2013).
+
+The code used to perform the analysis and create this report can be
+found [here](https://github.com/UBC-MDS/DSCI_522_Group-308_Used-Cars)
 
 As it was mentioned, our original data holds half a million observations
 with a few dozen features, most categorical, so accurate feature
@@ -72,60 +87,32 @@ list to just 12 most important on our opinion:
       - year
       - odometer
 
-For each model we performed 5-fold-cross-validated grid search involving
-a range of most important model-specific hyper-parameters.
+The following plots are just a few examples of us visual representations
+of what variables seem to be important in predicting used car prices.
+The code used to generate these plots can be found
+[here](https://github.com/UBC-MDS/DSCI_522_Group-308_Used-Cars/blob/master/scripts/eda.py).
 
-The R and Python programming languages (R Core Team 2019; Van Rossum and
-Drake 2009) and the following R and Python packages were used to perform
-the analysis: docopt (de Jonge 2018), knitr (Xie 2014), tidyverse
-(Wickham et al. 2019), readr (Wickham, Hester, and Francois 2018) docopt
-(Keleshev 2014), altair (VanderPlas et al. 2018), plotly (Inc. 2015),
-selenium (SeleniumHQ 2020), pandas (McKinney 2010), numpy (Oliphant
-2006), statsmodel (Seabold and Perktold 2010). scikit-learn (Buitinck et
-al. 2013).
+<img src="../results/figures/manufacturer.png" width="80%" />
 
-The code used to perform the analysis and create this report can be
-found here: \*\*\*\*\*\*\*\*
+<img src="../results/figures/map_price.png" width="80%" />
+
+<img src="../results/figures/corrplot.png" width="80%" />
+
+For hyper-paramter tuning of each model we performed a
+5-fold-cross-validated grid search involving a range of the most
+important model-specific hyper-parameters. We chose to use 5-folds
+because we have a lot of data to work with so this amount would provide
+an optimal trade-off between computational time and finding the most
+unbiased estimates of our models.
 
 # Results & Discussion
 
 Based on our EDA and assumptions, we picked a number of models to fit
 our train data. Since training and validating took a lot of resources,
-we performed it on a gradually increasing subsets of training data. See
-the results below, sorted by validation score (increasing):
-
-| Model                       | Training Score | Validation Score |
-| --------------------------- | -------------- | ---------------- |
-| Linear Regression           | 0.555803       | 0.526354         |
-| Stochastic Gradient Descent | 0.550439       | 0.528612         |
-| kNN                         | 0.638008       | 0.626848         |
-| Random Forests              | 0.964447       | 0.734342         |
-| Gradient Boosted Trees      | 0.803595       | 0.736818         |
-| **Support Vector Machines** | **0.840271**   | **0.813724**     |
-
-Since SVM shown the best results from the very beginning, we performed a
-thorough adaptive grid search on a bigger subset of 200,000 observations
-(running for 4 hours) resulting in 81.3% accuracy on validation data.
-Eventually we ran the model on the **test data** containing more than
-40,000 observations, which confirmed the model with even better
-**accuracy of 81.5%**. The good sign was also that it did not overfit
-greatly on train set, which was a good sign to perform further testing.
-
-    ## Warning: Missing column names filled in: 'X1' [1]
-
-    ## Parsed with column specification:
-    ## cols(
-    ##   X1 = col_double(),
-    ##   year = col_double(),
-    ##   odometer = col_double(),
-    ##   manufacturer = col_character(),
-    ##   condition = col_character(),
-    ##   title_status = col_character(),
-    ##   price = col_double(),
-    ##   prediction = col_double(),
-    ##   abs_error = col_double(),
-    ##   abs_error_pct = col_double()
-    ## )
+we performed it on a gradually increasing subsets of training data in
+the hopes that we find an optimal amount of required data for maximal
+performance. See the results below, sorted by validation score
+(increasing):
 
 <table class="table" style="margin-left: auto; margin-right: auto;">
 
@@ -133,11 +120,189 @@ greatly on train set, which was a good sign to perform further testing.
 
 <tr>
 
-<th style="text-align:right;">
+<th style="text-align:left;">
 
-X1
+Model
 
 </th>
+
+<th style="text-align:right;">
+
+Train R^2
+
+</th>
+
+<th style="text-align:right;">
+
+Test R^2
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+Linear Regression
+
+</td>
+
+<td style="text-align:right;">
+
+0.555803
+
+</td>
+
+<td style="text-align:right;">
+
+0.526354
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Stochastic Gradient Descent
+
+</td>
+
+<td style="text-align:right;">
+
+0.550439
+
+</td>
+
+<td style="text-align:right;">
+
+0.528612
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+kNN
+
+</td>
+
+<td style="text-align:right;">
+
+0.638008
+
+</td>
+
+<td style="text-align:right;">
+
+0.626848
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Random Forests
+
+</td>
+
+<td style="text-align:right;">
+
+0.964447
+
+</td>
+
+<td style="text-align:right;">
+
+0.734342
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Gradient Boosted Trees
+
+</td>
+
+<td style="text-align:right;">
+
+0.803595
+
+</td>
+
+<td style="text-align:right;">
+
+0.736818
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Support Vector Machines
+
+</td>
+
+<td style="text-align:right;">
+
+0.840271
+
+</td>
+
+<td style="text-align:right;">
+
+0.813724
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+Since SVM shown the best results from the very beginning, we performed a
+thorough adaptive grid search on more training data (200,000
+observations, running for 4 hours) resulting in 81.4% accuracy on
+validation data. Eventually we ran the model on the **test data**
+containing more than 40,000 observations, which confirmed the model with
+even better **accuracy of 81.6%**. The good sign was also that it did
+not overfit greatly on train set, which was a good sign to perform
+further testing.
+
+| Metric        | Value    |
+| ------------- | -------- |
+| Accuracy      | 0.815724 |
+| RMSE          | 4366.43  |
+| MAE           | 2691.71  |
+| Average Price | 13819.99 |
+
+Here is a list of test examples showing the predicted used car prices:
+
+<table class="table" style="margin-left: auto; margin-right: auto;">
+
+<thead>
+
+<tr>
 
 <th style="text-align:right;">
 
@@ -183,12 +348,6 @@ prediction
 
 <th style="text-align:right;">
 
-abs\_error
-
-</th>
-
-<th style="text-align:right;">
-
 abs\_error\_pct
 
 </th>
@@ -200,12 +359,6 @@ abs\_error\_pct
 <tbody>
 
 <tr>
-
-<td style="text-align:right;">
-
-345
-
-</td>
 
 <td style="text-align:right;">
 
@@ -251,12 +404,6 @@ clean
 
 <td style="text-align:right;">
 
-389.06
-
-</td>
-
-<td style="text-align:right;">
-
 2.78
 
 </td>
@@ -264,12 +411,6 @@ clean
 </tr>
 
 <tr>
-
-<td style="text-align:right;">
-
-698
-
-</td>
 
 <td style="text-align:right;">
 
@@ -315,12 +456,6 @@ clean
 
 <td style="text-align:right;">
 
-1658.61
-
-</td>
-
-<td style="text-align:right;">
-
 25.18
 
 </td>
@@ -328,12 +463,6 @@ clean
 </tr>
 
 <tr>
-
-<td style="text-align:right;">
-
-714
-
-</td>
 
 <td style="text-align:right;">
 
@@ -379,12 +508,6 @@ clean
 
 <td style="text-align:right;">
 
-2405.27
-
-</td>
-
-<td style="text-align:right;">
-
 8.59
 
 </td>
@@ -392,12 +515,6 @@ clean
 </tr>
 
 <tr>
-
-<td style="text-align:right;">
-
-401
-
-</td>
 
 <td style="text-align:right;">
 
@@ -443,12 +560,6 @@ clean
 
 <td style="text-align:right;">
 
-280.30
-
-</td>
-
-<td style="text-align:right;">
-
 11.21
 
 </td>
@@ -456,12 +567,6 @@ clean
 </tr>
 
 <tr>
-
-<td style="text-align:right;">
-
-83
-
-</td>
 
 <td style="text-align:right;">
 
@@ -507,12 +612,6 @@ rebuilt
 
 <td style="text-align:right;">
 
-8041.55
-
-</td>
-
-<td style="text-align:right;">
-
 40.41
 
 </td>
@@ -520,12 +619,6 @@ rebuilt
 </tr>
 
 <tr>
-
-<td style="text-align:right;">
-
-364
-
-</td>
 
 <td style="text-align:right;">
 
@@ -571,12 +664,6 @@ clean
 
 <td style="text-align:right;">
 
-542.15
-
-</td>
-
-<td style="text-align:right;">
-
 15.49
 
 </td>
@@ -584,12 +671,6 @@ clean
 </tr>
 
 <tr>
-
-<td style="text-align:right;">
-
-213
-
-</td>
 
 <td style="text-align:right;">
 
@@ -635,12 +716,6 @@ clean
 
 <td style="text-align:right;">
 
-1138.64
-
-</td>
-
-<td style="text-align:right;">
-
 4.87
 
 </td>
@@ -648,12 +723,6 @@ clean
 </tr>
 
 <tr>
-
-<td style="text-align:right;">
-
-286
-
-</td>
 
 <td style="text-align:right;">
 
@@ -699,12 +768,6 @@ clean
 
 <td style="text-align:right;">
 
-90.72
-
-</td>
-
-<td style="text-align:right;">
-
 1.83
 
 </td>
@@ -712,12 +775,6 @@ clean
 </tr>
 
 <tr>
-
-<td style="text-align:right;">
-
-643
-
-</td>
 
 <td style="text-align:right;">
 
@@ -763,12 +820,6 @@ No value
 
 <td style="text-align:right;">
 
-466.48
-
-</td>
-
-<td style="text-align:right;">
-
 2.04
 
 </td>
@@ -776,12 +827,6 @@ No value
 </tr>
 
 <tr>
-
-<td style="text-align:right;">
-
-49
-
-</td>
 
 <td style="text-align:right;">
 
@@ -822,12 +867,6 @@ clean
 <td style="text-align:right;">
 
 9497.48
-
-</td>
-
-<td style="text-align:right;">
-
-490.52
 
 </td>
 

@@ -8,7 +8,7 @@ Usage: eda.py [--DATA_FILE_PATH=<DATA_FILE_PATH>] [--EDA_FILE_PATH=<EDA_FILE_PAT
 
 Options:
 --DATA_FILE_PATH=<DATA_FILE_PATH>  Path (including filename) to gather the csv file. [default: data/vehicles_train.csv]
---EDA_FILE_PATH=<EDA_FILE_PATH>  Path to output EDA files. [default: results/figures/  ]
+--EDA_FILE_PATH=<EDA_FILE_PATH>  Path to output EDA files. [default: results/figures/]
 '''
 
 from docopt import docopt
@@ -16,14 +16,18 @@ import pandas as pd
 import altair as alt
 import plotly.graph_objects as go
 from selenium import webdriver
-browser = webdriver.Chrome('C:\webdrivers\chromedriver.exe')
+import os
+#browser = webdriver.Chrome('C:\webdrivers\chromedriver.exe')
 
 
 opt = docopt(__doc__)
 
 def main(data_file_path, eda_file_path):
-    data = pd.read_csv(data_file_path)
+    assert os.path.isfile(data_file_path), "File does not exist"
+    assert os.path.isdir(eda_file_path), "EDA_FILE_PATH does not exist, please create a 'figures' folder in results"
 
+    data = pd.read_csv(data_file_path)
+    
     make_correlation(data, eda_file_path)
     make_map_count(data, eda_file_path)
     make_map_price(data, eda_file_path)
@@ -37,6 +41,7 @@ def make_correlation(data, eda_file_path):
     data -- (dataframe) The training data
     eda_file_path -- (str) The path to specify where the plot is saved
     """
+
     data_corr = (data.drop(columns = ["id", "long", "lat"]) 
                  .corr()
                  .reset_index()
@@ -71,7 +76,7 @@ def make_correlation(data, eda_file_path):
         title = "Pearson's correlation"
     )
 
-    plot.save(f"{eda_file_path}corrplot.png")
+    plot.save("{}corrplot.png".format(eda_file_path))
     print(f"corrplot.png saved to {eda_file_path}")
 
 def make_map_count(data, eda_file_path):
@@ -98,7 +103,7 @@ def make_map_count(data, eda_file_path):
         geo_scope='usa', 
     )
 
-    fig.write_image(f"{eda_file_path}map_count.png")
+    fig.write_image("{}map_count.png".format(eda_file_path))
     print(f"map_count.png saved to {eda_file_path}")
 
 def make_map_price(data, eda_file_path):
@@ -125,7 +130,7 @@ def make_map_price(data, eda_file_path):
         geo_scope='usa', 
     )
 
-    fig.write_image(f"{eda_file_path}map_price.png")
+    fig.write_image("{}map_price.png".format(eda_file_path))
     print(f"map_price.png saved to {eda_file_path}")
 
 def make_bars(data, eda_file_path):
@@ -160,7 +165,7 @@ def make_bars(data, eda_file_path):
                                     titleFontSize=18
                                     ).configure_title(fontSize=20)
         
-        chart.save(f'{eda_file_path}{categorical_features[i]}.png')
+        chart.save('{}{}.png'.format(eda_file_path, categorical_features[i]))
         print(f"{categorical_features[i]}.png saved to {eda_file_path}")
 
 if __name__ == "__main__":

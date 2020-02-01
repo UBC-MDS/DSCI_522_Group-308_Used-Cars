@@ -60,7 +60,7 @@ model = pickle.load(open(MODEL_DUMP_PATH, 'rb'))
 print("Loading test data...")
 test_data = pd.read_csv('../data/vehicles_test.csv').dropna()
 test_data = test_data[test_data.price != 0]
-test_data = test_data[test_data.odometer != 0]
+test_data = test_data[test_data.odometer != 0].sample(1000)
 
 # Prepare the test data
 y_test = test_data['price']
