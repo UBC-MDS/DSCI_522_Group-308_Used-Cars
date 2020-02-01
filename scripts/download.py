@@ -76,7 +76,7 @@ def main(data_file_path, data_file_url, data_file_hash=None, cache_override=Fals
 
 
 if __name__ == "__main__":
-    download_data(opt["--DATA_FILE_PATH"],
-                  opt["--DATA_FILE_URL"],
-                  opt["--DATA_FILE_HASH"],
-                  opt["--CACHE_OVERRIDE"])
+    main(opt["--DATA_FILE_PATH"],
+         opt["--DATA_FILE_URL"],
+         opt["--DATA_FILE_HASH"],
+         opt["--CACHE_OVERRIDE"])
