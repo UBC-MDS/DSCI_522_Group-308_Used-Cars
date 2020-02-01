@@ -29,15 +29,15 @@ results/model.pic: data/vehicles_train.csv
 	@echo ">>> Building full model..."
 	python scripts/train_model.py --TRAIN_SIZE=1 --MODEL_DUMP_PATH=results/model.pic
 
-data/test_results_sample.csv: data/vehicles_test.csv
+results/test_results_sample.csv: data/vehicles_test.csv
 	@echo ">>> Testing model..."
 	python scripts/test_model.py --TEST_SIZE=1 --MODEL_DUMP_PATH=results/model.pic
 
-results/figures/condition.png results/figures/corrplot.png results/figures/cylinder.png results/figures/fuel.png results/figures/manufacturer.png results/figures/map_count.png results/figures/map_price.png results/figures/paint_color.png results/figures/size.png results/figures/state.png results/figures/title_status.png results/figures/transmission.png results/figures/type.png: scripts/eda.py data/vehicles_train.csv
+results/figures/condition.png results/figures/corrplot.png results/figures/cylinder.png results/figures/fuel.png results/figures/manufacturer.png results/figures/map_count.png results/figures/map_price.png results/figures/paint_color.png results/figures/size.png results/figures/state.png results/figures/title_status.png results/figures/transmission.png results/figures/type.png: data/vehicles_train.csv
 	@echo ">>> Running EDA..."
 	python scripts/eda.py --DATA_FILE_PATH=data/vehicles_train.csv --EDA_FILE_PATH=results/figures/
 
-doc/used_cars_report.html doc/used_cars_report.md: doc/used_cars_report.Rmd results/test_results_sample.csv
+doc/used_cars_report.html doc/used_cars_report.md: doc/used_cars_report.Rmd results/test_results_sample.csv results/figures/condition.png
 	@echo ">>> Generating report..."
 	Rscript -e "library(rmarkdown); render('doc/used_cars_report.Rmd')"
 
@@ -60,5 +60,5 @@ clean :
 	rm -f results/figures/condition.png results/figures/corrplot.png results/figures/cylinder.png results/figures/fuel.png results/figures/manufacturer.png results/figures/map_count.png results/figures/map_price.png results/figures/paint_color.png results/figures/size.png results/figures/state.png results/figures/title_status.png results/figures/transmission.png results/figures/type.png
 	rm -f results/model.pic
 	rm -f results/model_quick.pic
-	rm -f data/test_results_sample.csv
+	rm -f results/test_results_sample.csv
 	rm -f doc/used_cars_report.html doc/used_cars_report.md
