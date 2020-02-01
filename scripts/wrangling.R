@@ -10,9 +10,9 @@
 Usage: wrangling.R [--DATA_FILE_PATH=<DATA_FILE_PATH>] [--TRAIN_FILE_PATH=<TRAIN_FILE_PATH>] [--TEST_FILE_PATH=<TEST_FILE_PATH>] [--TARGET=<TARGET>][--REMOVE_OUTLIERS=<REMOVE_OUTLIERS>] [--TRAIN_SIZE=<TRAIN_SIZE>]
 
 Options:
---DATA_FILE_PATH=<DATA_FILE_PATH>  Path (including filename) to retrieve the csv file. [default: ../data/vehicles.csv]
---TRAIN_FILE_PATH=<TRAIN_FILE_PATH>  Path (including filename) to print the train portion as a csv file. [default: ../data/vehicles_train.csv]
---TEST_FILE_PATH=<TEST_FILE_PATH>  Path (including filename) to print the test portion as a csv file. [default: ../data/vehicles_test.csv]
+--DATA_FILE_PATH=<DATA_FILE_PATH>  Path (including filename) to retrieve the csv file. [default: data/vehicles.csv]
+--TRAIN_FILE_PATH=<TRAIN_FILE_PATH>  Path (including filename) to print the train portion as a csv file. [default: data/vehicles_train.csv]
+--TEST_FILE_PATH=<TEST_FILE_PATH>  Path (including filename) to print the test portion as a csv file. [default: data/vehicles_test.csv]
 --TARGET=<TARGET> Name of the response variable to use. [default: price]
 --REMOVE_OUTLIERS=<REMOVE_OUTLIERS> Logical value that takes YES as value if the outliers should be remove, NO otherwise. [default: YES]
 --TRAIN_SIZE=<TRAIN_SIZE> Decimal value for the train/test split. [default: 0.9] 

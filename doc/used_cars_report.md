@@ -1,7 +1,7 @@
 Predicting Used Car Prices
 ================
 Andrés Pitta, Braden Tam, Serhiy Pokrovskyy </br>
-2020/01/25 (updated: 2020-01-25)
+2020/01/25 (updated: 2020-01-30)
 
 # Summary
 
@@ -14,22 +14,25 @@ clustered. We found that support vector regression had the best results,
 having a score of `INPUT TRAIN SCORE` on the training set and a score of
 `INPUT TEST SCORE` on the test set. Given that the dataset was
 imbalanced, this led to poor prediction of the classes that were quite
-sparse.
+sparse because the model was not able to learn enough about those
+classes in order to give good predictions on unseen data.
+
+1.36059410^{4}
 
 # Introduction
 
 Websites such as Craigslist, Kijiji, and eBay have tons of users that
-creates vast markets of used goods. Typically people looking to save
-some money use these website to purchase second hand items. The problem
-with these websites is that the user determines the price of their used
-good. This can either be a good or bad thing, depending on whether or
-not the user is trying to scam the buyer or give the buyer a good deal.
-For the average individual who is not familiar with prices of the used
-market, it is especially difficult to guage what the price of a used
-good should be. Being able to predict used car prices based on data on a
-whole market will gives users the ability to evaluate whether a used car
-listing is consistent with the market so that they know they are not
-getting ripped off.
+create a wide array of used good markets. Typically people looking to
+save some money use these website to purchase second hand items. The
+problem with these websites is that the user determines the price of
+their used good. This can either be a good or bad thing, depending on
+whether or not the user is trying to scam the buyer or give the buyer a
+good deal. For the average individual who is not familiar with prices of
+the used market, it is especially difficult to gauge what the price of a
+used good should be. Being able to predict used car prices based on data
+on a whole market will gives users the ability to evaluate whether a
+used car listing is consistent with the market so that they know they
+are not getting ripped off.
 
 # Methods
 
@@ -68,9 +71,16 @@ list to just 12 most important on our opinion:
       - condition
       - title\_status
       - state
-  - 2 continuous features:
+  - 2 continuous
+features:
       - year
       - odometer
+
+<img src="../results/figures/manufacturer.png" title="Figure 2. adfansdflansdfk" alt="Figure 2. adfansdflansdfk" width="80%" />
+
+<img src="../results/figures/map_price.png" title="Figure 2." alt="Figure 2." width="80%" />
+
+<img src="../results/figures/corrplot.png" title="Figure 2." alt="Figure 2." width="80%" />
 
 For each model we performed 5-fold-cross-validated grid search involving
 a range of most important model-specific hyper-parameters.
@@ -85,14 +95,16 @@ selenium (SeleniumHQ 2020), pandas (McKinney 2010), numpy (Oliphant
 al. 2013).
 
 The code used to perform the analysis and create this report can be
-found here: \*\*\*\*\*\*\*\*
+found [here](https://github.com/UBC-MDS/DSCI_522_Group-308_Used-Cars)
 
 # Results & Discussion
 
 Based on our EDA and assumptions, we picked a number of models to fit
 our train data. Since training and validating took a lot of resources,
-we performed it on a gradually increasing subsets of training data. See
-the results below, sorted by validation score (increasing):
+we performed it on a gradually increasing subsets of training data in
+the hopes that we find an optimal trade-off between computational time
+and model performance. See the results below, sorted by validation score
+(increasing):
 
 | Model                       | Training Score | Validation Score |
 | --------------------------- | -------------- | ---------------- |
@@ -111,33 +123,11 @@ Eventually we ran the model on the **test data** containing more than
 **accuracy of 81.5%**. The good sign was also that it did not overfit
 greatly on train set, which was a good sign to perform further testing.
 
-    ## Warning: Missing column names filled in: 'X1' [1]
-
-    ## Parsed with column specification:
-    ## cols(
-    ##   X1 = col_double(),
-    ##   year = col_double(),
-    ##   odometer = col_double(),
-    ##   manufacturer = col_character(),
-    ##   condition = col_character(),
-    ##   title_status = col_character(),
-    ##   price = col_double(),
-    ##   prediction = col_double(),
-    ##   abs_error = col_double(),
-    ##   abs_error_pct = col_double()
-    ## )
-
 <table class="table" style="margin-left: auto; margin-right: auto;">
 
 <thead>
 
 <tr>
-
-<th style="text-align:right;">
-
-X1
-
-</th>
 
 <th style="text-align:right;">
 
@@ -203,12 +193,6 @@ abs\_error\_pct
 
 <td style="text-align:right;">
 
-345
-
-</td>
-
-<td style="text-align:right;">
-
 2013
 
 </td>
@@ -264,12 +248,6 @@ clean
 </tr>
 
 <tr>
-
-<td style="text-align:right;">
-
-698
-
-</td>
 
 <td style="text-align:right;">
 
@@ -331,12 +309,6 @@ clean
 
 <td style="text-align:right;">
 
-714
-
-</td>
-
-<td style="text-align:right;">
-
 2017
 
 </td>
@@ -392,12 +364,6 @@ clean
 </tr>
 
 <tr>
-
-<td style="text-align:right;">
-
-401
-
-</td>
 
 <td style="text-align:right;">
 
@@ -459,12 +425,6 @@ clean
 
 <td style="text-align:right;">
 
-83
-
-</td>
-
-<td style="text-align:right;">
-
 2016
 
 </td>
@@ -520,12 +480,6 @@ rebuilt
 </tr>
 
 <tr>
-
-<td style="text-align:right;">
-
-364
-
-</td>
 
 <td style="text-align:right;">
 
@@ -587,12 +541,6 @@ clean
 
 <td style="text-align:right;">
 
-213
-
-</td>
-
-<td style="text-align:right;">
-
 2014
 
 </td>
@@ -648,12 +596,6 @@ clean
 </tr>
 
 <tr>
-
-<td style="text-align:right;">
-
-286
-
-</td>
 
 <td style="text-align:right;">
 
@@ -715,12 +657,6 @@ clean
 
 <td style="text-align:right;">
 
-643
-
-</td>
-
-<td style="text-align:right;">
-
 2017
 
 </td>
@@ -776,12 +712,6 @@ No value
 </tr>
 
 <tr>
-
-<td style="text-align:right;">
-
-49
-
-</td>
 
 <td style="text-align:right;">
 

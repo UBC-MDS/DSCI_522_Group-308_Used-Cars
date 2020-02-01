@@ -1,7 +1,7 @@
 ---
 title: "Predicting Used Car Prices"
 author: "Andrés Pitta, Braden Tam, Serhiy Pokrovskyy </br>"
-date: "2020/01/25 (updated: `r Sys.Date()`)"
+date: "2020/01/25 (updated: 2020-01-30)"
 always_allow_html: yes
 output: 
   github_document:
@@ -9,17 +9,9 @@ output:
 bibliography: used_cars.bib
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-library(kableExtra)
-library(tidyverse)
-```
 
-```{r load data, echo=FALSE, message=FALSE, warning=FALSE}
-df <- read_csv("../results/test_results_sample.csv") %>% dplyr::select(-X1)
-#scores <- read_csv("results/train_metrics.csv")
 
-```
+
 
 
 
@@ -27,7 +19,7 @@ df <- read_csv("../results/test_results_sample.csv") %>% dplyr::select(-X1)
 
 In this project we attempt to build a regression model which can predict the price of used cars based on numerous features of the car. We tested the following models: support vector regression, stochastic gradient descent regression, linear regression, K-nearest neighbour regression, and random forest regression. data set is not linearly separable, more clustered. We found that support vector regression had the best results, having a score of `INPUT TRAIN SCORE` on the training set and a score of `INPUT TEST SCORE` on the test set. Given that the dataset was imbalanced, this led to poor prediction of the classes that were quite sparse because the model was not able to learn enough about those classes in order to give good predictions on unseen data. 
 
-`r df$prediction[1]`
+1.360594 &times; 10<sup>4</sup>
 
 
 # Introduction
@@ -60,20 +52,11 @@ Since we could not efficiently use automated feature selection like RFE or FFE (
     - year
     - odometer
     
-```{r, echo=FALSE, fig.cap="Figure 2. adfansdflansdfk", out.width = '80%'}
-path <- "../results/figures/manufacturer.png"
-knitr::include_graphics(path)
-```
+<img src="../results/figures/manufacturer.png" title="Figure 2. adfansdflansdfk" alt="Figure 2. adfansdflansdfk" width="80%" />
 
-```{r, echo=FALSE, fig.cap="Figure 2.", out.width = '80%'}
-path <- "../results/figures/map_price.png"
-knitr::include_graphics(path)
-```
+<img src="../results/figures/map_price.png" title="Figure 2." alt="Figure 2." width="80%" />
 
-```{r, echo=FALSE, fig.cap="Figure 2.", out.width = '80%'}
-path <- "../results/figures/corrplot.png"
-knitr::include_graphics(path)
-```
+<img src="../results/figures/corrplot.png" title="Figure 2." alt="Figure 2." width="80%" />
  
  
 For each model we performed 5-fold-cross-validated grid search involving a range of most important model-specific hyper-parameters.
@@ -96,11 +79,135 @@ Random Forests | 0.964447 | 0.734342
 Gradient Boosted Trees | 0.803595 | 0.736818
 **Support Vector Machines** | **0.840271** | **0.813724**
 
-Since SVM shown the best results from the very beginning, we performed a thorough adaptive grid search on more training data (200,000 observations, running for 4 hours) resulting in 81.3% accuracy on validation data. Eventually we ran the model on the **test data** containing more than 40,000 observations, which confirmed the model with even better **accuracy of 81.5%**. The good sign was also that it did not overfit greatly on train set, which was a good sign to perform further testing. 
+Since SVM shown the best results from the very beginning, we performed a thorough adaptive grid search on a bigger subset of 200,000 observations (running for 4 hours) resulting in 81.3% accuracy on validation data. Eventually we ran the model on the **test data** containing more than 40,000 observations, which confirmed the model with even better **accuracy of 81.5%**. The good sign was also that it did not overfit greatly on train set, which was a good sign to perform further testing. 
 
-```{r table, echo=FALSE, message=FALSE}
-kableExtra::kable_styling(knitr::kable(df))
-```
+<table class="table" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:right;"> year </th>
+   <th style="text-align:right;"> odometer </th>
+   <th style="text-align:left;"> manufacturer </th>
+   <th style="text-align:left;"> condition </th>
+   <th style="text-align:left;"> title_status </th>
+   <th style="text-align:right;"> price </th>
+   <th style="text-align:right;"> prediction </th>
+   <th style="text-align:right;"> abs_error </th>
+   <th style="text-align:right;"> abs_error_pct </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 2013 </td>
+   <td style="text-align:right;"> 89662 </td>
+   <td style="text-align:left;"> lincoln </td>
+   <td style="text-align:left;"> No value </td>
+   <td style="text-align:left;"> clean </td>
+   <td style="text-align:right;"> 13995 </td>
+   <td style="text-align:right;"> 13605.94 </td>
+   <td style="text-align:right;"> 389.06 </td>
+   <td style="text-align:right;"> 2.78 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2007 </td>
+   <td style="text-align:right;"> 143724 </td>
+   <td style="text-align:left;"> ford </td>
+   <td style="text-align:left;"> good </td>
+   <td style="text-align:left;"> clean </td>
+   <td style="text-align:right;"> 6588 </td>
+   <td style="text-align:right;"> 8246.61 </td>
+   <td style="text-align:right;"> 1658.61 </td>
+   <td style="text-align:right;"> 25.18 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2017 </td>
+   <td style="text-align:right;"> 35370 </td>
+   <td style="text-align:left;"> ford </td>
+   <td style="text-align:left;"> No value </td>
+   <td style="text-align:left;"> clean </td>
+   <td style="text-align:right;"> 27990 </td>
+   <td style="text-align:right;"> 30395.27 </td>
+   <td style="text-align:right;"> 2405.27 </td>
+   <td style="text-align:right;"> 8.59 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2001 </td>
+   <td style="text-align:right;"> 157000 </td>
+   <td style="text-align:left;"> dodge </td>
+   <td style="text-align:left;"> No value </td>
+   <td style="text-align:left;"> clean </td>
+   <td style="text-align:right;"> 2500 </td>
+   <td style="text-align:right;"> 2780.30 </td>
+   <td style="text-align:right;"> 280.30 </td>
+   <td style="text-align:right;"> 11.21 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2016 </td>
+   <td style="text-align:right;"> 88564 </td>
+   <td style="text-align:left;"> toyota </td>
+   <td style="text-align:left;"> No value </td>
+   <td style="text-align:left;"> rebuilt </td>
+   <td style="text-align:right;"> 19900 </td>
+   <td style="text-align:right;"> 11858.45 </td>
+   <td style="text-align:right;"> 8041.55 </td>
+   <td style="text-align:right;"> 40.41 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2005 </td>
+   <td style="text-align:right;"> 199683 </td>
+   <td style="text-align:left;"> jeep </td>
+   <td style="text-align:left;"> good </td>
+   <td style="text-align:left;"> clean </td>
+   <td style="text-align:right;"> 3500 </td>
+   <td style="text-align:right;"> 2957.85 </td>
+   <td style="text-align:right;"> 542.15 </td>
+   <td style="text-align:right;"> 15.49 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2014 </td>
+   <td style="text-align:right;"> 39026 </td>
+   <td style="text-align:left;"> chevrolet </td>
+   <td style="text-align:left;"> excellent </td>
+   <td style="text-align:left;"> clean </td>
+   <td style="text-align:right;"> 23400 </td>
+   <td style="text-align:right;"> 24538.64 </td>
+   <td style="text-align:right;"> 1138.64 </td>
+   <td style="text-align:right;"> 4.87 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2007 </td>
+   <td style="text-align:right;"> 178450 </td>
+   <td style="text-align:left;"> hyundai </td>
+   <td style="text-align:left;"> No value </td>
+   <td style="text-align:left;"> clean </td>
+   <td style="text-align:right;"> 4950 </td>
+   <td style="text-align:right;"> 4859.28 </td>
+   <td style="text-align:right;"> 90.72 </td>
+   <td style="text-align:right;"> 1.83 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2017 </td>
+   <td style="text-align:right;"> 66765 </td>
+   <td style="text-align:left;"> dodge </td>
+   <td style="text-align:left;"> No value </td>
+   <td style="text-align:left;"> No value </td>
+   <td style="text-align:right;"> 22900 </td>
+   <td style="text-align:right;"> 23366.48 </td>
+   <td style="text-align:right;"> 466.48 </td>
+   <td style="text-align:right;"> 2.04 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2008 </td>
+   <td style="text-align:right;"> 203516 </td>
+   <td style="text-align:left;"> gmc </td>
+   <td style="text-align:left;"> No value </td>
+   <td style="text-align:left;"> clean </td>
+   <td style="text-align:right;"> 9988 </td>
+   <td style="text-align:right;"> 9497.48 </td>
+   <td style="text-align:right;"> 490.52 </td>
+   <td style="text-align:right;"> 4.91 </td>
+  </tr>
+</tbody>
+</table>
 
 
 # Further Directions

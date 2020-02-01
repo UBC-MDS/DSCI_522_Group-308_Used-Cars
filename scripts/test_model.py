@@ -45,7 +45,7 @@ import pickle
 import os
 import sys
 
-MODEL_DUMP_PATH = 'model.pic'
+MODEL_DUMP_PATH = '../results/model.pic'
 TEST_EXCERPT_PATH = '../data/test_results_sample.csv'
 
 if (not os.path.isfile(MODEL_DUMP_PATH)):

@@ -10,7 +10,7 @@ Note: Calling the script without the parameters will download the data file to a
 Usage: download.py [--DATA_FILE_PATH=<DATA_FILE_PATH>] [--DATA_FILE_URL=<DATA_FILE_URL>] [--DATA_FILE_HASH=<DATA_FILE_HASH>]
 
 Options:
---DATA_FILE_PATH=<DATA_FILE_PATH>  File path (including filename) to save the data file. [default: ../data/vehicles.csv]
+--DATA_FILE_PATH=<DATA_FILE_PATH>  File path (including filename) to save the data file. [default: data/vehicles.csv]
 --DATA_FILE_URL=<DATA_FILE_URL>    URL from where to download the dataset. [default: http://mds.dev.synnergia.com/uploads/vehicles.csv]
 --DATA_FILE_HASH=<DATA_FILE_HASH>  MD5 checksum hash of the file (for validation). [default: 06e7bd341eebef8e77b088d2d3c54585]
 '''
