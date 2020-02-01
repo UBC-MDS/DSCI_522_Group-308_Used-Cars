@@ -42,7 +42,7 @@ def make_correlation(data, eda_file_path):
     eda_file_path -- (str) The path to specify where the plot is saved
     """
 
-    data_corr = (data.drop(columns = ["id", "long", "lat"]) 
+    data_corr = (data
                  .corr()
                  .reset_index()
                  .rename(columns = {'index':'Variable 1'})
