@@ -10,14 +10,14 @@ the price of used cars based on numerous features of the car. We tested
 the following models: support vector regression, stochastic gradient
 descent regression, linear regression, K-nearest neighbour regression,
 and random forest regression. We found that support vector regression
-had the best results, having a score of `input score here` on the
-training set and a score of `input score here` on the test set. Given
-that the dataset was imbalanced, this led to poor prediction of the
-classes that were quite sparse because the model was not able to learn
-enough about those classes in order to give good predictions on unseen
-data.
-
-1.36059410^{4}
+had the best results, having an
+![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.84
+on the training set and an
+![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.814
+on the test set. Given that the dataset was imbalanced, this led to poor
+prediction of the classes that were quite sparse because the model was
+not able to learn enough about those classes in order to give good
+predictions on unseen data.
 
 # Introduction
 
@@ -114,23 +114,189 @@ the hopes that we find an optimal amount of required data for maximal
 performance. See the results below, sorted by validation score
 (increasing):
 
-| Model                       | Training Score | Validation Score |
-| --------------------------- | -------------- | ---------------- |
-| Linear Regression           | 0.555803       | 0.526354         |
-| Stochastic Gradient Descent | 0.550439       | 0.528612         |
-| kNN                         | 0.638008       | 0.626848         |
-| Random Forests              | 0.964447       | 0.734342         |
-| Gradient Boosted Trees      | 0.803595       | 0.736818         |
-| **Support Vector Machines** | **0.840271**   | **0.813724**     |
+<table class="table" style="margin-left: auto; margin-right: auto;">
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+Model
+
+</th>
+
+<th style="text-align:right;">
+
+Train R^2
+
+</th>
+
+<th style="text-align:right;">
+
+Test R^2
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+Linear Regression
+
+</td>
+
+<td style="text-align:right;">
+
+0.555803
+
+</td>
+
+<td style="text-align:right;">
+
+0.526354
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Stochastic Gradient Descent
+
+</td>
+
+<td style="text-align:right;">
+
+0.550439
+
+</td>
+
+<td style="text-align:right;">
+
+0.528612
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+kNN
+
+</td>
+
+<td style="text-align:right;">
+
+0.638008
+
+</td>
+
+<td style="text-align:right;">
+
+0.626848
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Random Forests
+
+</td>
+
+<td style="text-align:right;">
+
+0.964447
+
+</td>
+
+<td style="text-align:right;">
+
+0.734342
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Gradient Boosted Trees
+
+</td>
+
+<td style="text-align:right;">
+
+0.803595
+
+</td>
+
+<td style="text-align:right;">
+
+0.736818
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Support Vector Machines
+
+</td>
+
+<td style="text-align:right;">
+
+0.840271
+
+</td>
+
+<td style="text-align:right;">
+
+0.813724
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 Since SVM shown the best results from the very beginning, we performed a
 thorough adaptive grid search on more training data (200,000
-observations, running for 4 hours) resulting in 81.3% accuracy on
+observations, running for 4 hours) resulting in 81.4% accuracy on
 validation data. Eventually we ran the model on the **test data**
 containing more than 40,000 observations, which confirmed the model with
-even better **accuracy of 81.5%**. The good sign was also that it did
+even better **accuracy of 81.6%**. The good sign was also that it did
 not overfit greatly on train set, which was a good sign to perform
 further testing.
+
+| Metric        | Value    |
+| ------------- | -------- |
+| Accuracy      | 0.815724 |
+| RMSE          | 4366.43  |
+| MAE           | 2691.71  |
+| Average Price | 13819.99 |
+
+Here is a list of test examples showing the predicted used car prices:
 
 <table class="table" style="margin-left: auto; margin-right: auto;">
 

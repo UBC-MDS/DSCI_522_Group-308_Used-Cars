@@ -1,5 +1,7 @@
 ---
-output: github_document
+output: 
+  github_document:
+    pandoc_args: --webtex
 bibliography: doc/used_cars.bib
 ---
 
@@ -16,11 +18,14 @@ library(caret)
 ```
 
 ```{r load data, echo=FALSE, message=FALSE, warning=FALSE}
-#scores <- read_csv("results/train_metrics.csv")
+scores <- read_csv("results/train_metrics.csv")
 
+scores_text <- scores %>%
+  dplyr::rename(train = 'Train R^2',
+                test = 'Test R^2')
 ```
 
-In this project we attempt to build a regression model which can predict the price of used cars based on numerous features of the car. We tested the following models: support vector regression, stochastic gradient descent regression, linear regression, K-nearest neighbour regression, and random forest regression. data set is not linearly separable, more clustered. We found that support vector regression had the best results, having a score of `INPUT TRAIN SCORE` on the training set and a score of `INPUT TEST SCORE` on the test set. Given that the dataset was imbalanced, this led to poor prediction of the classes that were quite sparse. 
+In this project we attempt to build a regression model which can predict the price of used cars based on numerous features of the car. We tested the following models: support vector regression, stochastic gradient descent regression, linear regression, K-nearest neighbour regression, and random forest regression. data set is not linearly separable, more clustered. We found that support vector regression had the best results, having an $R^2$ score of `r round(scores_text$train[nrow(scores)],3)` on the training set and an $R^2$ score of `r round(scores_text$test[nrow(scores)],3)` on the test set. Given that the dataset was imbalanced, this led to poor prediction of the classes that were quite sparse. 
 
 The data set used in this project is Used Cars Dataset created by Austin Reese. It was collected from Kaggle.com [@reese_2020] and can be found [here](https://www.kaggle.com/austinreese/craigslist-carstrucks-data). This data consists of used car listings in the US scraped from Craigslist that contains information such as listed price, manufacturer, model, listed condition, fuel type, odometer, type of car, and which state it's being sold in. 
 

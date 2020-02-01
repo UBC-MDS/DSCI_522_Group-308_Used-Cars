@@ -6,6 +6,7 @@ always_allow_html: yes
 output: 
   github_document:
     toc: true
+    pandoc_args: --webtex
 bibliography: used_cars.bib
 ---
 
@@ -16,17 +17,20 @@ library(tidyverse)
 ```
 
 ```{r load data, echo=FALSE, message=FALSE, warning=FALSE}
-df <- read_csv("../results/test_results_sample.csv") %>% dplyr::select(-c(X1, abs_error))
-#scores <- read_csv("results/train_metrics.csv")
+df <- read_csv("../results/test_results_sample.csv") %>% 
+  dplyr::select(-c(X1, abs_error))
+scores <- read_csv("../results/train_metrics.csv")
+
+scores_text <- scores %>%
+  dplyr::rename(train = 'Train R^2',
+                test = 'Test R^2')
 ```
 
 
 
 # Summary
 
-In this project we attempt to build a regression model which can predict the price of used cars based on numerous features of the car. We tested the following models: support vector regression, stochastic gradient descent regression, linear regression, K-nearest neighbour regression, and random forest regression.  We found that support vector regression had the best results, having a score of `input score here` on the training set and a score of `input score here` on the test set. Given that the dataset was imbalanced, this led to poor prediction of the classes that were quite sparse because the model was not able to learn enough about those classes in order to give good predictions on unseen data. 
-
-`r df$prediction[1]`
+In this project we attempt to build a regression model which can predict the price of used cars based on numerous features of the car. We tested the following models: support vector regression, stochastic gradient descent regression, linear regression, K-nearest neighbour regression, and random forest regression.  We found that support vector regression had the best results, having an $R^2$ score of `r round(scores_text$train[nrow(scores)],3)` on the training set and an $R^2$ score of `r round(scores_text$test[nrow(scores)],3)` on the test set. Given that the dataset was imbalanced, this led to poor prediction of the classes that were quite sparse because the model was not able to learn enough about those classes in order to give good predictions on unseen data. 
 
 
 # Introduction
@@ -90,18 +94,24 @@ For hyper-paramter tuning of each model we performed a 5-fold-cross-validated gr
 
 Based on our EDA and assumptions, we picked a number of models to fit our train data. Since training and validating took a lot of resources, we performed it on a gradually increasing subsets of training data in the hopes that we find an optimal amount of required data for maximal performance. See the results below, sorted by validation score (increasing):
 
-Model | Training Score | Validation Score
---- | --- | ---
-Linear Regression | 0.555803 | 0.526354
-Stochastic Gradient Descent | 0.550439 | 0.528612
-kNN | 0.638008 | 0.626848
-Random Forests | 0.964447 | 0.734342
-Gradient Boosted Trees | 0.803595 | 0.736818
-**Support Vector Machines** | **0.840271** | **0.813724**
 
-Since SVM shown the best results from the very beginning, we performed a thorough adaptive grid search on more training data (200,000 observations, running for 4 hours) resulting in 81.3% accuracy on validation data. Eventually we ran the model on the **test data** containing more than 40,000 observations, which confirmed the model with even better **accuracy of 81.5%**. The good sign was also that it did not overfit greatly on train set, which was a good sign to perform further testing. 
+```{r table scores, echo=FALSE, message=FALSE}
+kableExtra::kable_styling(knitr::kable(scores))
+```
 
-```{r table, echo=FALSE, message=FALSE}
+
+Since SVM shown the best results from the very beginning, we performed a thorough adaptive grid search on more training data (200,000 observations, running for 4 hours) resulting in 81.4% accuracy on validation data. Eventually we ran the model on the **test data** containing more than 40,000 observations, which confirmed the model with even better **accuracy of 81.6%**. The good sign was also that it did not overfit greatly on train set, which was a good sign to perform further testing. 
+
+Metric | Value
+--- | ---
+Accuracy | 0.815724
+RMSE | 4366.43
+MAE | 2691.71
+Average Price | 13819.99
+
+Here is a list of test examples showing the predicted used car prices:
+
+```{r table examples, echo=FALSE, message=FALSE}
 kableExtra::kable_styling(knitr::kable(df))
 ```
 
