@@ -11,11 +11,13 @@ the following models: support vector regression, stochastic gradient
 descent regression, linear regression, K-nearest neighbour regression,
 and random forest regression. We found that support vector regression
 had the best results, having an
-![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.885
+![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.843
 on the training set, ![R^2](https://latex.codecogs.com/png.latex?R%5E2
-"R^2") score of 0.758 on the validation set and
-![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.73
-on the test set. Given that the dataset was imbalanced, this led to poor
+"R^2") score of 0.772 on the validation set and
+![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.816
+on the test set. The training and validation scores are computed from a
+very small subset of the data while the test score used a much larger
+subset. Given that the dataset was imbalanced, this led to poor
 prediction of the classes that were quite sparse because the model was
 not able to learn enough about those classes in order to give good
 predictions on unseen data.
@@ -112,8 +114,11 @@ Based on our EDA and assumptions, we picked a number of models to fit
 our train data. Since training and validating took a lot of resources,
 we performed it on a gradually increasing subsets of training data in
 the hopes that we find an optimal amount of required data for maximal
-performance. See the results below, sorted by validation score
-(increasing):
+performance. The metric used to evaluate our model is
+![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2"), which is a
+value from 0 to 1 that gives the proportions of the variance in price
+that is explained by our model. See the results below, sorted by
+validation score:
 
 <table class="table" style="margin-left: auto; margin-right: auto;">
 
@@ -123,13 +128,19 @@ performance. See the results below, sorted by validation score
 
 <th style="text-align:left;">
 
-Metric
+Model
 
 </th>
 
 <th style="text-align:right;">
 
-Value
+Train Score
+
+</th>
+
+<th style="text-align:right;">
+
+Validation Score
 
 </th>
 
@@ -143,13 +154,19 @@ Value
 
 <td style="text-align:left;">
 
-R-Squared
+SVR
 
 </td>
 
 <td style="text-align:right;">
 
-0.7298845
+0.8431655
+
+</td>
+
+<td style="text-align:right;">
+
+0.7722480
 
 </td>
 
@@ -159,13 +176,19 @@ R-Squared
 
 <td style="text-align:left;">
 
-RMSE
+XGBRegressor
 
 </td>
 
 <td style="text-align:right;">
 
-5216.1417297
+0.8745923
+
+</td>
+
+<td style="text-align:right;">
+
+0.7399323
 
 </td>
 
@@ -175,13 +198,85 @@ RMSE
 
 <td style="text-align:left;">
 
-MAE
+LGBMRegressor
 
 </td>
 
 <td style="text-align:right;">
 
-3555.7350475
+0.8865489
+
+</td>
+
+<td style="text-align:right;">
+
+0.7356965
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+RandomForestRegressor
+
+</td>
+
+<td style="text-align:right;">
+
+0.9610188
+
+</td>
+
+<td style="text-align:right;">
+
+0.7290018
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+KNeighborsRegressor
+
+</td>
+
+<td style="text-align:right;">
+
+0.5966452
+
+</td>
+
+<td style="text-align:right;">
+
+0.6199191
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+LinearRegression
+
+</td>
+
+<td style="text-align:right;">
+
+0.6091394
+
+</td>
+
+<td style="text-align:right;">
+
+0.6062798
 
 </td>
 
@@ -193,88 +288,19 @@ MAE
 
 Since SVM shown the best results from the very beginning, we performed a
 thorough adaptive grid search on more training data (200,000
-observations, running for 4 hours) resulting in 81.4% accuracy on
-validation data. Eventually we ran the model on the **test data**
-containing more than 40,000 observations, which confirmed the model with
-even better **accuracy of 81.6%**. The good sign was also that it did
-not overfit greatly on train set, which was a good sign to perform
-further testing.
+observations, running for 4 hours) to devise a more robust model.
+Finally, we ran the model on the **test data** containing more than
+40,000 observations, which confirmed the model with an
+![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") value of
+**0.816**. The good sign was also that it did not overfit greatly on
+train set, which was a good sign to perform further testing.
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-
-<thead>
-
-<tr>
-
-<th style="text-align:left;">
-
-Metric
-
-</th>
-
-<th style="text-align:right;">
-
-Value
-
-</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-<tr>
-
-<td style="text-align:left;">
-
-R-Squared
-
-</td>
-
-<td style="text-align:right;">
-
-0.7298845
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-RMSE
-
-</td>
-
-<td style="text-align:right;">
-
-5216.1417297
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-MAE
-
-</td>
-
-<td style="text-align:right;">
-
-3555.7350475
-
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
+| Metric                                                   | Value    |
+| -------------------------------------------------------- | -------- |
+| ![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") | 0.815724 |
+| RMSE                                                     | 4366.43  |
+| MAE                                                      | 2691.71  |
+| Average Price                                            | 13819.99 |
 
 Here is a list of test examples showing the predicted used car prices:
 
@@ -342,13 +368,65 @@ abs\_error\_pct
 
 <td style="text-align:right;">
 
-2016
+2013
 
 </td>
 
 <td style="text-align:right;">
 
-113440
+89662
+
+</td>
+
+<td style="text-align:left;">
+
+lincoln
+
+</td>
+
+<td style="text-align:left;">
+
+No value
+
+</td>
+
+<td style="text-align:left;">
+
+clean
+
+</td>
+
+<td style="text-align:right;">
+
+13995
+
+</td>
+
+<td style="text-align:right;">
+
+13605.94
+
+</td>
+
+<td style="text-align:right;">
+
+2.78
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2007
+
+</td>
+
+<td style="text-align:right;">
+
+143724
 
 </td>
 
@@ -372,227 +450,19 @@ clean
 
 <td style="text-align:right;">
 
-24990
+6588
 
 </td>
 
 <td style="text-align:right;">
 
-13508.08
+8246.61
 
 </td>
 
 <td style="text-align:right;">
 
-45.95
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-2000
-
-</td>
-
-<td style="text-align:right;">
-
-125943
-
-</td>
-
-<td style="text-align:left;">
-
-ford
-
-</td>
-
-<td style="text-align:left;">
-
-fair
-
-</td>
-
-<td style="text-align:left;">
-
-clean
-
-</td>
-
-<td style="text-align:right;">
-
-4000
-
-</td>
-
-<td style="text-align:right;">
-
-3056.89
-
-</td>
-
-<td style="text-align:right;">
-
-23.58
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-2002
-
-</td>
-
-<td style="text-align:right;">
-
-90802
-
-</td>
-
-<td style="text-align:left;">
-
-lexus
-
-</td>
-
-<td style="text-align:left;">
-
-No value
-
-</td>
-
-<td style="text-align:left;">
-
-clean
-
-</td>
-
-<td style="text-align:right;">
-
-4800
-
-</td>
-
-<td style="text-align:right;">
-
-9819.96
-
-</td>
-
-<td style="text-align:right;">
-
-104.58
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-2012
-
-</td>
-
-<td style="text-align:right;">
-
-89950
-
-</td>
-
-<td style="text-align:left;">
-
-ford
-
-</td>
-
-<td style="text-align:left;">
-
-excellent
-
-</td>
-
-<td style="text-align:left;">
-
-clean
-
-</td>
-
-<td style="text-align:right;">
-
-6950
-
-</td>
-
-<td style="text-align:right;">
-
-7986.51
-
-</td>
-
-<td style="text-align:right;">
-
-14.91
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-2005
-
-</td>
-
-<td style="text-align:right;">
-
-58364
-
-</td>
-
-<td style="text-align:left;">
-
-pontiac
-
-</td>
-
-<td style="text-align:left;">
-
-excellent
-
-</td>
-
-<td style="text-align:left;">
-
-clean
-
-</td>
-
-<td style="text-align:right;">
-
-7200
-
-</td>
-
-<td style="text-align:right;">
-
-10648.98
-
-</td>
-
-<td style="text-align:right;">
-
-47.90
+25.18
 
 </td>
 
@@ -608,7 +478,7 @@ clean
 
 <td style="text-align:right;">
 
-45973
+35370
 
 </td>
 
@@ -632,19 +502,19 @@ clean
 
 <td style="text-align:right;">
 
-13750
+27990
 
 </td>
 
 <td style="text-align:right;">
 
-17056.06
+30395.27
 
 </td>
 
 <td style="text-align:right;">
 
-24.04
+8.59
 
 </td>
 
@@ -654,13 +524,65 @@ clean
 
 <td style="text-align:right;">
 
-2013
+2001
 
 </td>
 
 <td style="text-align:right;">
 
-74517
+157000
+
+</td>
+
+<td style="text-align:left;">
+
+dodge
+
+</td>
+
+<td style="text-align:left;">
+
+No value
+
+</td>
+
+<td style="text-align:left;">
+
+clean
+
+</td>
+
+<td style="text-align:right;">
+
+2500
+
+</td>
+
+<td style="text-align:right;">
+
+2780.30
+
+</td>
+
+<td style="text-align:right;">
+
+11.21
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2016
+
+</td>
+
+<td style="text-align:right;">
+
+88564
 
 </td>
 
@@ -678,25 +600,25 @@ No value
 
 <td style="text-align:left;">
 
-clean
+rebuilt
 
 </td>
 
 <td style="text-align:right;">
 
-26995
+19900
 
 </td>
 
 <td style="text-align:right;">
 
-24875.58
+11858.45
 
 </td>
 
 <td style="text-align:right;">
 
-7.85
+40.41
 
 </td>
 
@@ -706,13 +628,117 @@ clean
 
 <td style="text-align:right;">
 
-2013
+2005
 
 </td>
 
 <td style="text-align:right;">
 
-88230
+199683
+
+</td>
+
+<td style="text-align:left;">
+
+jeep
+
+</td>
+
+<td style="text-align:left;">
+
+good
+
+</td>
+
+<td style="text-align:left;">
+
+clean
+
+</td>
+
+<td style="text-align:right;">
+
+3500
+
+</td>
+
+<td style="text-align:right;">
+
+2957.85
+
+</td>
+
+<td style="text-align:right;">
+
+15.49
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2014
+
+</td>
+
+<td style="text-align:right;">
+
+39026
+
+</td>
+
+<td style="text-align:left;">
+
+chevrolet
+
+</td>
+
+<td style="text-align:left;">
+
+excellent
+
+</td>
+
+<td style="text-align:left;">
+
+clean
+
+</td>
+
+<td style="text-align:right;">
+
+23400
+
+</td>
+
+<td style="text-align:right;">
+
+24538.64
+
+</td>
+
+<td style="text-align:right;">
+
+4.87
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2007
+
+</td>
+
+<td style="text-align:right;">
+
+178450
 
 </td>
 
@@ -736,19 +762,19 @@ clean
 
 <td style="text-align:right;">
 
-7998
+4950
 
 </td>
 
 <td style="text-align:right;">
 
-6942.19
+4859.28
 
 </td>
 
 <td style="text-align:right;">
 
-13.20
+1.83
 
 </td>
 
@@ -758,19 +784,19 @@ clean
 
 <td style="text-align:right;">
 
-2003
+2017
 
 </td>
 
 <td style="text-align:right;">
 
-157490
+66765
 
 </td>
 
 <td style="text-align:left;">
 
-toyota
+dodge
 
 </td>
 
@@ -782,25 +808,25 @@ No value
 
 <td style="text-align:left;">
 
-clean
+No value
 
 </td>
 
 <td style="text-align:right;">
 
-10450
+22900
 
 </td>
 
 <td style="text-align:right;">
 
-4912.31
+23366.48
 
 </td>
 
 <td style="text-align:right;">
 
-52.99
+2.04
 
 </td>
 
@@ -810,13 +836,13 @@ clean
 
 <td style="text-align:right;">
 
-2018
+2008
 
 </td>
 
 <td style="text-align:right;">
 
-27610
+203516
 
 </td>
 
@@ -840,19 +866,19 @@ clean
 
 <td style="text-align:right;">
 
-42950
+9988
 
 </td>
 
 <td style="text-align:right;">
 
-27458.40
+9497.48
 
 </td>
 
 <td style="text-align:right;">
 
-36.07
+4.91
 
 </td>
 
@@ -864,21 +890,22 @@ clean
 
 # Further Directions
 
-To further imrpove the accuracy of this model we can aleviate the
-problem of imbalanced classes by grouping manufacturers by region
-(American, Germnan, Italian, Japanese, British, etc.) and status type
-(luxery vs economy).
+To further imrpove the ![R^2](https://latex.codecogs.com/png.latex?R%5E2
+"R^2") of this model we can aleviate the problem of imbalanced classes
+by grouping manufacturers by region (American, Germnan, Italian,
+Japanese, British, etc.) and status type (luxery vs economy).
 
-Although we achieved a nice accuracy of 81.5%, we can now observe some
-other metrics. Eg., having an RMSE almost twice higher than MAE suggests
-that there is a good number of observations where the error is big (the
-more RMSE differs from MAE, the higher is the variance) This is
-something we may want to improve by finding features and clusters in
-data space that introduce more variance in the predictions. Eg. the
-model predicting clean car price may greatly differ from the model
-predicting salvage (damage / total loss) car price. This comes from
-getting deeper expertise in the area, and we will try to play with this
-further more.
+Although we achieved a solid
+![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") value of 0.816,
+we can now observe some other metrics. Eg., having an RMSE almost twice
+higher than MAE suggests that there is a good number of observations
+where the error is big (the more RMSE differs from MAE, the higher is
+the variance) This is something we may want to improve by finding
+features and clusters in data space that introduce more variance in the
+predictions. Eg. the model predicting clean car price may greatly differ
+from the model predicting salvage (damage / total loss) car price. This
+comes from getting deeper expertise in the area, and we will try to play
+with this further more.
 
 We may also want to use a different scoring function for our model - eg.
 some custom implementation of MSE of relative error, since we have high

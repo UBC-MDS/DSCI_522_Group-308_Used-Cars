@@ -10,15 +10,18 @@ In this project we attempt to build a regression model which can predict
 the price of used cars based on numerous features of the car. We tested
 the following models: support vector regression, stochastic gradient
 descent regression, linear regression, K-nearest neighbour regression,
-and random forest regression. data set is not linearly separable, more
-clustered. We found that support vector regression had the best results,
-having an ![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score
-of 0.843 on the training set,
-![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.772
-on the validation set and
-![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.739
-on the test set. Given that the dataset was imbalanced, this led to poor
-prediction of the classes that were quite sparse.
+and random forest regression. We found that support vector regression
+had the best results, having an
+![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.843
+on the training set, ![R^2](https://latex.codecogs.com/png.latex?R%5E2
+"R^2") score of 0.772 on the validation set and
+![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.816
+on the test set. The training and validation scores are computed from a
+very small subset of the data while the test score used a much larger
+subset. Given that the dataset was imbalanced, this led to poor
+prediction of the classes that were quite sparse because the model was
+not able to learn enough about those classes in order to give good
+predictions on unseen data.
 
 The data set used in this project is Used Cars Dataset created by Austin
 Reese. It was collected from Kaggle.com (Reese 2020) and can be found
