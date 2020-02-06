@@ -30,7 +30,7 @@ RUN Rscript -e "install.packages(c('tidyverse', 'docopt'))"
 
 # Clone project repo
 RUN mkdir -p /home/projects
-RUN cd /home/projects
+WORKDIR /home/projects
 RUN git clone https://github.com/pokrovskyy/DSCI_522_Group-308_Used-Cars.git used-cars
 RUN cd used-cars
 
