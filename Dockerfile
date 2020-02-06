@@ -11,16 +11,16 @@ FROM debian:stable
 RUN apt-get update -y
 RUN apt-get install -y r-base r-base-dev
 RUN apt-get install -y build-essential
-RUN apt-get install -y autoconf automake gdb git libffi-dev zlib1g-dev libssl-dev curl libcurl4-openssl-dev apt-get install libxml2-dev
+RUN apt-get install -y autoconf automake gdb git libffi-dev zlib1g-dev libssl-dev curl libcurl4-openssl-dev libxml2-dev
 
 # Install Python
 RUN apt-get install -y python python3
 RUN apt-get install -y python-pip python3-pip
 # Fix python3 to become new system default python instead of python2
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python2
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3
-RUN update-alternatives --install /usr/bin/pip python /usr/bin/pip2
-RUN update-alternatives --install /usr/bin/pip python /usr/bin/pip3
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python2 1
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 2
+RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip2 1
+RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 2
 
 # Install Python dependencies
 RUN pip install docopt numpy pandas sklearn altair statsmodels xgboost lightgbm plotly selenium
@@ -35,6 +35,6 @@ RUN git clone https://github.com/pokrovskyy/DSCI_522_Group-308_Used-Cars.git use
 RUN cd used-cars
 
 # Make the project
-RUN make quick
+# RUN make quick
 
 # TODO: install Selenium and make the rest of `make` work! (EDA / report generation)
