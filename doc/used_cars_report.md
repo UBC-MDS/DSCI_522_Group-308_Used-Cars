@@ -1,7 +1,7 @@
 Predicting Used Car Prices
 ================
 Andrés Pitta, Braden Tam, Serhiy Pokrovskyy </br>
-2020/01/25 (updated: 2020-02-01)
+2020/01/25 (updated: 2020-02-06)
 
 # Summary
 
@@ -11,9 +11,9 @@ the following models: support vector regression, stochastic gradient
 descent regression, linear regression, K-nearest neighbour regression,
 and random forest regression. We found that support vector regression
 had the best results, having an
-![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.843
+![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.833
 on the training set, ![R^2](https://latex.codecogs.com/png.latex?R%5E2
-"R^2") score of 0.772 on the validation set and
+"R^2") score of 0.73 on the validation set and
 ![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.816
 on the test set. The training and validation scores are computed from a
 very small subset of the data while the test score used a much larger
@@ -160,35 +160,13 @@ SVR
 
 <td style="text-align:right;">
 
-0.8431655
+0.8333795
 
 </td>
 
 <td style="text-align:right;">
 
-0.7722480
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-XGBRegressor
-
-</td>
-
-<td style="text-align:right;">
-
-0.8745923
-
-</td>
-
-<td style="text-align:right;">
-
-0.7399323
+0.7302227
 
 </td>
 
@@ -204,13 +182,35 @@ LGBMRegressor
 
 <td style="text-align:right;">
 
-0.8865489
+0.8841968
 
 </td>
 
 <td style="text-align:right;">
 
-0.7356965
+0.7245057
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+XGBRegressor
+
+</td>
+
+<td style="text-align:right;">
+
+0.8583296
+
+</td>
+
+<td style="text-align:right;">
+
+0.7158381
 
 </td>
 
@@ -226,13 +226,13 @@ RandomForestRegressor
 
 <td style="text-align:right;">
 
-0.9610188
+0.9603970
 
 </td>
 
 <td style="text-align:right;">
 
-0.7290018
+0.6977895
 
 </td>
 
@@ -248,13 +248,13 @@ KNeighborsRegressor
 
 <td style="text-align:right;">
 
-0.5966452
+0.5977437
 
 </td>
 
 <td style="text-align:right;">
 
-0.6199191
+0.5824930
 
 </td>
 
@@ -270,13 +270,13 @@ LinearRegression
 
 <td style="text-align:right;">
 
-0.6091394
+0.5941379
 
 </td>
 
 <td style="text-align:right;">
 
-0.6062798
+0.3793075
 
 </td>
 
@@ -368,331 +368,19 @@ abs\_error\_pct
 
 <td style="text-align:right;">
 
-2013
-
-</td>
-
-<td style="text-align:right;">
-
-89662
-
-</td>
-
-<td style="text-align:left;">
-
-lincoln
-
-</td>
-
-<td style="text-align:left;">
-
-No value
-
-</td>
-
-<td style="text-align:left;">
-
-clean
-
-</td>
-
-<td style="text-align:right;">
-
-13995
-
-</td>
-
-<td style="text-align:right;">
-
-13605.94
-
-</td>
-
-<td style="text-align:right;">
-
-2.78
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-2007
-
-</td>
-
-<td style="text-align:right;">
-
-143724
-
-</td>
-
-<td style="text-align:left;">
-
-ford
-
-</td>
-
-<td style="text-align:left;">
-
-good
-
-</td>
-
-<td style="text-align:left;">
-
-clean
-
-</td>
-
-<td style="text-align:right;">
-
-6588
-
-</td>
-
-<td style="text-align:right;">
-
-8246.61
-
-</td>
-
-<td style="text-align:right;">
-
-25.18
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-2017
-
-</td>
-
-<td style="text-align:right;">
-
-35370
-
-</td>
-
-<td style="text-align:left;">
-
-ford
-
-</td>
-
-<td style="text-align:left;">
-
-No value
-
-</td>
-
-<td style="text-align:left;">
-
-clean
-
-</td>
-
-<td style="text-align:right;">
-
-27990
-
-</td>
-
-<td style="text-align:right;">
-
-30395.27
-
-</td>
-
-<td style="text-align:right;">
-
-8.59
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-2001
-
-</td>
-
-<td style="text-align:right;">
-
-157000
-
-</td>
-
-<td style="text-align:left;">
-
-dodge
-
-</td>
-
-<td style="text-align:left;">
-
-No value
-
-</td>
-
-<td style="text-align:left;">
-
-clean
-
-</td>
-
-<td style="text-align:right;">
-
-2500
-
-</td>
-
-<td style="text-align:right;">
-
-2780.30
-
-</td>
-
-<td style="text-align:right;">
-
-11.21
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-2016
-
-</td>
-
-<td style="text-align:right;">
-
-88564
-
-</td>
-
-<td style="text-align:left;">
-
-toyota
-
-</td>
-
-<td style="text-align:left;">
-
-No value
-
-</td>
-
-<td style="text-align:left;">
-
-rebuilt
-
-</td>
-
-<td style="text-align:right;">
-
-19900
-
-</td>
-
-<td style="text-align:right;">
-
-11858.45
-
-</td>
-
-<td style="text-align:right;">
-
-40.41
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-2005
-
-</td>
-
-<td style="text-align:right;">
-
-199683
-
-</td>
-
-<td style="text-align:left;">
-
-jeep
-
-</td>
-
-<td style="text-align:left;">
-
-good
-
-</td>
-
-<td style="text-align:left;">
-
-clean
-
-</td>
-
-<td style="text-align:right;">
-
-3500
-
-</td>
-
-<td style="text-align:right;">
-
-2957.85
-
-</td>
-
-<td style="text-align:right;">
-
-15.49
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
 2014
 
 </td>
 
 <td style="text-align:right;">
 
-39026
+70487
 
 </td>
 
 <td style="text-align:left;">
 
-chevrolet
+ford
 
 </td>
 
@@ -710,19 +398,19 @@ clean
 
 <td style="text-align:right;">
 
-23400
+22990
 
 </td>
 
 <td style="text-align:right;">
 
-24538.64
+19426.48
 
 </td>
 
 <td style="text-align:right;">
 
-4.87
+15.50
 
 </td>
 
@@ -732,19 +420,19 @@ clean
 
 <td style="text-align:right;">
 
-2007
+2013
 
 </td>
 
 <td style="text-align:right;">
 
-178450
+175955
 
 </td>
 
 <td style="text-align:left;">
 
-hyundai
+ford
 
 </td>
 
@@ -762,19 +450,19 @@ clean
 
 <td style="text-align:right;">
 
-4950
+12995
 
 </td>
 
 <td style="text-align:right;">
 
-4859.28
+8657.86
 
 </td>
 
 <td style="text-align:right;">
 
-1.83
+33.38
 
 </td>
 
@@ -784,13 +472,169 @@ clean
 
 <td style="text-align:right;">
 
-2017
+2008
 
 </td>
 
 <td style="text-align:right;">
 
-66765
+162122
+
+</td>
+
+<td style="text-align:left;">
+
+pontiac
+
+</td>
+
+<td style="text-align:left;">
+
+No value
+
+</td>
+
+<td style="text-align:left;">
+
+clean
+
+</td>
+
+<td style="text-align:right;">
+
+2800
+
+</td>
+
+<td style="text-align:right;">
+
+3005.86
+
+</td>
+
+<td style="text-align:right;">
+
+7.35
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2018
+
+</td>
+
+<td style="text-align:right;">
+
+43466
+
+</td>
+
+<td style="text-align:left;">
+
+ford
+
+</td>
+
+<td style="text-align:left;">
+
+No value
+
+</td>
+
+<td style="text-align:left;">
+
+clean
+
+</td>
+
+<td style="text-align:right;">
+
+22259
+
+</td>
+
+<td style="text-align:right;">
+
+26031.71
+
+</td>
+
+<td style="text-align:right;">
+
+16.95
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2005
+
+</td>
+
+<td style="text-align:right;">
+
+52349
+
+</td>
+
+<td style="text-align:left;">
+
+ford
+
+</td>
+
+<td style="text-align:left;">
+
+excellent
+
+</td>
+
+<td style="text-align:left;">
+
+clean
+
+</td>
+
+<td style="text-align:right;">
+
+15990
+
+</td>
+
+<td style="text-align:right;">
+
+9532.39
+
+</td>
+
+<td style="text-align:right;">
+
+40.39
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2009
+
+</td>
+
+<td style="text-align:right;">
+
+444206
 
 </td>
 
@@ -808,25 +652,25 @@ No value
 
 <td style="text-align:left;">
 
-No value
+salvage
 
 </td>
 
 <td style="text-align:right;">
 
-22900
+1150
 
 </td>
 
 <td style="text-align:right;">
 
-23366.48
+10612.54
 
 </td>
 
 <td style="text-align:right;">
 
-2.04
+822.83
 
 </td>
 
@@ -836,25 +680,25 @@ No value
 
 <td style="text-align:right;">
 
-2008
+2010
 
 </td>
 
 <td style="text-align:right;">
 
-203516
+124925
 
 </td>
 
 <td style="text-align:left;">
 
-gmc
+audi
 
 </td>
 
 <td style="text-align:left;">
 
-No value
+excellent
 
 </td>
 
@@ -866,19 +710,175 @@ clean
 
 <td style="text-align:right;">
 
-9988
+6995
 
 </td>
 
 <td style="text-align:right;">
 
-9497.48
+4429.34
 
 </td>
 
 <td style="text-align:right;">
 
-4.91
+36.68
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2002
+
+</td>
+
+<td style="text-align:right;">
+
+59794
+
+</td>
+
+<td style="text-align:left;">
+
+chrysler
+
+</td>
+
+<td style="text-align:left;">
+
+excellent
+
+</td>
+
+<td style="text-align:left;">
+
+clean
+
+</td>
+
+<td style="text-align:right;">
+
+4995
+
+</td>
+
+<td style="text-align:right;">
+
+2581.31
+
+</td>
+
+<td style="text-align:right;">
+
+48.32
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2010
+
+</td>
+
+<td style="text-align:right;">
+
+38103
+
+</td>
+
+<td style="text-align:left;">
+
+toyota
+
+</td>
+
+<td style="text-align:left;">
+
+excellent
+
+</td>
+
+<td style="text-align:left;">
+
+clean
+
+</td>
+
+<td style="text-align:right;">
+
+15000
+
+</td>
+
+<td style="text-align:right;">
+
+9689.95
+
+</td>
+
+<td style="text-align:right;">
+
+35.40
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2015
+
+</td>
+
+<td style="text-align:right;">
+
+51000
+
+</td>
+
+<td style="text-align:left;">
+
+chrysler
+
+</td>
+
+<td style="text-align:left;">
+
+excellent
+
+</td>
+
+<td style="text-align:left;">
+
+clean
+
+</td>
+
+<td style="text-align:right;">
+
+9950
+
+</td>
+
+<td style="text-align:right;">
+
+10361.29
+
+</td>
+
+<td style="text-align:right;">
+
+4.13
 
 </td>
 
