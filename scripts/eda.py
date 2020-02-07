@@ -143,11 +143,10 @@ def make_bars(data, eda_file_path):
     """
 
     categorical_features = ['manufacturer', 'condition', 'cylinders', 'fuel',
-                        'title_status', 'transmission', 'size', 'type', 'paint_color', 'state']
+                        'title_status', 'transmission', 'size', 'paint_color', 'state']
 
     categorical_encodings = ['manufacturer', 'condition', 'cylinders', 'fuel',
-                        'title_status', 'transmission', 'size', 'type', 'paint_color', 'state']
-
+                        'title_status', 'transmission', 'size', 'paint_color', 'state']
 
     for i in range(len(categorical_features)):
         vehicles_graph = data[['price', categorical_features[i]]].groupby(by = categorical_features[i])\

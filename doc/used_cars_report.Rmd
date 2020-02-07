@@ -29,11 +29,14 @@ df <- read_csv("../results/test_results_sample.csv") %>%
          'Absolute Error (%)' = abs_error_pct)
 
 train_scores <- read_csv("../results/train_metrics.csv") %>%
-  dplyr::rename(Model = X1)
+  dplyr::rename(Model = X1) %>%
+  mutate(`Train Score` = round(`Train Score`, 3),
+         `Validation Score` = round(`Validation Score`, 3))
 
 train_scores_text <- train_scores %>%
   dplyr::rename(train = 'Train Score',
                 valid = 'Validation Score')
+
 ```
 
 
@@ -79,6 +82,10 @@ Since we could not efficiently use automated feature selection like RFE or FFE (
     - odometer
     
 The following plots are just a few examples of us visual representations of what variables seem to be important in predicting used car prices. The code used to generate these plots can be found [here](https://github.com/UBC-MDS/DSCI_522_Group-308_Used-Cars/blob/master/scripts/eda.py).
+
+
+![](../results/figures/manufacturer.png){ width=10% } 
+![](../results/figures/map_price.png){ width=10% } 
 
 ```{r, echo=FALSE, out.width = '80%'}
 path <- "../results/figures/manufacturer.png"
@@ -130,7 +137,7 @@ kableExtra::kable_styling(knitr::kable(df))
 
 To further imrpove the $R^2$ of this model we can aleviate the problem of imbalanced classes by grouping manufacturers by region (American, Germnan, Italian, Japanese, British, etc.) and status type (luxery vs economy). 
 
-Although we achieved a solid $R^2$ value of 0.816, we can now observe some other metrics. Eg., having an RMSE almost twice higher than MAE suggests that there is a good number of observations where the error is big (the more RMSE differs from MAE, the higher is the variance) This is something we may want to improve by finding features and clusters in data space that introduce more variance in the predictions. Eg. the model predicting clean car price may greatly differ from the model predicting salvage (damage / total loss) car price. This comes from getting deeper expertise in the area, and we will try to play with this further more.
+Although we achieved a solid $R^2$ value of 0.816, we can now observe some other metrics. Eg., having an RMSE (4366) almost twice higher than MAE (2692) suggests that there is a good number of observations where the error is big (the more RMSE differs from MAE, the higher is the variance). This is something we may want to improve by finding features and clusters in data space that introduce more variance in the predictions. Eg. the model predicting clean car price may greatly differ from the model predicting salvage (damage / total loss) car price. This comes from getting deeper expertise in the area, and we will try to play with this further more.
 
 We may also want to use a different scoring function for our model - eg. some custom implementation of MSE of relative error, since we have high variance of price in the original dataset.
 
