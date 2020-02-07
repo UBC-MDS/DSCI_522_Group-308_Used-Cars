@@ -14,11 +14,19 @@ bibliography: used_cars.bib
 knitr::opts_chunk$set(echo = FALSE)
 library(kableExtra)
 library(tidyverse)
+library(grid)
 ```
 
 ```{r load data, echo=FALSE, message=FALSE, warning=FALSE}
 df <- read_csv("../results/test_results_sample.csv") %>% 
-  dplyr::select(-c(X1, abs_error))
+  dplyr::select(-c(X1, abs_error, title_status)) %>%
+  rename(Year = year,
+         Odometer = odometer,
+         Manufacturer = manufacturer,
+         Condition = condition, 
+         'Price (USD)' = price,
+         Prediction = prediction,
+         'Absolute Error (%)' = abs_error_pct)
 
 train_scores <- read_csv("../results/train_metrics.csv") %>%
   dplyr::rename(Model = X1)

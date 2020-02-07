@@ -1,7 +1,7 @@
 Predicting Used Car Prices
 ================
 Andrés Pitta, Braden Tam, Serhiy Pokrovskyy </br>
-2020/01/25 (updated: 2020-02-01)
+2020/01/25 (updated: 2020-02-06)
 
 # Summary
 
