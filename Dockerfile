@@ -11,7 +11,7 @@ FROM debian:stable
 RUN apt-get update -y
 RUN apt-get install -y r-base r-base-dev
 RUN apt-get install -y build-essential
-RUN apt-get install -y autoconf automake gdb git libffi-dev zlib1g-dev libssl-dev curl libcurl4-openssl-dev libxml2-dev
+RUN apt-get install -y autoconf automake gdb git libffi-dev zlib1g-dev libssl-dev curl libcurl4-openssl-dev libxml2-dev orca xvfb
 
 # Install Python
 RUN apt-get install -y python python3
@@ -22,8 +22,19 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 2
 RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip2 1
 RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 2
 
+#RUN apt-get update && apt install -y chromium && apt-get install -y libnss3 && apt-get install unzip
+
+# Install chromedriver
+RUN wget -q "https://chromedriver.storage.googleapis.com/79.0.3945.36/chromedriver_linux64.zip" -O /tmp/chromedriver.zip \
+    && unzip -f /tmp/chromedriver.zip -d /usr/bin/ \
+    && rm /tmp/chromedriver.zip && chown root:root /usr/bin/chromedriver && chmod +x /usr/bin/chromedriver
+
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN apt install ./google-chrome-stable_current_amd64.deb
+
+
 # Install Python dependencies
-RUN pip install docopt numpy pandas sklearn altair statsmodels xgboost lightgbm plotly selenium
+RUN pip install docopt numpy pandas sklearn statsmodels xgboost lightgbm plotly altair selenium psutil requests plotly orca flask pygments
 
 # Install R dependencies
 RUN Rscript -e "install.packages(c('tidyverse', 'docopt'))"
