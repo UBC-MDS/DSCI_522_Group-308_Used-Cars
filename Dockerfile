@@ -37,7 +37,7 @@ RUN apt install -y ./google-chrome-stable_current_amd64.deb
 RUN pip install docopt numpy pandas sklearn statsmodels xgboost lightgbm plotly altair selenium psutil requests plotly orca flask pygments
 
 # Install R dependencies
-RUN Rscript -e "install.packages(c('tidyverse', 'docopt', 'kableExtra'))"
+RUN Rscript -e "install.packages(c('tidyverse', 'docopt', 'kableExtra', 'knitr'))"
 
 
 # Make the project
