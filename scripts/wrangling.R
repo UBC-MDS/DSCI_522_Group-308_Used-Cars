@@ -6,7 +6,7 @@
     the path where the test and train dataset is going to be saved, 
     the train/test set split in decimal numbers,
     a variable where 'YES' = remove outliers and 'NO' do not remove.
-    and a target 
+    and the response variable to use
 
 Usage: wrangling.R [--DATA_FILE_PATH=<DATA_FILE_PATH>] [--TRAIN_FILE_PATH=<TRAIN_FILE_PATH>] [--TEST_FILE_PATH=<TEST_FILE_PATH>] [--TARGET=<TARGET>][--REMOVE_OUTLIERS=<REMOVE_OUTLIERS>] [--TRAIN_SIZE=<TRAIN_SIZE>]
 
