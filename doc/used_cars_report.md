@@ -1,7 +1,7 @@
 Predicting Used Car Prices
 ================
 Andrés Pitta, Braden Tam, Serhiy Pokrovskyy </br>
-2020/01/25 (updated: 2020-02-06)
+2020/01/25 (updated: 2020-02-07)
 
 # Summary
 
@@ -95,11 +95,9 @@ of what variables seem to be important in predicting used car prices.
 The code used to generate these plots can be found
 [here](https://github.com/UBC-MDS/DSCI_522_Group-308_Used-Cars/blob/master/scripts/eda.py).
 
-<img src="../results/figures/manufacturer.png" width="80%" />
+<img src="../results/figures/manufacturer.png" width="44%" />
 
-<img src="../results/figures/map_price.png" width="80%" />
-
-<img src="../results/figures/corrplot.png" width="80%" />
+<img src="../results/figures/map_price.png" width="53%" />
 
 For hyper-paramter tuning of each model we performed a
 5-fold-cross-validated grid search involving a range of the most
@@ -118,9 +116,10 @@ performance. The metric used to evaluate our model is
 ![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2"), which is a
 value from 0 to 1 that gives the proportions of the variance in price
 that is explained by our model. See the results below, sorted by
-validation score:
+validation
+score:
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 
 <thead>
 
@@ -160,13 +159,13 @@ SVR
 
 <td style="text-align:right;">
 
-0.8333795
+0.833
 
 </td>
 
 <td style="text-align:right;">
 
-0.7302227
+0.730
 
 </td>
 
@@ -182,13 +181,13 @@ LGBMRegressor
 
 <td style="text-align:right;">
 
-0.8841968
+0.884
 
 </td>
 
 <td style="text-align:right;">
 
-0.7245057
+0.725
 
 </td>
 
@@ -204,13 +203,13 @@ XGBRegressor
 
 <td style="text-align:right;">
 
-0.8583296
+0.858
 
 </td>
 
 <td style="text-align:right;">
 
-0.7158381
+0.716
 
 </td>
 
@@ -226,13 +225,13 @@ RandomForestRegressor
 
 <td style="text-align:right;">
 
-0.9603970
+0.960
 
 </td>
 
 <td style="text-align:right;">
 
-0.6977895
+0.698
 
 </td>
 
@@ -248,13 +247,13 @@ KNeighborsRegressor
 
 <td style="text-align:right;">
 
-0.5977437
+0.598
 
 </td>
 
 <td style="text-align:right;">
 
-0.5824930
+0.582
 
 </td>
 
@@ -270,13 +269,13 @@ LinearRegression
 
 <td style="text-align:right;">
 
-0.5941379
+0.594
 
 </td>
 
 <td style="text-align:right;">
 
-0.3793075
+0.379
 
 </td>
 
@@ -295,16 +294,17 @@ Finally, we ran the model on the **test data** containing more than
 **0.816**. The good sign was also that it did not overfit greatly on
 train set, which was a good sign to perform further testing.
 
-| Metric                                                   | Value    |
-| -------------------------------------------------------- | -------- |
-| ![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") | 0.815724 |
-| RMSE                                                     | 4366.43  |
-| MAE                                                      | 2691.71  |
-| Average Price                                            | 13819.99 |
+| Metric                                                   | Value |
+| -------------------------------------------------------- | ----- |
+| ![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") | 0.816 |
+| RMSE                                                     | 4366  |
+| MAE                                                      | 2692  |
+| Average Price                                            | 13820 |
 
-Here is a list of test examples showing the predicted used car prices:
+Here is a list of test examples showing the predicted used car
+prices:
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 
 <thead>
 
@@ -312,49 +312,43 @@ Here is a list of test examples showing the predicted used car prices:
 
 <th style="text-align:right;">
 
-year
+Year
 
 </th>
 
 <th style="text-align:right;">
 
-odometer
+Odometer
 
 </th>
 
 <th style="text-align:left;">
 
-manufacturer
+Manufacturer
 
 </th>
 
 <th style="text-align:left;">
 
-condition
-
-</th>
-
-<th style="text-align:left;">
-
-title\_status
+Condition
 
 </th>
 
 <th style="text-align:right;">
 
-price
+Price (USD)
 
 </th>
 
 <th style="text-align:right;">
 
-prediction
+Prediction
 
 </th>
 
 <th style="text-align:right;">
 
-abs\_error\_pct
+Absolute Error (%)
 
 </th>
 
@@ -387,12 +381,6 @@ ford
 <td style="text-align:left;">
 
 excellent
-
-</td>
-
-<td style="text-align:left;">
-
-clean
 
 </td>
 
@@ -442,12 +430,6 @@ No value
 
 </td>
 
-<td style="text-align:left;">
-
-clean
-
-</td>
-
 <td style="text-align:right;">
 
 12995
@@ -491,12 +473,6 @@ pontiac
 <td style="text-align:left;">
 
 No value
-
-</td>
-
-<td style="text-align:left;">
-
-clean
 
 </td>
 
@@ -546,12 +522,6 @@ No value
 
 </td>
 
-<td style="text-align:left;">
-
-clean
-
-</td>
-
 <td style="text-align:right;">
 
 22259
@@ -595,12 +565,6 @@ ford
 <td style="text-align:left;">
 
 excellent
-
-</td>
-
-<td style="text-align:left;">
-
-clean
 
 </td>
 
@@ -650,12 +614,6 @@ No value
 
 </td>
 
-<td style="text-align:left;">
-
-salvage
-
-</td>
-
 <td style="text-align:right;">
 
 1150
@@ -699,12 +657,6 @@ audi
 <td style="text-align:left;">
 
 excellent
-
-</td>
-
-<td style="text-align:left;">
-
-clean
 
 </td>
 
@@ -754,12 +706,6 @@ excellent
 
 </td>
 
-<td style="text-align:left;">
-
-clean
-
-</td>
-
 <td style="text-align:right;">
 
 4995
@@ -803,12 +749,6 @@ toyota
 <td style="text-align:left;">
 
 excellent
-
-</td>
-
-<td style="text-align:left;">
-
-clean
 
 </td>
 
@@ -858,12 +798,6 @@ excellent
 
 </td>
 
-<td style="text-align:left;">
-
-clean
-
-</td>
-
 <td style="text-align:right;">
 
 9950
@@ -897,15 +831,15 @@ Japanese, British, etc.) and status type (luxery vs economy).
 
 Although we achieved a solid
 ![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") value of 0.816,
-we can now observe some other metrics. Eg., having an RMSE almost twice
-higher than MAE suggests that there is a good number of observations
-where the error is big (the more RMSE differs from MAE, the higher is
-the variance) This is something we may want to improve by finding
-features and clusters in data space that introduce more variance in the
-predictions. Eg. the model predicting clean car price may greatly differ
-from the model predicting salvage (damage / total loss) car price. This
-comes from getting deeper expertise in the area, and we will try to play
-with this further more.
+we can now observe some other metrics. Eg., having an RMSE (4366) almost
+twice higher than MAE (2692) suggests that there is a good number of
+observations where the error is big (the more RMSE differs from MAE, the
+higher is the variance). This is something we may want to improve by
+finding features and clusters in data space that introduce more variance
+in the predictions. Eg. the model predicting clean car price may greatly
+differ from the model predicting salvage (damage / total loss) car
+price. This comes from getting deeper expertise in the area, and we will
+try to play with this further more.
 
 We may also want to use a different scoring function for our model - eg.
 some custom implementation of MSE of relative error, since we have high

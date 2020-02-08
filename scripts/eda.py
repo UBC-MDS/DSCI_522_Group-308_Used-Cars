@@ -73,11 +73,14 @@ def make_correlation(data, eda_file_path):
     plot = (heatmap + text).properties(
         width = 400,
         height = 400,
-        title = "Pearson's correlation"
-    )
+        title = "Pearson's Correlation"
+    ).configure_axis(labelFontSize=15, 
+                                    titleFontSize=22
+                                    ).configure_title(fontSize=26)
 
     plot.save("{}corrplot.png".format(eda_file_path))
     print(f"corrplot.png saved to {eda_file_path}")
+
 
 def make_map_count(data, eda_file_path):
     """
@@ -154,15 +157,15 @@ def make_bars(data, eda_file_path):
                                                                         .reset_index()
 
         chart = alt.Chart(vehicles_graph).mark_bar().encode(
-            alt.X('price:Q', title = "Price (USD)"),
+            alt.X('price:Q', axis = alt.Axis(title = "Price (USD)", tickCount = 8)),
             alt.Y(categorical_encodings[i], 
                                     sort = alt.EncodingSortField(field = "price", order = "descending"))
-        ).properties(width=700, 
+        ).properties(width=500, 
                     height=500, 
                     title = f'Mean market price by {categorical_features[i]}'
                     ).configure_axis(labelFontSize=15, 
-                                    titleFontSize=18
-                                    ).configure_title(fontSize=20)
+                                    titleFontSize=22
+                                    ).configure_title(fontSize=26)
         
         chart.save('{}{}.png'.format(eda_file_path, categorical_features[i]))
         print(f"{categorical_features[i]}.png saved to {eda_file_path}")

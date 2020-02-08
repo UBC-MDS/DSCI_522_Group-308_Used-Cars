@@ -10,6 +10,7 @@
 # $> make clean   				cleanup / reset
 # $> make partial_clean   		cleanup / reset, keeping original data file
 #
+
 # NOTE: this will have to download 1.35GB datafile!
 
 # Main targets
@@ -24,26 +25,33 @@ _quick_from_docker : test_quick_model doc/used_cars_report.html doc/used_cars_re
 TRAIN_SIZE=0.01
 
 # Dependencies
+
+# Download
 data/vehicles.csv:
 	@echo ">>> Running download script..."
 	python scripts/download.py --DATA_FILE_PATH=data/vehicles.csv --DATA_FILE_URL=http://mds.dev.synnergia.com/uploads/vehicles.csv --DATA_FILE_HASH=06e7bd341eebef8e77b088d2d3c54585
 
+# Wrangling
 data/vehicles_train.csv data/vehicles_test.csv: data/vehicles.csv
 	@echo ">>> Running data wrangling script..."
 	Rscript scripts/wrangling.R --DATA_FILE_PATH=data/vehicles.csv --TRAIN_FILE_PATH=data/vehicles_train.csv --TEST_FILE_PATH=data/vehicles_test.csv --TARGET=price --REMOVE_OUTLIERS=YES --TRAIN_SIZE=0.8
 
+# Full model
 results/model.pic: data/vehicles_train.csv
 	@echo ">>> Building full model..."
 	python scripts/train_model.py --TRAIN_SIZE=1 --MODEL_DUMP_PATH=results/model.pic
 
+# Test model
 results/test_results_sample.csv: data/vehicles_test.csv
 	@echo ">>> Testing model..."
 	python scripts/test_model.py --TEST_SIZE=1 --MODEL_DUMP_PATH=results/model.pic
 
+# EDA plots
 results/figures/condition.png results/figures/corrplot.png results/figures/cylinder.png results/figures/fuel.png results/figures/manufacturer.png results/figures/map_count.png results/figures/map_price.png results/figures/paint_color.png results/figures/size.png results/figures/state.png results/figures/title_status.png results/figures/transmission.png results/figures/type.png: data/vehicles_train.csv
 	@echo ">>> Running EDA..."
 	python scripts/eda.py --DATA_FILE_PATH=data/vehicles_train.csv --EDA_FILE_PATH=results/figures/
 
+# Report
 doc/used_cars_report.html doc/used_cars_report.md: doc/used_cars_report.Rmd results/test_results_sample.csv results/figures/condition.png
 	@echo ">>> Generating report..."
 	Rscript -e "library(rmarkdown); render('doc/used_cars_report.Rmd')"
@@ -59,10 +67,10 @@ test_quick_model: results/model_quick.pic
 	python scripts/test_model.py --TEST_SIZE=1 --MODEL_DUMP_PATH=results/model_quick.pic
 
 run_quick_from_docker:
-	docker run --rm -v /$(shell pwd):/home 6708616d5ad3 make -C /home _quick_from_docker TRAIN_SIZE=$(TRAIN_SIZE)
+	docker run --rm -v /$(shell pwd):/home pokrovskyy/dsci_522_308 make -C /home _quick_from_docker TRAIN_SIZE=$(TRAIN_SIZE)
 
 run_all_from_docker:
-	docker run --rm -v /$(shell pwd):/home 6708616d5ad3 make -C /home _all_from_docker
+	docker run --rm -v /$(shell pwd):/home pokrovskyy/dsci_522_308 make -C /home _all_from_docker
 
 # Cleanup
 
@@ -70,17 +78,21 @@ clean :
 	@echo ">>> Full clean up..."
 	rm -f data/vehicles.csv
 	rm -f data/vehicles_train.csv data/vehicles_test.csv
-	rm -f results/figures/condition.png results/figures/corrplot.png results/figures/cylinder.png results/figures/fuel.png results/figures/manufacturer.png results/figures/map_count.png results/figures/map_price.png results/figures/paint_color.png results/figures/size.png results/figures/state.png results/figures/title_status.png results/figures/transmission.png results/figures/type.png
+	rm -f results/figures/condition.png results/figures/corrplot.png results/figures/cylinder.png results/figures/fuel.png results/figures/manufacturer.png results/figures/map_count.png results/figures/map_price.png results/figures/paint_color.png results/figures/size.png results/figures/state.png results/figures/title_status.png results/figures/transmission.png results/figures/type.png results/figures/cylinders.png
 	rm -f results/model.pic
 	rm -f results/model_quick.pic
 	rm -f results/test_results_sample.csv
+	rm -f results/test_metrics.csv
+	rm -f results/train_metrics.csv
 	rm -f doc/used_cars_report.html doc/used_cars_report.md
 	
 partial_clean :
 	@echo ">>> Partial clean up..."
 	rm -f data/vehicles_train.csv data/vehicles_test.csv
-	rm -f results/figures/condition.png results/figures/corrplot.png results/figures/cylinder.png results/figures/fuel.png results/figures/manufacturer.png results/figures/map_count.png results/figures/map_price.png results/figures/paint_color.png results/figures/size.png results/figures/state.png results/figures/title_status.png results/figures/transmission.png results/figures/type.png
+	rm -f results/figures/condition.png results/figures/corrplot.png results/figures/cylinder.png results/figures/fuel.png results/figures/manufacturer.png results/figures/map_count.png results/figures/map_price.png results/figures/paint_color.png results/figures/size.png results/figures/state.png results/figures/title_status.png results/figures/transmission.png results/figures/type.png results/figures/cylinders.png
 	rm -f results/model.pic
 	rm -f results/model_quick.pic
 	rm -f results/test_results_sample.csv
+	rm -f results/test_metrics.csv
+	rm -f results/train_metrics.csv
 	rm -f doc/used_cars_report.html doc/used_cars_report.md

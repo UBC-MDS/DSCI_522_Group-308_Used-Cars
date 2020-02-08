@@ -14,18 +14,29 @@ bibliography: used_cars.bib
 knitr::opts_chunk$set(echo = FALSE)
 library(kableExtra)
 library(tidyverse)
+library(knitr)
 ```
 
 ```{r load data, echo=FALSE, message=FALSE, warning=FALSE}
 df <- read_csv("../results/test_results_sample.csv") %>% 
-  dplyr::select(-c(X1, abs_error))
+  dplyr::select(-c(X1, abs_error, title_status)) %>%
+  rename(Year = year,
+         Odometer = odometer,
+         Manufacturer = manufacturer,
+         Condition = condition, 
+         'Price (USD)' = price,
+         Prediction = prediction,
+         'Absolute Error (%)' = abs_error_pct)
 
 train_scores <- read_csv("../results/train_metrics.csv") %>%
-  dplyr::rename(Model = X1)
+  dplyr::rename(Model = X1) %>%
+  mutate(`Train Score` = round(`Train Score`, 3),
+         `Validation Score` = round(`Validation Score`, 3))
 
 train_scores_text <- train_scores %>%
   dplyr::rename(train = 'Train Score',
                 valid = 'Validation Score')
+
 ```
 
 
@@ -72,21 +83,17 @@ Since we could not efficiently use automated feature selection like RFE or FFE (
     
 The following plots are just a few examples of us visual representations of what variables seem to be important in predicting used car prices. The code used to generate these plots can be found [here](https://github.com/UBC-MDS/DSCI_522_Group-308_Used-Cars/blob/master/scripts/eda.py).
 
-```{r, echo=FALSE, out.width = '80%'}
+
+```{r, echo=FALSE, out.width = '44%'}
 path <- "../results/figures/manufacturer.png"
 knitr::include_graphics(path)
 ```
 
-```{r, echo=FALSE, out.width = '80%'}
+```{r, echo=FALSE, out.width = '53%'}
 path <- "../results/figures/map_price.png"
 knitr::include_graphics(path)
 ```
 
-```{r, echo=FALSE, out.width = '80%'}
-path <- "../results/figures/corrplot.png"
-knitr::include_graphics(path)
-```
- 
  
 For hyper-paramter tuning of each model we performed a 5-fold-cross-validated grid search involving a range of the most important model-specific hyper-parameters. We chose to use 5-folds because we have a lot of data to work with so this amount would provide an optimal trade-off between computational time and finding the most unbiased estimates of our models.
 
@@ -97,24 +104,27 @@ Based on our EDA and assumptions, we picked a number of models to fit our train 
 
 
 ```{r table scores, echo=FALSE, message=FALSE}
-kableExtra::kable_styling(knitr::kable(train_scores))
+train_scores %>%
+  knitr::kable("html") %>%
+  kableExtra::kable_styling(position = "center", full_width = F)
 ```
 
 
 Since SVM shown the best results from the very beginning, we performed a thorough adaptive grid search on more training data (200,000 observations, running for 4 hours) to devise a more robust model. Finally, we ran the model on the **test data** containing more than 40,000 observations, which confirmed the model with an $R^2$ value of **0.816**. The good sign was also that it did not overfit greatly on train set, which was a good sign to perform further testing. 
 
+
 Metric | Value
 --- | ---
-$R^2$ | 0.815724
-RMSE | 4366.43
-MAE | 2691.71
-Average Price | 13819.99
+$R^2$ | 0.816
+RMSE | 4366
+MAE | 2692
+Average Price | 13820
 
 
 Here is a list of test examples showing the predicted used car prices:
 
 ```{r table examples, echo=FALSE, message=FALSE}
-kableExtra::kable_styling(knitr::kable(df))
+kableExtra::kable_styling(knitr::kable(df), position = "center", full_width = F)
 ```
 
 
@@ -122,7 +132,7 @@ kableExtra::kable_styling(knitr::kable(df))
 
 To further imrpove the $R^2$ of this model we can aleviate the problem of imbalanced classes by grouping manufacturers by region (American, Germnan, Italian, Japanese, British, etc.) and status type (luxery vs economy). 
 
-Although we achieved a solid $R^2$ value of 0.816, we can now observe some other metrics. Eg., having an RMSE almost twice higher than MAE suggests that there is a good number of observations where the error is big (the more RMSE differs from MAE, the higher is the variance) This is something we may want to improve by finding features and clusters in data space that introduce more variance in the predictions. Eg. the model predicting clean car price may greatly differ from the model predicting salvage (damage / total loss) car price. This comes from getting deeper expertise in the area, and we will try to play with this further more.
+Although we achieved a solid $R^2$ value of 0.816, we can now observe some other metrics. Eg., having an RMSE (4366) almost twice higher than MAE (2692) suggests that there is a good number of observations where the error is big (the more RMSE differs from MAE, the higher is the variance). This is something we may want to improve by finding features and clusters in data space that introduce more variance in the predictions. Eg. the model predicting clean car price may greatly differ from the model predicting salvage (damage / total loss) car price. This comes from getting deeper expertise in the area, and we will try to play with this further more.
 
 We may also want to use a different scoring function for our model - eg. some custom implementation of MSE of relative error, since we have high variance of price in the original dataset.
 

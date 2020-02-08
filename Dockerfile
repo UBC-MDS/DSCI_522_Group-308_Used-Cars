@@ -27,4 +27,4 @@ RUN pip install docopt numpy pandas sklearn statsmodels xgboost lightgbm plotly 
 RUN conda install -y -c plotly plotly-orca
 
 # Install R packages
-RUN Rscript -e "install.packages(c('tidyverse', 'docopt', 'kableExtra'))"
+RUN Rscript -e "install.packages(c('tidyverse', 'docopt', 'kableExtra', 'knitr'))"
