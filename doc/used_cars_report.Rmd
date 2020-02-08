@@ -14,7 +14,7 @@ bibliography: used_cars.bib
 knitr::opts_chunk$set(echo = FALSE)
 library(kableExtra)
 library(tidyverse)
-library(grid)
+library(knitr)
 ```
 
 ```{r load data, echo=FALSE, message=FALSE, warning=FALSE}
@@ -84,24 +84,16 @@ Since we could not efficiently use automated feature selection like RFE or FFE (
 The following plots are just a few examples of us visual representations of what variables seem to be important in predicting used car prices. The code used to generate these plots can be found [here](https://github.com/UBC-MDS/DSCI_522_Group-308_Used-Cars/blob/master/scripts/eda.py).
 
 
-![](../results/figures/manufacturer.png){ width=10% } 
-![](../results/figures/map_price.png){ width=10% } 
-
-```{r, echo=FALSE, out.width = '80%'}
+```{r, echo=FALSE, out.width = '44%'}
 path <- "../results/figures/manufacturer.png"
 knitr::include_graphics(path)
 ```
 
-```{r, echo=FALSE, out.width = '80%'}
+```{r, echo=FALSE, out.width = '53%'}
 path <- "../results/figures/map_price.png"
 knitr::include_graphics(path)
 ```
 
-```{r, echo=FALSE, out.width = '80%'}
-path <- "../results/figures/corrplot.png"
-knitr::include_graphics(path)
-```
- 
  
 For hyper-paramter tuning of each model we performed a 5-fold-cross-validated grid search involving a range of the most important model-specific hyper-parameters. We chose to use 5-folds because we have a lot of data to work with so this amount would provide an optimal trade-off between computational time and finding the most unbiased estimates of our models.
 
@@ -112,24 +104,27 @@ Based on our EDA and assumptions, we picked a number of models to fit our train 
 
 
 ```{r table scores, echo=FALSE, message=FALSE}
-kableExtra::kable_styling(knitr::kable(train_scores))
+train_scores %>%
+  knitr::kable("html") %>%
+  kableExtra::kable_styling(position = "center", full_width = F)
 ```
 
 
 Since SVM shown the best results from the very beginning, we performed a thorough adaptive grid search on more training data (200,000 observations, running for 4 hours) to devise a more robust model. Finally, we ran the model on the **test data** containing more than 40,000 observations, which confirmed the model with an $R^2$ value of **0.816**. The good sign was also that it did not overfit greatly on train set, which was a good sign to perform further testing. 
 
+
 Metric | Value
 --- | ---
-$R^2$ | 0.815724
-RMSE | 4366.43
-MAE | 2691.71
-Average Price | 13819.99
+$R^2$ | 0.816
+RMSE | 4366
+MAE | 2692
+Average Price | 13820
 
 
 Here is a list of test examples showing the predicted used car prices:
 
 ```{r table examples, echo=FALSE, message=FALSE}
-kableExtra::kable_styling(knitr::kable(df))
+kableExtra::kable_styling(knitr::kable(df), position = "center", full_width = F)
 ```
 
 
