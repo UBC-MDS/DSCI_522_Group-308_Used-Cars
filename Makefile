@@ -14,12 +14,8 @@
 # NOTE: this will have to download 1.35GB datafile!
 
 # Main targets
-all : run_all_from_docker
-quick : run_quick_from_docker
-
-# Internal targets
-_all_from_docker : doc/used_cars_report.html doc/used_cars_report.md
-_quick_from_docker : test_quick_model doc/used_cars_report.html doc/used_cars_report.md
+all : doc/used_cars_report.html doc/used_cars_report.md
+quick : test_quick_model doc/used_cars_report.html doc/used_cars_report.md
 
 # Defaults for quick target
 TRAIN_SIZE=0.01
@@ -67,10 +63,10 @@ test_quick_model: results/model_quick.pic
 	python scripts/test_model.py --TEST_SIZE=1 --MODEL_DUMP_PATH=results/model_quick.pic
 
 run_quick_from_docker:
-	docker run --rm -v /$(PWD):/home pokrovskyy/dsci_522_308 bash -c "make -C /home _quick_from_docker TRAIN_SIZE=$(TRAIN_SIZE)"
+	docker run --rm -v /$(PWD):/home pokrovskyy/dsci_522_308 bash -c "make -C /home quick TRAIN_SIZE=$(TRAIN_SIZE)"
 
 run_all_from_docker:
-	docker run --rm -v /$(PWD):/home pokrovskyy/dsci_522_308 bash -c "make -C /home _all_from_docker"
+	docker run --rm -v /$(PWD):/home pokrovskyy/dsci_522_308 bash -c "make -C /home all"
 	
 # Cleanup
 

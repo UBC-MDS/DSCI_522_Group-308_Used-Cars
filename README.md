@@ -54,15 +54,28 @@ make all
     
 **NOTE** The original dataset’s size is 1.35GB. Fitting the model may take many hours (seriously!) Thus, we provided a convenient method to replicate a quick version of the model with just a portion of the data:
 
+1. Reset the repository without reseting `data_vehicles.csv`:
+
+```
+  make partial_clean
+  
+```
+2. Run the quick version of the pipeline:
+
 ```
 make quick TRAIN_SIZE=0.01
 ```    
+
     
 You may choose other percentage value (0-to-1) For 1% (`TRAIN_SIZE=0.01`) expected runtime is 5 minutes. Keep in mind, that lower dataset size decreases accuracy.
 
 **NOTE** You must have [Docker](https://www.docker.com/get-started) installed in order to run the above commands.
 
 **NOTE** Running the pipeline will download a prebuilt Docker container for our project. Be advised, that the size of container is approximately 1.5 GB and the pipeline will then download additional 1.35 GB data file.
+
+The dependencies of this pipeline are shown in the following diagram:
+
+![Dendencies graph for the pipelin](Makefile.png)
 
 
 ## Dependencies
