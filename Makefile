@@ -4,16 +4,25 @@
 # This Makefile build the project - from downloading data through training / testing models and to generating final reports.
 #
 # This Makefile defines 3 main targets:
-# $> make all     builds everything on a full dataset (~400,000 train observations)
-# $> make quick   builds everything on a 1% of original dataset
-# $> make clean   cleanup / reset
+# $> make all     				builds everything on a full dataset (~400,000 train observations)
+# $> make quick   				builds everything on a 1% of original dataset
+# $> make quick TRAIN_SIZE=0.05 builds everything on arbitary % of the dataset (eg. 5%)
+# $> make clean   				cleanup / reset
+# $> make partial_clean   		cleanup / reset, keeping original data file
 #
-# NOTE: Either way the whole 1.4GB  dataset will have to be downloaded
+
+# NOTE: this will have to download 1.35GB datafile!
 
 # Main targets
+all : run_all_from_docker
+quick : run_quick_from_docker
 
-all : doc/used_cars_report.html doc/used_cars_report.md
-quick : test_quick_model doc/used_cars_report.html doc/used_cars_report.md
+# Internal targets
+_all_from_docker : doc/used_cars_report.html doc/used_cars_report.md
+_quick_from_docker : test_quick_model doc/used_cars_report.html doc/used_cars_report.md
+
+# Defaults for quick target
+TRAIN_SIZE=0.01
 
 # Dependencies
 
@@ -51,16 +60,22 @@ doc/used_cars_report.html doc/used_cars_report.md: doc/used_cars_report.Rmd resu
 
 results/model_quick.pic: data/vehicles_train.csv
 	@echo ">>> Building quick model..."
-	python scripts/train_model.py --TRAIN_SIZE=0.01 --MODEL_DUMP_PATH=results/model_quick.pic
+	python scripts/train_model.py --TRAIN_SIZE=$(TRAIN_SIZE) --MODEL_DUMP_PATH=results/model_quick.pic
 
 test_quick_model: results/model_quick.pic
 	@echo ">>> Testing quick model..."
 	python scripts/test_model.py --TEST_SIZE=1 --MODEL_DUMP_PATH=results/model_quick.pic
 
+run_quick_from_docker:
+	docker run --rm -v /$(shell pwd):/home 6708616d5ad3 make -C /home _quick_from_docker TRAIN_SIZE=$(TRAIN_SIZE)
+
+run_all_from_docker:
+	docker run --rm -v /$(shell pwd):/home 6708616d5ad3 make -C /home _all_from_docker
+
 # Cleanup
 
 clean :
-	@echo ">>> Cleaning up..."
+	@echo ">>> Full clean up..."
 	rm -f data/vehicles.csv
 	rm -f data/vehicles_train.csv data/vehicles_test.csv
 	rm -f results/figures/condition.png results/figures/corrplot.png results/figures/cylinder.png results/figures/fuel.png results/figures/manufacturer.png results/figures/map_count.png results/figures/map_price.png results/figures/paint_color.png results/figures/size.png results/figures/state.png results/figures/title_status.png results/figures/transmission.png results/figures/type.png
@@ -70,8 +85,10 @@ clean :
 	rm -f doc/used_cars_report.html doc/used_cars_report.md
 	
 partial_clean :
-	@echo ">>> Cleaning up..."
+	@echo ">>> Partial clean up..."
 	rm -f data/vehicles_train.csv data/vehicles_test.csv
 	rm -f results/figures/condition.png results/figures/corrplot.png results/figures/cylinder.png results/figures/fuel.png results/figures/manufacturer.png results/figures/map_count.png results/figures/map_price.png results/figures/paint_color.png results/figures/size.png results/figures/state.png results/figures/title_status.png results/figures/transmission.png results/figures/type.png
+	rm -f results/model.pic
 	rm -f results/model_quick.pic
+	rm -f results/test_results_sample.csv
 	rm -f doc/used_cars_report.html doc/used_cars_report.md
