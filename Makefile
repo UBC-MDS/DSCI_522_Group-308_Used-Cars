@@ -4,27 +4,29 @@
 # This Makefile build the project - from downloading data through training / testing models and to generating final reports.
 #
 # This Makefile defines 3 main targets:
-# $> make all     				builds everything on a full dataset (~400,000 train observations)
-# $> make quick   				builds everything on a 1% of original dataset
-# $> make quick TRAIN_SIZE=0.05 builds everything on arbitary % of the dataset (eg. 5%)
-# $> make clean   				cleanup / reset
-# $> make partial_clean   		cleanup / reset, keeping original data file
+# $> make all						builds everything on a full dataset (~400,000 train observations)
+# $> make quick						builds everything on a 1% of original dataset
+# $> make quick TRAIN_SIZE=0.05		builds everything on arbitary % of the dataset (eg. 5%)
+# $> make clean						cleanup / reset
+# $> make partial_clean				cleanup / reset, keeping original data file
 #
-
 # NOTE: this will have to download 1.35GB datafile!
 
-# Main targets
+### Main targets ###
+
 all : run_all_from_docker
 quick : run_quick_from_docker
 
-# Internal targets
-_all_from_docker : doc/used_cars_report.html doc/used_cars_report.md
+### Internal targets ###
+
+_all_from_docker : results/model.pic doc/used_cars_report.html doc/used_cars_report.md
 _quick_from_docker : test_quick_model doc/used_cars_report.html doc/used_cars_report.md
 
-# Defaults for quick target
+### Defaults ###
+
 TRAIN_SIZE=0.01
 
-# Dependencies
+### General dependencies ###
 
 # Download
 data/vehicles.csv:
@@ -56,7 +58,7 @@ doc/used_cars_report.html doc/used_cars_report.md: doc/used_cars_report.Rmd resu
 	@echo ">>> Generating report..."
 	Rscript -e "library(rmarkdown); render('doc/used_cars_report.Rmd')"
 
-# Quick model targets
+### Quick model ###
 
 results/model_quick.pic: data/vehicles_train.csv
 	@echo ">>> Building quick model..."
@@ -71,8 +73,8 @@ run_quick_from_docker:
 
 run_all_from_docker:
 	docker run --rm -v /$(PWD):/home pokrovskyy/dsci_522_308 bash -c "make -C /home _all_from_docker"
-	
-# Cleanup
+
+### Cleanup ###
 
 clean :
 	@echo ">>> Full clean up..."
