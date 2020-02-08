@@ -54,7 +54,7 @@ make all
     
 **NOTE** The original dataset’s size is 1.35GB. Fitting the model may take many hours (seriously!) Thus, we provided a convenient method to replicate a quick version of the model with just a portion of the data:
 
-1. Reset the repository without reseting `data_vehicles.csv`:
+1. Reset the repository without removing `data_vehicles.csv`:
 
 ```
   make partial_clean
@@ -63,11 +63,24 @@ make all
 2. Run the quick version of the pipeline:
 
 ```
-make quick TRAIN_SIZE=0.01
+  make quick TRAIN_SIZE=0.01
 ```    
-
     
 You may choose other percentage value (0-to-1) For 1% (`TRAIN_SIZE=0.01`) expected runtime is 5 minutes. Keep in mind, that lower dataset size decreases accuracy.
+
+To replicate the quick version of this analysis using docker run the following commands:
+
+1. Reset the repository without removing `data_vehicles.csv`:
+
+```
+  make partial_clean
+  
+```
+2. Run the quick version of the pipeline:
+
+```
+  make run_quick_from_docker
+```    
 
 **NOTE** You must have [Docker](https://www.docker.com/get-started) installed in order to run the above commands.
 
