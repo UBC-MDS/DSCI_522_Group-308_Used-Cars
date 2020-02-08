@@ -38,24 +38,32 @@ The final report can be found
 
 ## Usage
 
-To replicate the analysis, clone this GitHub repository, install the
-dependencies listed below and follow these instructions:
+To replicate the analysis, clone this GitHub repository and follow these instructions:
 
-Before starting, if you want to reset all the outputs, run the following
-command at the command line/terminal:
+1. Reset the repository and clean any prebuilt results:
 
-    make clean
+```
+make clean
+```
 
-**Warning** The dataset’s size is 1.35GB. In order to replicate a quick
-version of the model with 1% of the data (see makefile documentation to
-change train size), run the following command at the command
-line/terminal:
+2. Run the complete pipeline:
 
-    make quick
+```
+make all
+```
+    
+**NOTE** The original dataset’s size is 1.35GB. Fitting the model may take many hours (seriously!) Thus, we provided a convenient method to replicate a quick version of the model with just a portion of the data:
 
-If you want to run the model with all the data run:
+```
+make quick TRAIN_SIZE=0.01
+```    
+    
+You may choose other percentage value (0-to-1) For 1% (`TRAIN_SIZE=0.01`) expected runtime is 5 minutes. Keep in mind, that lower dataset size decreases accuracy.
 
-    make all
+**NOTE** You must have [Docker](https://www.docker.com/get-started) installed in order to run the above commands.
+
+**NOTE** Running the pipeline will download a prebuilt Docker container for our project. Be advised, that the size of container is approximately 1.5 GB and the pipeline will then download additional 1.35 GB data file.
+
 
 ## Dependencies
 
