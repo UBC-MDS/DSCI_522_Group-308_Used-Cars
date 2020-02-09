@@ -68,7 +68,7 @@ make all
     
 You may choose other percentage value (0-to-1) For 1% (`TRAIN_SIZE=0.01`) expected runtime is 5 minutes. Keep in mind, that lower dataset size decreases accuracy.
 
-To replicate the quick version of this analysis using docker run the following commands:
+To replicate the quick version of this analysis using docker run the following commands (preferably using git bash if ran on windows):
 
 1. Reset the repository without removing `data_vehicles.csv`:
 
@@ -86,12 +86,22 @@ To replicate the quick version of this analysis using docker run the following c
 
 **NOTE** Running the pipeline will download a prebuilt Docker container for our project. Be advised, that the size of container is approximately 1.86 GB and the pipeline will then download additional 1.35 GB data file.
 
-The dependencies of this pipeline are shown in the following diagram:
+## Makefile dependency maps
 
-![Dendencies graph for the pipelin](Makefile.png)
+Please consider the following dependency maps for the make processes:
+
+1. The dependencies for the complete version of this pipeline are shown in the following diagram:
+
+![Dendencies graph for the pipeline](Makefile-all-diagram.png)
+
+2. The dependencies for the quick version of this pipeline are shown in the following diagram:
+
+![Dendencies graph for the pipeline](Makefile-quick-diagram.png)
 
 
 ## Dependencies
+
+**NOTE** When installing the following packages, conda install is preferred:
 
   - Python 3.7.3 and Python packages:
       - altair==3.2.0
