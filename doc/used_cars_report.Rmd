@@ -37,13 +37,13 @@ train_scores_text <- train_scores %>%
   dplyr::rename(train = 'Train Score',
                 valid = 'Validation Score')
 
+test_scores <- read_csv("../results/test_metrics.csv")
+names(test_scores) <- c('Metric', 'Value')
 ```
-
-
 
 # Summary
 
-In this project we attempt to build a regression model which can predict the price of used cars based on numerous features of the car. We tested the following models: support vector regression, stochastic gradient descent regression, linear regression, K-nearest neighbour regression, and random forest regression.  We found that support vector regression had the best results, having an $R^2$ score of `r round(train_scores_text$train[1],3)` on the training set, $R^2$ score of `r round(train_scores_text$valid[1],3)` on the validation set and $R^2$ score of 0.816 on the test set. The training and validation scores are computed from a very small subset of the data while the test score used a much larger subset. Given that the dataset was imbalanced, this led to poor prediction of the classes that were quite sparse because the model was not able to learn enough about those classes in order to give good predictions on unseen data.
+In this project we attempt to build a regression model which can predict the price of used cars based on numerous features of the car. We tested the following models: support vector machine regression, stochastic gradient descent regression, linear regression, K-nearest neighbour regression as well as random forest regression and gradient boosted trees.  We found that support vector machine regression shown the best results, producing an $R^2$ score of `r round(train_scores_text$train[1],3)` on the training set, `r round(train_scores_text$valid[1],3)` on the validation set and `r round(test_scores$Value[1], 3)` on the test set. The training and validation scores are computed from a very small subset of the data while the test score used a much larger subset. Given that the dataset was imbalanced by manufacturers, this led to a bit worse prediction of the classes that were quite sparse because the model was not able to learn enough about those classes in order to give good predictions on unseen data.
 
 # Introduction
 
@@ -52,7 +52,7 @@ Websites such as Craigslist, Kijiji, and eBay have tons of users that create a w
 # Methods
 
 ## Data
-The data set used in this project is Used Cars Dataset created by Austin Reese. It was collected from Kaggle.com [@reese_2020] and can be found [here](https://www.kaggle.com/austinreese/craigslist-carstrucks-data). This data consists of used car listings in the US scraped from Craigslist that contains information such as listed price, manufacturer, model, listed condition, fuel type, odometer, type of car, and which state it's being sold in. 
+The data set used in this project is "Used Cars Dataset" created by Austin Reese. It was collected from Kaggle.com [@reese_2020] and can be found [here](https://www.kaggle.com/austinreese/craigslist-carstrucks-data). This data consists of used car listings in the US scraped from Craigslist that contains information such as listed price, manufacturer, model, listed condition, fuel type, odometer, type of car, and which state it's being sold in.
 
 ## Analysis
 
@@ -60,7 +60,6 @@ The R and Python programming languages [@R; @Python] and the following R and Pyt
 
 The code used to perform the analysis and create this report can be found [here](https://github.com/UBC-MDS/DSCI_522_Group-308_Used-Cars)
 
-  
 As it was mentioned, our original data holds half a million observations with a few dozen features, most categorical, so accurate feature selection and model selection were extremely important. Especially because model training took significant amount of computational resources.
 
 Since we could not efficiently use automated feature selection like RFE or FFE (because of time / resources constraint), we had to perform manual feature selection. As we had some intuition in the target area as well as some practical experience, we were able to prune our feature list to just 12 most important on our opinion:
@@ -110,16 +109,15 @@ train_scores %>%
 ```
 
 
-Since SVM shown the best results from the very beginning, we performed a thorough adaptive grid search on more training data (200,000 observations, running for 4 hours) to devise a more robust model. Finally, we ran the model on the **test data** containing more than 40,000 observations, which confirmed the model with an $R^2$ value of **0.816**. The good sign was also that it did not overfit greatly on train set, which was a good sign to perform further testing. 
+Since SVM shown the best results from the very beginning, we performed a thorough adaptive grid search on more training data (200,000 observations, running for 4 hours) to devise a more robust model. Finally, we ran the model on the **test data** containing more than 40,000 observations, which confirmed the model with an $R^2$ value of **0.816**. The good sign was also that it did not overfit greatly on train set, which was a good sign to perform further testing.
 
+Later, we ran model testing on full training dataset taking around 12 hours, and got similar but even better results:
 
 Metric | Value
 --- | ---
-$R^2$ | 0.816
-RMSE | 4366
-MAE | 2692
-Average Price | 13820
-
+$R^2$ | `r round(test_scores$Value[1], 3)`
+RMSE | `r round(test_scores$Value[2], 2)`
+MAE | `r round(test_scores$Value[3], 2)`
 
 Here is a list of test examples showing the predicted used car prices:
 
@@ -132,13 +130,12 @@ kableExtra::kable_styling(knitr::kable(df), position = "center", full_width = F)
 
 To further imrpove the $R^2$ of this model we can aleviate the problem of imbalanced classes by grouping manufacturers by region (American, Germnan, Italian, Japanese, British, etc.) and status type (luxery vs economy). 
 
-Although we achieved a solid $R^2$ value of 0.816, we can now observe some other metrics. Eg., having an RMSE (4366) almost twice higher than MAE (2692) suggests that there is a good number of observations where the error is big (the more RMSE differs from MAE, the higher is the variance). This is something we may want to improve by finding features and clusters in data space that introduce more variance in the predictions. Eg. the model predicting clean car price may greatly differ from the model predicting salvage (damage / total loss) car price. This comes from getting deeper expertise in the area, and we will try to play with this further more.
+Although we achieved a solid $R^2$ value of `r round(test_scores$Value[1], 3)`, we can now observe some other metrics. Eg., having an RMSE (`r round(test_scores$Value[2], 2)`) almost twice higher than MAE (`r round(test_scores$Value[3], 2)`) suggests that there is a good number of observations where the error is big (the more RMSE differs from MAE, the higher is the variance). This is something we may want to improve by finding features and clusters in data space that introduce more variance in the predictions. Eg. the model predicting clean car price may greatly differ from the model predicting salvage (damage / total loss) car price. This comes from getting deeper expertise in the area, and we will try to play with this further more.
 
 We may also want to use a different scoring function for our model - eg. some custom implementation of MSE of relative error, since we have high variance of price in the original dataset.
 
-Lastly, due to time / resources limitations we only trained the model on half the training data, so we should try to run it on all training data and see how this changes our model (this would take approximately 16 hours). So far we have only seen improvements to the score as we increased the sample size.
+Previously, we ran it on half of the training data which took us around 4 hours to train and resulted in 0.816 score. We were now able to run it on a full training dataset (taking approximately 12 hours), which improved the score by `r round(test_scores$Value[1] - 0.816, 3)` (not much for such a big increase in training time, but still an improvement)
 
-The ultimate end goal is to eventually create a command-line tool for the end-user to interactively request vehicle details and output expected price with a precision interval.
-
+The ultimate end goal is to eventually create a command-line tool for the end-user to interactively request vehicle details and output expected price with a confidence interval.
 
 # References

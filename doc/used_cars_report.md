@@ -7,20 +7,18 @@ Andrés Pitta, Braden Tam, Serhiy Pokrovskyy </br>
 
 In this project we attempt to build a regression model which can predict
 the price of used cars based on numerous features of the car. We tested
-the following models: support vector regression, stochastic gradient
-descent regression, linear regression, K-nearest neighbour regression,
-and random forest regression. We found that support vector regression
-had the best results, having an
-![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.864
-on the training set, ![R^2](https://latex.codecogs.com/png.latex?R%5E2
-"R^2") score of 0.735 on the validation set and
-![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.816
-on the test set. The training and validation scores are computed from a
-very small subset of the data while the test score used a much larger
-subset. Given that the dataset was imbalanced, this led to poor
-prediction of the classes that were quite sparse because the model was
-not able to learn enough about those classes in order to give good
-predictions on unseen data.
+the following models: support vector machine regression, stochastic
+gradient descent regression, linear regression, K-nearest neighbour
+regression as well as random forest regression and gradient boosted
+trees. We found that support vector machine regression shown the best
+results, producing an ![R^2](https://latex.codecogs.com/png.latex?R%5E2
+"R^2") score of 0.877 on the training set, 0.832 on the validation set
+and 0.829 on the test set. The training and validation scores are
+computed from a very small subset of the data while the test score used
+a much larger subset. Given that the dataset was imbalanced by
+manufacturers, this led to a bit worse prediction of the classes that
+were quite sparse because the model was not able to learn enough about
+those classes in order to give good predictions on unseen data.
 
 # Introduction
 
@@ -41,8 +39,9 @@ are not getting ripped off.
 
 ## Data
 
-The data set used in this project is Used Cars Dataset created by Austin
-Reese. It was collected from Kaggle.com (Reese 2020) and can be found
+The data set used in this project is “Used Cars Dataset” created by
+Austin Reese. It was collected from Kaggle.com (Reese 2020) and can be
+found
 [here](https://www.kaggle.com/austinreese/craigslist-carstrucks-data).
 This data consists of used car listings in the US scraped from
 Craigslist that contains information such as listed price, manufacturer,
@@ -153,63 +152,19 @@ Validation Score
 
 <td style="text-align:left;">
 
-XGBRegressor
-
-</td>
-
-<td style="text-align:right;">
-
-0.864
-
-</td>
-
-<td style="text-align:right;">
-
-0.735
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
 SVR
 
 </td>
 
 <td style="text-align:right;">
 
-0.843
+0.877
 
 </td>
 
 <td style="text-align:right;">
 
-0.722
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-LGBMRegressor
-
-</td>
-
-<td style="text-align:right;">
-
-0.886
-
-</td>
-
-<td style="text-align:right;">
-
-0.714
+0.832
 
 </td>
 
@@ -225,13 +180,13 @@ RandomForestRegressor
 
 <td style="text-align:right;">
 
-0.959
+0.953
 
 </td>
 
 <td style="text-align:right;">
 
-0.691
+0.821
 
 </td>
 
@@ -241,19 +196,41 @@ RandomForestRegressor
 
 <td style="text-align:left;">
 
-LinearRegression
+LGBMRegressor
 
 </td>
 
 <td style="text-align:right;">
 
-0.608
+0.852
 
 </td>
 
 <td style="text-align:right;">
 
-0.589
+0.816
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+XGBRegressor
+
+</td>
+
+<td style="text-align:right;">
+
+0.807
+
+</td>
+
+<td style="text-align:right;">
+
+0.789
 
 </td>
 
@@ -269,13 +246,35 @@ KNeighborsRegressor
 
 <td style="text-align:right;">
 
-0.586
+0.726
 
 </td>
 
 <td style="text-align:right;">
 
-0.579
+0.718
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+LinearRegression
+
+</td>
+
+<td style="text-align:right;">
+
+0.549
+
+</td>
+
+<td style="text-align:right;">
+
+0.520
 
 </td>
 
@@ -294,12 +293,14 @@ Finally, we ran the model on the **test data** containing more than
 **0.816**. The good sign was also that it did not overfit greatly on
 train set, which was a good sign to perform further testing.
 
-| Metric                                                   | Value |
-| -------------------------------------------------------- | ----- |
-| ![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") | 0.816 |
-| RMSE                                                     | 4366  |
-| MAE                                                      | 2692  |
-| Average Price                                            | 13820 |
+Later, we ran model testing on full training dataset taking around 12
+hours, and got similar but even better results:
+
+| Metric                                                   | Value   |
+| -------------------------------------------------------- | ------- |
+| ![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") | 0.829   |
+| RMSE                                                     | 4144.58 |
+| MAE                                                      | 2557.73 |
 
 Here is a list of test examples showing the predicted used car
 prices:
@@ -368,99 +369,7 @@ Absolute Error (%)
 
 <td style="text-align:right;">
 
-67000
-
-</td>
-
-<td style="text-align:left;">
-
-toyota
-
-</td>
-
-<td style="text-align:left;">
-
-No value
-
-</td>
-
-<td style="text-align:right;">
-
-9995
-
-</td>
-
-<td style="text-align:right;">
-
-16310.54
-
-</td>
-
-<td style="text-align:right;">
-
-63.19
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-2015
-
-</td>
-
-<td style="text-align:right;">
-
-35525
-
-</td>
-
-<td style="text-align:left;">
-
-nissan
-
-</td>
-
-<td style="text-align:left;">
-
-good
-
-</td>
-
-<td style="text-align:right;">
-
-12700
-
-</td>
-
-<td style="text-align:right;">
-
-12650.62
-
-</td>
-
-<td style="text-align:right;">
-
-0.39
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-2011
-
-</td>
-
-<td style="text-align:right;">
-
-166454
+56264
 
 </td>
 
@@ -472,301 +381,25 @@ ford
 
 <td style="text-align:left;">
 
-excellent
-
-</td>
-
-<td style="text-align:right;">
-
-21995
-
-</td>
-
-<td style="text-align:right;">
-
-23785.55
-
-</td>
-
-<td style="text-align:right;">
-
-8.14
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-2005
-
-</td>
-
-<td style="text-align:right;">
-
-130967
-
-</td>
-
-<td style="text-align:left;">
-
-No value
-
-</td>
-
-<td style="text-align:left;">
-
 No value
 
 </td>
 
 <td style="text-align:right;">
 
-6499
+20123
 
 </td>
 
 <td style="text-align:right;">
 
-11191.88
+19151.31
 
 </td>
 
 <td style="text-align:right;">
 
-72.21
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-2008
-
-</td>
-
-<td style="text-align:right;">
-
-114320
-
-</td>
-
-<td style="text-align:left;">
-
-nissan
-
-</td>
-
-<td style="text-align:left;">
-
-No value
-
-</td>
-
-<td style="text-align:right;">
-
-4995
-
-</td>
-
-<td style="text-align:right;">
-
-8387.92
-
-</td>
-
-<td style="text-align:right;">
-
-67.93
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-2000
-
-</td>
-
-<td style="text-align:right;">
-
-220000
-
-</td>
-
-<td style="text-align:left;">
-
-subaru
-
-</td>
-
-<td style="text-align:left;">
-
-fair
-
-</td>
-
-<td style="text-align:right;">
-
-3000
-
-</td>
-
-<td style="text-align:right;">
-
-5949.27
-
-</td>
-
-<td style="text-align:right;">
-
-98.31
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-2016
-
-</td>
-
-<td style="text-align:right;">
-
-45024
-
-</td>
-
-<td style="text-align:left;">
-
-jeep
-
-</td>
-
-<td style="text-align:left;">
-
-No value
-
-</td>
-
-<td style="text-align:right;">
-
-13778
-
-</td>
-
-<td style="text-align:right;">
-
-18790.76
-
-</td>
-
-<td style="text-align:right;">
-
-36.38
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-2011
-
-</td>
-
-<td style="text-align:right;">
-
-69747
-
-</td>
-
-<td style="text-align:left;">
-
-toyota
-
-</td>
-
-<td style="text-align:left;">
-
-No value
-
-</td>
-
-<td style="text-align:right;">
-
-22999
-
-</td>
-
-<td style="text-align:right;">
-
-20014.39
-
-</td>
-
-<td style="text-align:right;">
-
-12.98
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-2010
-
-</td>
-
-<td style="text-align:right;">
-
-118887
-
-</td>
-
-<td style="text-align:left;">
-
-ram
-
-</td>
-
-<td style="text-align:left;">
-
-No value
-
-</td>
-
-<td style="text-align:right;">
-
-12995
-
-</td>
-
-<td style="text-align:right;">
-
-14349.99
-
-</td>
-
-<td style="text-align:right;">
-
-10.43
+4.83
 
 </td>
 
@@ -782,13 +415,59 @@ No value
 
 <td style="text-align:right;">
 
-65456
+96838
 
 </td>
 
 <td style="text-align:left;">
 
-toyota
+bmw
+
+</td>
+
+<td style="text-align:left;">
+
+excellent
+
+</td>
+
+<td style="text-align:right;">
+
+11499
+
+</td>
+
+<td style="text-align:right;">
+
+11286.24
+
+</td>
+
+<td style="text-align:right;">
+
+1.85
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2018
+
+</td>
+
+<td style="text-align:right;">
+
+14623
+
+</td>
+
+<td style="text-align:left;">
+
+ford
 
 </td>
 
@@ -800,19 +479,341 @@ No value
 
 <td style="text-align:right;">
 
-21325
+31750
 
 </td>
 
 <td style="text-align:right;">
 
-17552.82
+31659.10
 
 </td>
 
 <td style="text-align:right;">
 
-17.69
+0.29
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2011
+
+</td>
+
+<td style="text-align:right;">
+
+83560
+
+</td>
+
+<td style="text-align:left;">
+
+mazda
+
+</td>
+
+<td style="text-align:left;">
+
+No value
+
+</td>
+
+<td style="text-align:right;">
+
+7250
+
+</td>
+
+<td style="text-align:right;">
+
+10754.96
+
+</td>
+
+<td style="text-align:right;">
+
+48.34
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2014
+
+</td>
+
+<td style="text-align:right;">
+
+74050
+
+</td>
+
+<td style="text-align:left;">
+
+ford
+
+</td>
+
+<td style="text-align:left;">
+
+good
+
+</td>
+
+<td style="text-align:right;">
+
+7900
+
+</td>
+
+<td style="text-align:right;">
+
+9636.40
+
+</td>
+
+<td style="text-align:right;">
+
+21.98
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2000
+
+</td>
+
+<td style="text-align:right;">
+
+74203
+
+</td>
+
+<td style="text-align:left;">
+
+chevrolet
+
+</td>
+
+<td style="text-align:left;">
+
+good
+
+</td>
+
+<td style="text-align:right;">
+
+8000
+
+</td>
+
+<td style="text-align:right;">
+
+6225.54
+
+</td>
+
+<td style="text-align:right;">
+
+22.18
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2007
+
+</td>
+
+<td style="text-align:right;">
+
+170000
+
+</td>
+
+<td style="text-align:left;">
+
+subaru
+
+</td>
+
+<td style="text-align:left;">
+
+No value
+
+</td>
+
+<td style="text-align:right;">
+
+3900
+
+</td>
+
+<td style="text-align:right;">
+
+4980.66
+
+</td>
+
+<td style="text-align:right;">
+
+27.71
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2017
+
+</td>
+
+<td style="text-align:right;">
+
+7
+
+</td>
+
+<td style="text-align:left;">
+
+No value
+
+</td>
+
+<td style="text-align:left;">
+
+like new
+
+</td>
+
+<td style="text-align:right;">
+
+13245
+
+</td>
+
+<td style="text-align:right;">
+
+16042.90
+
+</td>
+
+<td style="text-align:right;">
+
+21.12
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2004
+
+</td>
+
+<td style="text-align:right;">
+
+135407
+
+</td>
+
+<td style="text-align:left;">
+
+honda
+
+</td>
+
+<td style="text-align:left;">
+
+excellent
+
+</td>
+
+<td style="text-align:right;">
+
+4995
+
+</td>
+
+<td style="text-align:right;">
+
+3780.03
+
+</td>
+
+<td style="text-align:right;">
+
+24.32
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2014
+
+</td>
+
+<td style="text-align:right;">
+
+89925
+
+</td>
+
+<td style="text-align:left;">
+
+audi
+
+</td>
+
+<td style="text-align:left;">
+
+No value
+
+</td>
+
+<td style="text-align:right;">
+
+13699
+
+</td>
+
+<td style="text-align:right;">
+
+14000.42
+
+</td>
+
+<td style="text-align:right;">
+
+2.20
 
 </td>
 
@@ -830,30 +831,30 @@ by grouping manufacturers by region (American, Germnan, Italian,
 Japanese, British, etc.) and status type (luxery vs economy).
 
 Although we achieved a solid
-![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") value of 0.816,
-we can now observe some other metrics. Eg., having an RMSE (4366) almost
-twice higher than MAE (2692) suggests that there is a good number of
-observations where the error is big (the more RMSE differs from MAE, the
-higher is the variance). This is something we may want to improve by
-finding features and clusters in data space that introduce more variance
-in the predictions. Eg. the model predicting clean car price may greatly
-differ from the model predicting salvage (damage / total loss) car
-price. This comes from getting deeper expertise in the area, and we will
-try to play with this further more.
+![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") value of 0.829,
+we can now observe some other metrics. Eg., having an RMSE (4144.58)
+almost twice higher than MAE (2557.73) suggests that there is a good
+number of observations where the error is big (the more RMSE differs
+from MAE, the higher is the variance). This is something we may want to
+improve by finding features and clusters in data space that introduce
+more variance in the predictions. Eg. the model predicting clean car
+price may greatly differ from the model predicting salvage (damage /
+total loss) car price. This comes from getting deeper expertise in the
+area, and we will try to play with this further more.
 
 We may also want to use a different scoring function for our model - eg.
 some custom implementation of MSE of relative error, since we have high
 variance of price in the original dataset.
 
-Lastly, due to time / resources limitations we only trained the model on
-half the training data, so we should try to run it on all training data
-and see how this changes our model (this would take approximately 16
-hours). So far we have only seen improvements to the score as we
-increased the sample size.
+Previously, we ran it on half of the training data which took us around
+4 hours to train and resulted in 0.816 score. We were now able to run it
+on a full training dataset (taking approximately 12 hours), which
+improved the score by 0.013 (not much for such a big increase in
+training time, but still an improvement)
 
 The ultimate end goal is to eventually create a command-line tool for
 the end-user to interactively request vehicle details and output
-expected price with a precision interval.
+expected price with a confidence interval.
 
 # References
 
