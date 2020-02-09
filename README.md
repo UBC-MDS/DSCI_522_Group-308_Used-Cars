@@ -12,10 +12,10 @@ the following models: support vector regression, stochastic gradient
 descent regression, linear regression, K-nearest neighbour regression,
 and random forest regression. We found that support vector regression
 had the best results, having an
-![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.843
+![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.877
 on the training set, ![R^2](https://latex.codecogs.com/png.latex?R%5E2
-"R^2") score of 0.772 on the validation set and
-![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.816
+"R^2") score of 0.832 on the validation set and
+![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.830
 on the test set. The training and validation scores are computed from a
 very small subset of the data while the test score used a much larger
 subset. Given that the dataset was imbalanced, this led to poor
@@ -62,7 +62,7 @@ You may choose other percentage value (0-to-1) For 1% (`TRAIN_SIZE=0.01`) expect
 
 **NOTE** You must have [Docker](https://www.docker.com/get-started) installed in order to run the above commands.
 
-**NOTE** Running the pipeline will download a prebuilt Docker container for our project. Be advised, that the size of container is approximately 1.5 GB and the pipeline will then download additional 1.35 GB data file.
+**NOTE** Running the pipeline will download a prebuilt Docker container for our project. Be advised, that the size of container is approximately 1.86 GB and the pipeline will then download additional 1.35 GB data file.
 
 
 ## Dependencies
@@ -75,6 +75,7 @@ You may choose other percentage value (0-to-1) For 1% (`TRAIN_SIZE=0.01`) expect
       - numpy==1.16.4
       - statsmodel==0.10.0
       - plotly==4.3.0
+      - plotly-orca==1.2.1
       - scikit-learn==0.20.4
   - R version 3.6.1 and R packages:
       - knitr==1.24
@@ -85,12 +86,12 @@ You may choose other percentage value (0-to-1) For 1% (`TRAIN_SIZE=0.01`) expect
 ## Notes
 
 Please be advised that in order to reproduce the analysis, the
-`scripts/download.py` script will download approximately 1.4GB original
-data file. Also, training the model with `scripts/train_model.py` may
+`scripts/download.py` script will download approximately 1.35GB original
+data file. Also, training the full model with `scripts/train_model.py` may
 take several hours. You may consider using command line arguments to
 train on a configurable subset of training data (which may affect the
-trained model) Please see consult usage data on each script for further
-details and options.
+trained model) Please consult usage data for each script for further
+details and command line arguments.
 
 ## License
 

@@ -7,19 +7,17 @@ Andrés Pitta, Braden Tam, Serhiy Pokrovskyy </br>
 
 In this project we attempt to build a regression model which can predict
 the price of used cars based on numerous features of the car. We tested
-the following models: support vector regression, stochastic gradient
-descent regression, linear regression, K-nearest neighbour regression,
-and random forest regression. We found that support vector regression
-had the best results, having an
-![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.854
-on the training set, ![R^2](https://latex.codecogs.com/png.latex?R%5E2
-"R^2") score of 0.698 on the validation set and
-![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.816
-on the test set. The training and validation scores are computed from a
-very small subset of the data while the test score used a much larger
-subset. Given that the dataset was imbalanced, this led to poor
-prediction of the classes that were quite sparse because the model was
-not able to learn enough about those classes in order to give good
+the following models: support vector machine regression, stochastic
+gradient descent regression, linear regression, K-nearest neighbour
+regression as well as random forest regression and gradient boosted
+trees. We found that support vector machine regression shown the best
+results, having an ![R^2](https://latex.codecogs.com/png.latex?R%5E2
+"R^2") score of 0.877 on the training set, 0.832 on the validation set
+and 0.829 on the test set. The training and validation scores are
+computed from a very small subset of the data while the test score used
+a much larger subset. Given that the dataset was imbalanced, this led to
+poor prediction of the classes that were quite sparse because the model
+was not able to learn enough about those classes in order to give good
 predictions on unseen data.
 
 # Introduction
@@ -153,41 +151,19 @@ Validation Score
 
 <td style="text-align:left;">
 
-XGBRegressor
-
-</td>
-
-<td style="text-align:right;">
-
-0.854
-
-</td>
-
-<td style="text-align:right;">
-
-0.698
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
 SVR
 
 </td>
 
 <td style="text-align:right;">
 
-0.827
+0.877
 
 </td>
 
 <td style="text-align:right;">
 
-0.684
+0.832
 
 </td>
 
@@ -203,13 +179,13 @@ RandomForestRegressor
 
 <td style="text-align:right;">
 
-0.958
+0.953
 
 </td>
 
 <td style="text-align:right;">
 
-0.680
+0.821
 
 </td>
 
@@ -225,13 +201,35 @@ LGBMRegressor
 
 <td style="text-align:right;">
 
-0.873
+0.852
 
 </td>
 
 <td style="text-align:right;">
 
-0.661
+0.816
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+XGBRegressor
+
+</td>
+
+<td style="text-align:right;">
+
+0.807
+
+</td>
+
+<td style="text-align:right;">
+
+0.789
 
 </td>
 
@@ -247,13 +245,13 @@ KNeighborsRegressor
 
 <td style="text-align:right;">
 
-0.580
+0.726
 
 </td>
 
 <td style="text-align:right;">
 
-0.555
+0.718
 
 </td>
 
@@ -269,13 +267,13 @@ LinearRegression
 
 <td style="text-align:right;">
 
-0.555
+0.549
 
 </td>
 
 <td style="text-align:right;">
 
-0.127
+0.520
 
 </td>
 
@@ -294,12 +292,14 @@ Finally, we ran the model on the **test data** containing more than
 **0.816**. The good sign was also that it did not overfit greatly on
 train set, which was a good sign to perform further testing.
 
-| Metric                                                   | Value |
-| -------------------------------------------------------- | ----- |
-| ![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") | 0.816 |
-| RMSE                                                     | 4366  |
-| MAE                                                      | 2692  |
-| Average Price                                            | 13820 |
+Later, we ran model testing on full training dataset taking around 12
+hours, and got similar but even better results:
+
+| Metric                                                   | Value   |
+| -------------------------------------------------------- | ------- |
+| ![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") | 0.829   |
+| RMSE                                                     | 4144.58 |
+| MAE                                                      | 2557.73 |
 
 Here is a list of test examples showing the predicted used car
 prices:
@@ -362,13 +362,289 @@ Absolute Error (%)
 
 <td style="text-align:right;">
 
+2015
+
+</td>
+
+<td style="text-align:right;">
+
+56264
+
+</td>
+
+<td style="text-align:left;">
+
+ford
+
+</td>
+
+<td style="text-align:left;">
+
+No value
+
+</td>
+
+<td style="text-align:right;">
+
+20123
+
+</td>
+
+<td style="text-align:right;">
+
+19151.31
+
+</td>
+
+<td style="text-align:right;">
+
+4.83
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2013
+
+</td>
+
+<td style="text-align:right;">
+
+96838
+
+</td>
+
+<td style="text-align:left;">
+
+bmw
+
+</td>
+
+<td style="text-align:left;">
+
+excellent
+
+</td>
+
+<td style="text-align:right;">
+
+11499
+
+</td>
+
+<td style="text-align:right;">
+
+11286.24
+
+</td>
+
+<td style="text-align:right;">
+
+1.85
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
 2018
 
 </td>
 
 <td style="text-align:right;">
 
-95080
+14623
+
+</td>
+
+<td style="text-align:left;">
+
+ford
+
+</td>
+
+<td style="text-align:left;">
+
+No value
+
+</td>
+
+<td style="text-align:right;">
+
+31750
+
+</td>
+
+<td style="text-align:right;">
+
+31659.10
+
+</td>
+
+<td style="text-align:right;">
+
+0.29
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2011
+
+</td>
+
+<td style="text-align:right;">
+
+83560
+
+</td>
+
+<td style="text-align:left;">
+
+mazda
+
+</td>
+
+<td style="text-align:left;">
+
+No value
+
+</td>
+
+<td style="text-align:right;">
+
+7250
+
+</td>
+
+<td style="text-align:right;">
+
+10754.96
+
+</td>
+
+<td style="text-align:right;">
+
+48.34
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2014
+
+</td>
+
+<td style="text-align:right;">
+
+74050
+
+</td>
+
+<td style="text-align:left;">
+
+ford
+
+</td>
+
+<td style="text-align:left;">
+
+good
+
+</td>
+
+<td style="text-align:right;">
+
+7900
+
+</td>
+
+<td style="text-align:right;">
+
+9636.40
+
+</td>
+
+<td style="text-align:right;">
+
+21.98
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2000
+
+</td>
+
+<td style="text-align:right;">
+
+74203
+
+</td>
+
+<td style="text-align:left;">
+
+chevrolet
+
+</td>
+
+<td style="text-align:left;">
+
+good
+
+</td>
+
+<td style="text-align:right;">
+
+8000
+
+</td>
+
+<td style="text-align:right;">
+
+6225.54
+
+</td>
+
+<td style="text-align:right;">
+
+22.18
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2007
+
+</td>
+
+<td style="text-align:right;">
+
+170000
 
 </td>
 
@@ -386,65 +662,19 @@ No value
 
 <td style="text-align:right;">
 
-18485
+3900
 
 </td>
 
 <td style="text-align:right;">
 
-17513.19
+4980.66
 
 </td>
 
 <td style="text-align:right;">
 
-5.26
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-2013
-
-</td>
-
-<td style="text-align:right;">
-
-85000
-
-</td>
-
-<td style="text-align:left;">
-
-lexus
-
-</td>
-
-<td style="text-align:left;">
-
-good
-
-</td>
-
-<td style="text-align:right;">
-
-17000
-
-</td>
-
-<td style="text-align:right;">
-
-14453.55
-
-</td>
-
-<td style="text-align:right;">
-
-14.98
+27.71
 
 </td>
 
@@ -460,105 +690,13 @@ good
 
 <td style="text-align:right;">
 
-51485
-
-</td>
-
-<td style="text-align:left;">
-
-toyota
+7
 
 </td>
 
 <td style="text-align:left;">
 
 No value
-
-</td>
-
-<td style="text-align:right;">
-
-29995
-
-</td>
-
-<td style="text-align:right;">
-
-20602.17
-
-</td>
-
-<td style="text-align:right;">
-
-31.31
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-2016
-
-</td>
-
-<td style="text-align:right;">
-
-80515
-
-</td>
-
-<td style="text-align:left;">
-
-chevrolet
-
-</td>
-
-<td style="text-align:left;">
-
-No value
-
-</td>
-
-<td style="text-align:right;">
-
-22995
-
-</td>
-
-<td style="text-align:right;">
-
-25167.96
-
-</td>
-
-<td style="text-align:right;">
-
-9.45
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-2009
-
-</td>
-
-<td style="text-align:right;">
-
-83000
-
-</td>
-
-<td style="text-align:left;">
-
-mercedes-benz
 
 </td>
 
@@ -570,19 +708,19 @@ like new
 
 <td style="text-align:right;">
 
-24995
+13245
 
 </td>
 
 <td style="text-align:right;">
 
-16804.47
+16042.90
 
 </td>
 
 <td style="text-align:right;">
 
-32.77
+21.12
 
 </td>
 
@@ -592,65 +730,19 @@ like new
 
 <td style="text-align:right;">
 
-2016
+2004
 
 </td>
 
 <td style="text-align:right;">
 
-73496
+135407
 
 </td>
 
 <td style="text-align:left;">
 
-ram
-
-</td>
-
-<td style="text-align:left;">
-
-No value
-
-</td>
-
-<td style="text-align:right;">
-
-19999
-
-</td>
-
-<td style="text-align:right;">
-
-25519.62
-
-</td>
-
-<td style="text-align:right;">
-
-27.60
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-1998
-
-</td>
-
-<td style="text-align:right;">
-
-227000
-
-</td>
-
-<td style="text-align:left;">
-
-toyota
+honda
 
 </td>
 
@@ -662,65 +754,19 @@ excellent
 
 <td style="text-align:right;">
 
-6995
-
-</td>
-
-<td style="text-align:right;">
-
-6163.84
-
-</td>
-
-<td style="text-align:right;">
-
-11.88
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-2012
-
-</td>
-
-<td style="text-align:right;">
-
-115998
-
-</td>
-
-<td style="text-align:left;">
-
-chevrolet
-
-</td>
-
-<td style="text-align:left;">
-
-good
-
-</td>
-
-<td style="text-align:right;">
-
 4995
 
 </td>
 
 <td style="text-align:right;">
 
-7379.36
+3780.03
 
 </td>
 
 <td style="text-align:right;">
 
-47.73
+24.32
 
 </td>
 
@@ -736,13 +782,13 @@ good
 
 <td style="text-align:right;">
 
-44579
+89925
 
 </td>
 
 <td style="text-align:left;">
 
-chevrolet
+audi
 
 </td>
 
@@ -754,65 +800,19 @@ No value
 
 <td style="text-align:right;">
 
-19990
+13699
 
 </td>
 
 <td style="text-align:right;">
 
-25215.62
+14000.42
 
 </td>
 
 <td style="text-align:right;">
 
-26.14
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-2003
-
-</td>
-
-<td style="text-align:right;">
-
-170000
-
-</td>
-
-<td style="text-align:left;">
-
-jeep
-
-</td>
-
-<td style="text-align:left;">
-
-good
-
-</td>
-
-<td style="text-align:right;">
-
-1999
-
-</td>
-
-<td style="text-align:right;">
-
-3463.63
-
-</td>
-
-<td style="text-align:right;">
-
-73.27
+2.20
 
 </td>
 
@@ -830,30 +830,30 @@ by grouping manufacturers by region (American, Germnan, Italian,
 Japanese, British, etc.) and status type (luxery vs economy).
 
 Although we achieved a solid
-![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") value of 0.816,
-we can now observe some other metrics. Eg., having an RMSE (4366) almost
-twice higher than MAE (2692) suggests that there is a good number of
-observations where the error is big (the more RMSE differs from MAE, the
-higher is the variance). This is something we may want to improve by
-finding features and clusters in data space that introduce more variance
-in the predictions. Eg. the model predicting clean car price may greatly
-differ from the model predicting salvage (damage / total loss) car
-price. This comes from getting deeper expertise in the area, and we will
-try to play with this further more.
+![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") value of 0.829,
+we can now observe some other metrics. Eg., having an RMSE (4144.58)
+almost twice higher than MAE (2557.73) suggests that there is a good
+number of observations where the error is big (the more RMSE differs
+from MAE, the higher is the variance). This is something we may want to
+improve by finding features and clusters in data space that introduce
+more variance in the predictions. Eg. the model predicting clean car
+price may greatly differ from the model predicting salvage (damage /
+total loss) car price. This comes from getting deeper expertise in the
+area, and we will try to play with this further more.
 
 We may also want to use a different scoring function for our model - eg.
 some custom implementation of MSE of relative error, since we have high
 variance of price in the original dataset.
 
-Lastly, due to time / resources limitations we only trained the model on
-half the training data, so we should try to run it on all training data
-and see how this changes our model (this would take approximately 16
-hours). So far we have only seen improvements to the score as we
-increased the sample size.
+Previously, we ran it on half of the training data which took us around
+4 hours to train and resulted in 0.816 score. We were now able to run it
+on a full training dataset (taking approximately 12 hours), which
+improved the score by 0.013 (not much for such a big increase of
+training time, but still an improvement)
 
 The ultimate end goal is to eventually create a command-line tool for
 the end-user to interactively request vehicle details and output
-expected price with a precision interval.
+expected price with a confidence interval.
 
 # References
 
