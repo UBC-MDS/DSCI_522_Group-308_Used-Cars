@@ -9,8 +9,10 @@
 # $> make quick TRAIN_SIZE=0.05		builds everything on arbitary % of the dataset (eg. 5%)
 # $> make clean						cleanup / reset
 # $> make partial_clean				cleanup / reset, keeping original data file
+# $> make all_docker				Same as `make all`, but using Docker
+# $> make quick_docker				Same as `make quick`, but using Docker
 #
-# NOTE: this will have to download 1.35GB datafile!
+# NOTE: be advised that this will have to download 1.35 GB datafile! Consult README.md for more details
 
 ### Main targets ###
 
@@ -65,11 +67,11 @@ test_quick_model: results/model_quick.pic
 
 ### Docker shortcuts targets ###
 
-run_quick_from_docker:
-	docker run --rm -v /$(PWD):/home pokrovskyy/dsci_522_308 bash -c "make -C /home quick TRAIN_SIZE=$(TRAIN_SIZE)"
+quick_docker:
+	docker run --rm -v /$(PWD):/home pokrovskyy/dsci-522-308-used-cars bash -c "make -C /home quick TRAIN_SIZE=$(TRAIN_SIZE)"
 
-run_all_from_docker:
-	docker run --rm -v /$(PWD):/home pokrovskyy/dsci_522_308 bash -c "make -C /home all"
+all_docker:
+	docker run --rm -v /$(PWD):/home pokrovskyy/dsci-522-308-used-cars bash -c "make -C /home all"
 
 ### Cleanup ###
 

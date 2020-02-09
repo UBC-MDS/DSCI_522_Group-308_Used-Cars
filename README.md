@@ -51,40 +51,44 @@ make clean
 ```
 make all
 ```
-    
-**NOTE** The original dataset’s size is 1.35GB. Fitting the model may take many hours (seriously!) Thus, we provided a convenient method to replicate a quick version of the model with just a portion of the data:
 
-1. Reset the repository without removing `data_vehicles.csv`:
+#### Quick Analysis
+    
+The original dataset’s size is 1.35GB. Fitting the model may take many hours (seriously!) Thus, we provided a convenient method to replicate a quick version of the model with just a portion of the data:
+
+1. Reset the repository (without removing the data file `data/vehicles.csv`):
 
 ```
   make partial_clean
-  
 ```
+
 2. Run the quick version of the pipeline:
 
 ```
   make quick TRAIN_SIZE=0.01
-```    
+```
     
-You may choose other percentage value (0-to-1) For 1% (`TRAIN_SIZE=0.01`) expected runtime is 5 minutes. Keep in mind, that lower dataset size decreases accuracy.
+You may choose other percentage value (0-to-1) For 1% (`TRAIN_SIZE=0.01`) expected runtime is 5 minutes. Keep in mind that lower dataset size decreases accuracy. Also, train / test metrics are automatically embedded in generated reports, thus the reports will reflect those metrics and not the best ones we had prebuilt by default.  
 
-To replicate the quick version of this analysis using docker run the following commands (preferably using git bash if ran on windows):
+#### Using Docker
 
-1. Reset the repository without removing `data_vehicles.csv`:
+If you do not want to install all the software dependencies, you may want to use [Docker](https://www.docker.com/get-started). Running the Docker pipelines will download a prebuilt Docker container image for our project. Be advised, that the size of container is approximately 1.86 GB, plus the original data file of 1.35 GB will also be downloaded afterwards. 
+
+To replicate the quick version of this analysis using Docker run the following commands (on Windows use `git bash`):
+
+1. Reset the repository (without removing the data file `data/vehicles.csv`):
 
 ```
   make partial_clean
-  
 ```
-2. Run the quick version of the pipeline:
+
+2. Run the quick version of the pipeline using Docker:
 
 ```
-  make run_quick_from_docker
+  make quick_docker
 ```    
 
-**NOTE** You must have [Docker](https://www.docker.com/get-started) installed in order to run the above commands.
-
-**NOTE** Running the pipeline will download a prebuilt Docker container for our project. Be advised, that the size of container is approximately 1.86 GB and the pipeline will then download additional 1.35 GB data file.
+Similarly, you may use `make all_docker` to build full model with Docker (same advisory on time / resources applies)
 
 ## Makefile dependency maps
 
