@@ -11,14 +11,14 @@ the following models: support vector machine regression, stochastic
 gradient descent regression, linear regression, K-nearest neighbour
 regression as well as random forest regression and gradient boosted
 trees. We found that support vector machine regression shown the best
-results, having an ![R^2](https://latex.codecogs.com/png.latex?R%5E2
+results, producing an ![R^2](https://latex.codecogs.com/png.latex?R%5E2
 "R^2") score of 0.877 on the training set, 0.832 on the validation set
 and 0.829 on the test set. The training and validation scores are
 computed from a very small subset of the data while the test score used
-a much larger subset. Given that the dataset was imbalanced, this led to
-poor prediction of the classes that were quite sparse because the model
-was not able to learn enough about those classes in order to give good
-predictions on unseen data.
+a much larger subset. Given that the dataset was imbalanced by
+manufacturers, this led to a bit worse prediction of the classes that
+were quite sparse because the model was not able to learn enough about
+those classes in order to give good predictions on unseen data.
 
 # Introduction
 
@@ -39,8 +39,9 @@ are not getting ripped off.
 
 ## Data
 
-The data set used in this project is Used Cars Dataset created by Austin
-Reese. It was collected from Kaggle.com (Reese 2020) and can be found
+The data set used in this project is “Used Cars Dataset” created by
+Austin Reese. It was collected from Kaggle.com (Reese 2020) and can be
+found
 [here](https://www.kaggle.com/austinreese/craigslist-carstrucks-data).
 This data consists of used car listings in the US scraped from
 Craigslist that contains information such as listed price, manufacturer,
@@ -848,7 +849,7 @@ variance of price in the original dataset.
 Previously, we ran it on half of the training data which took us around
 4 hours to train and resulted in 0.816 score. We were now able to run it
 on a full training dataset (taking approximately 12 hours), which
-improved the score by 0.013 (not much for such a big increase of
+improved the score by 0.013 (not much for such a big increase in
 training time, but still an improvement)
 
 The ultimate end goal is to eventually create a command-line tool for

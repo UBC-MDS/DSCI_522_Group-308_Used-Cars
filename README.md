@@ -7,23 +7,16 @@ Pokrovskyy
 ## About
 
 In this project we attempt to build a regression model which can predict
-the price of used cars based on numerous features of the car. We tested
-the following models: support vector regression, stochastic gradient
-descent regression, linear regression, K-nearest neighbour regression,
-and random forest regression. We found that support vector regression
-had the best results, having an
+the price of used cars based on numerous features of the car. We tested the following models: support vector machine regression, stochastic gradient descent regression, linear regression, K-nearest neighbour regression as well as random forest regression and gradient boosted trees.  We found that support vector machine regression shown the best results, producing an
 ![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.877
 on the training set, ![R^2](https://latex.codecogs.com/png.latex?R%5E2
 "R^2") score of 0.832 on the validation set and
 ![R^2](https://latex.codecogs.com/png.latex?R%5E2 "R^2") score of 0.830
 on the test set. The training and validation scores are computed from a
 very small subset of the data while the test score used a much larger
-subset. Given that the dataset was imbalanced, this led to poor
-prediction of the classes that were quite sparse because the model was
-not able to learn enough about those classes in order to give good
-predictions on unseen data.
+subset. Given that the dataset was imbalanced by manufacturers, this led to a bit worse prediction of the classes that were quite sparse because the model was not able to learn enough about those classes in order to give good predictions on unseen data.
 
-The data set used in this project is Used Cars Dataset created by Austin
+The data set used in this project is "Used Cars Dataset" created by Austin
 Reese. It was collected from Kaggle.com (Reese 2020) and can be found
 [here](https://www.kaggle.com/austinreese/craigslist-carstrucks-data).
 This data consists of used car listings in the US scraped from
@@ -59,13 +52,13 @@ The original dataset’s size is 1.35GB. Fitting the model may take many hours (
 1. Reset the repository (without removing the data file `data/vehicles.csv`):
 
 ```
-  make partial_clean
+make partial_clean
 ```
 
 2. Run the quick version of the pipeline:
 
 ```
-  make quick TRAIN_SIZE=0.01
+make quick TRAIN_SIZE=0.01
 ```
     
 You may choose other percentage value (0-to-1) For 1% (`TRAIN_SIZE=0.01`) expected runtime is 5 minutes. Keep in mind that lower dataset size decreases accuracy. Also, train / test metrics are automatically embedded in generated reports, thus the reports will reflect those metrics and not the best ones we had prebuilt by default.  
@@ -79,13 +72,13 @@ To replicate the quick version of this analysis using Docker run the following c
 1. Reset the repository (without removing the data file `data/vehicles.csv`):
 
 ```
-  make partial_clean
+make partial_clean
 ```
 
 2. Run the quick version of the pipeline using Docker:
 
 ```
-  make quick_docker
+make quick_docker
 ```    
 
 Similarly, you may use `make all_docker` to build full model with Docker (same advisory on time / resources applies)
